@@ -4,13 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import vn.tutorial.cinemate.core.locale.ProvideAppLocale
+import vn.tutorial.cinemate.domain.model.ThemeType
+import vn.tutorial.cinemate.presentation.settings.screens.HomeScreen
+import vn.tutorial.cinemate.presentation.settings.viewModel.SettingsViewModel
 import vn.tutorial.cinemate.ui.theme.CinemateTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,30 +17,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CinemateTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            val settingsViewModel: SettingsViewModel = viewModel()
+            val locale = settingsViewModel.locale.collectAsState().value
+            val theme = settingsViewModel.theme.collectAsState().value
+
+            ProvideAppLocale(locale) {
+                CinemateTheme(
+                    darkTheme = theme == ThemeType.DARK
+                ) {
+                    HomeScreen(settingsViewModel)
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CinemateTheme {
-        Greeting("Android")
-    }
-}
