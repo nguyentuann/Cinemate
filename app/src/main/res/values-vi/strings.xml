@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Cinemate</string>
     <string name="welcome_message">Chào mừng đến với Cinemate!</string>
-    <string name="login">Đăng nhập</string>
+    <string name="sign_in">Đăng nhập</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="email_placeholder">Địa chỉ email</string>
+    <string name="password_placeholder">Mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="register_account">Chưa có tài khoản? Đăng ký ngay !!!</string>
 </resources>

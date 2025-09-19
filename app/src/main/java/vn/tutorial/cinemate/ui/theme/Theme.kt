@@ -66,8 +66,6 @@ data class ColorFamily(
 @Composable
 fun CinemateTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable() () -> Unit
 ) {
     val colorScheme = if (darkTheme) darkScheme else lightScheme
