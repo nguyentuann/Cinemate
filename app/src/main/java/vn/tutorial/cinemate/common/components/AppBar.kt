@@ -19,7 +19,8 @@ import vn.tutorial.cinemate.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    actions: @Composable () -> Unit = {}
 ) {
     TopAppBar(
         title = {
@@ -38,6 +39,9 @@ fun AppBar(
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             }
+        },
+        actions = {
+            actions()
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,

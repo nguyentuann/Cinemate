@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun App() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = Route.SignIn.route) {
+    NavHost(navController, startDestination = Route.CheckMail.route) {
         authenticationNavGraph(navController)
     }
 }
