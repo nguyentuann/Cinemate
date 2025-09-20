@@ -7,4 +7,7 @@
     <string name="password_placeholder">Mật khẩu</string>
     <string name="forgot_password">Quên mật khẩu?</string>
     <string name="register_account">Chưa có tài khoản? Đăng ký ngay !!!</string>
+    <string name="term">Đồng ý với các điều khoản sử dụng</string>
+    <string name="get_started">Bắt đầu</string>
+    <string name="have_account">Đã có tài khoản? Đăng nhập</string>
 </resources>

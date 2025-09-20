@@ -13,7 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import vn.tutorial.cinemate.core.locale.ProvideAppLocale
-import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
+import vn.tutorial.cinemate.presentation.navigation.App
 import vn.tutorial.cinemate.presentation.settings.viewModel.SettingsViewModel
 import vn.tutorial.cinemate.ui.theme.CinemateTheme
 
@@ -34,9 +35,7 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        SignInScreen(
-                            modifier = Modifier.padding(16.dp)
-                        )
+                        App()
                     }
                 }
             }

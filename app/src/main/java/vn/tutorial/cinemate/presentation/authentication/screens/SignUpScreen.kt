@@ -3,10 +3,12 @@ package vn.tutorial.cinemate.presentation.authentication.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,7 +30,7 @@ import vn.tutorial.cinemate.common.components.CommonTextField
 import vn.tutorial.cinemate.presentation.navigation.Route
 
 @Composable
-fun SignInScreen(
+fun SignUpScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
@@ -45,68 +47,62 @@ fun SignInScreen(
             modifier = modifier
                 .fillMaxSize()
                 .padding(it)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+
+            var email by remember { mutableStateOf("") }
+            var isErrorEmail by remember { mutableStateOf(false) }
+            var isChecked by remember { mutableStateOf(false) }
+
+
             Text(
-                text = stringResource(R.string.sign_in),
+                text = stringResource(R.string.sign_up),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onPrimary
             )
 
-            var username by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-            var isErrorEmail by remember { mutableStateOf(false) }
-            var isErrorPassword by remember { mutableStateOf(false) }
-
             CommonTextField(
                 modifier = Modifier
                     .padding(top = 8.dp),
-                value = username,
+                value = email,
                 onValueChange = {
-                    username = it
+                    email = it
                     isErrorEmail = it.length < 3
                 },
                 placeholder = stringResource(R.string.email_placeholder),
                 isError = isErrorEmail,
-                errorMessage = if (isErrorEmail) "Username quá ngắn" else null
+                errorMessage = if (isErrorEmail) "Email không đúng" else null
             )
 
-            CommonTextField(
+            Row(
                 modifier = Modifier
-                    .padding(top = 16.dp),
-                value = password,
-                onValueChange = {
-                    password = it
-                    isErrorPassword = it.length < 3
-                },
-                placeholder = stringResource(R.string.password_placeholder),
-                isError = isErrorPassword,
-                errorMessage = if (isErrorPassword) "Password quá ngắn" else null
-            )
+                    .padding(top = 16.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+            ) {
+                Checkbox(
+                    checked = isChecked,
+                    onCheckedChange = { isChecked = it },
+                )
+
+                Text(
+                    text = stringResource(R.string.term),
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        textDecoration = TextDecoration.Underline
+                    )
+                )
+            }
 
             CommonButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
-                title = stringResource(R.string.sign_in),
+                title = stringResource(R.string.get_started),
                 onClick = {}
-            )
-
-            Text(
-                modifier = Modifier
-                    .padding(top = 32.dp)
-                    .clickable(
-                        onClick = {
-
-                        }
-                    ),
-                text = stringResource(R.string.forgot_password),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    textDecoration = TextDecoration.Underline
-                )
             )
 
             Text(
@@ -114,19 +110,18 @@ fun SignInScreen(
                     .padding(top = 48.dp)
                     .clickable(
                         onClick = {
-                            navController.navigate(Route.SignUp.route) {
-                                popUpTo(Route.SignIn.route) {
+                            navController.navigate(Route.SignIn.route) {
+                                popUpTo(Route.SignUp.route) {
                                     inclusive = true
                                 }
                             }
                         }
                     ),
-                text = stringResource(R.string.register_account),
+                text = stringResource(R.string.have_account),
                 style = MaterialTheme.typography.bodyMedium.copy(
                     textDecoration = TextDecoration.Underline
                 )
             )
-
         }
     }
 }

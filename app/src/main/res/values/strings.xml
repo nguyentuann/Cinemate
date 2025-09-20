@@ -7,5 +7,7 @@
     <string name="password_placeholder">Password</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="register_account">Don\'t Have An Account? Register Now !!!</string>
-
+    <string name="term">Agree to the terms of use</string>
+    <string name="get_started">Get Started</string>
+    <string name="have_account">Already Have Account? Sign In</string>
 </resources>
