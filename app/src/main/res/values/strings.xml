@@ -21,7 +21,21 @@
     <string name="confirm">Confirm</string>
     <string name="verify_email">Verify Email</string>
     <string name="change_password">Update Password</string>
-    <string name="instruct_update_password">We will send an email with instructions to reset your password.</string>
+    <string name="instruct_update_password">We will send an email with instructions to reset your password</string>
+    
+    <string name="profile">Profile</string>
+    <string name="account_management">Account Management</string>
+    
+    <string name="information">Personal information</string>
+    <string name="theme_language">Theme and Language</string>
+    <string name="watching_history">Watching history</string>
+    <string name="my_list">My list</string>
+    <string name="children_mode">Children Mode</string>
+    <string name="package_management">"Service package management "</string>
+    <string name="notification_management">Notification management</string>
+    <string name="help_reply">Help and reply</string>
+    <string name="sign_out">Sign out</string>
+    
     
     
 </resources>

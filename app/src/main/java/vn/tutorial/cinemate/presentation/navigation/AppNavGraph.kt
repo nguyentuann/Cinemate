@@ -10,6 +10,7 @@ import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
 import vn.tutorial.cinemate.presentation.home.HomeScreen
+import vn.tutorial.cinemate.presentation.settings.screens.ProfileScreen
 
 fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     composable(route = Route.SignIn.route) {
@@ -38,6 +39,11 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 
     composable(route = Route.ChangePassword.route) {
         ChangePasswordScreen(navController = navController)
+    }
+
+
+    composable(route = Route.Profile.route) {
+        ProfileScreen()
     }
 
 
