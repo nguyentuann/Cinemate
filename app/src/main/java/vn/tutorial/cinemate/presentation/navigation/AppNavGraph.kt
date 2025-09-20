@@ -3,10 +3,13 @@ package vn.tutorial.cinemate.presentation.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import vn.tutorial.cinemate.presentation.authentication.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CheckMailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SetupPasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
+import vn.tutorial.cinemate.presentation.home.HomeScreen
 
 fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     composable(route = Route.SignIn.route) {
@@ -29,7 +32,17 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         SetupPasswordScreen(navController = navController)
     }
 
-    composable(route = Route.ForgetPassword.route) {
+    composable(route = Route.VerifyEmail.route) {
+        VerifyEmailScreen(navController = navController)
+    }
 
+    composable(route = Route.ChangePassword.route) {
+        ChangePasswordScreen(navController = navController)
+    }
+
+
+
+    composable(route = Route.Home.route) {
+        HomeScreen()
     }
 }

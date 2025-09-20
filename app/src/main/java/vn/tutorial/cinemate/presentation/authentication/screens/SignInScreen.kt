@@ -92,7 +92,13 @@ fun SignInScreen(
                     .fillMaxWidth()
                     .padding(top = 32.dp),
                 title = stringResource(R.string.sign_in),
-                onClick = {}
+                onClick = {
+                    navController.navigate(Route.Home.route) {
+                        popUpTo(Route.SignIn.route) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
 
             Text(
@@ -100,7 +106,7 @@ fun SignInScreen(
                     .padding(top = 32.dp)
                     .clickable(
                         onClick = {
-                            navController.navigate(Route.ForgetPassword.route)
+                            navController.navigate(Route.VerifyEmail.route)
                         }
                     ),
                 text = stringResource(R.string.forgot_password),

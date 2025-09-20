@@ -5,5 +5,9 @@ sealed class Route(val route: String) {
     object SignUp: Route("sign_up")
     object CheckMail: Route("check_mail")
     object CreatePassword: Route("create_password")
-    object ForgetPassword: Route("forgot_password")
+    object ChangePassword: Route("change_password")
+    object VerifyEmail: Route("verify_email")
+
+
+    object Home: Route("home")
 }
