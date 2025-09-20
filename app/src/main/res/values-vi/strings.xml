@@ -21,6 +21,20 @@
     <string name="confirm">Xác nhận</string>
     <string name="verify_email">Xác minh email</string>
     <string name="change_password">Cập nhật mật khẩu</string>
-    <string name="instruct_update_password">Chúng tôi sẽ gửi email với hướng dẫn để đặt lại mật khẩu của bạn.</string>
+    <string name="instruct_update_password">Chúng tôi sẽ gửi email với hướng dẫn để đặt lại mật khẩu của bạn</string>
+
+
+    <string name="profile">Cá nhân</string>
+    <string name="account_management">Quản lý tài khoản</string>
+
+    <string name="information">Thông tin cá nhân</string>
+    <string name="theme_language">Chủ đề và ngôn ngữ</string>
+    <string name="watching_history">Lịch sử xem</string>
+    <string name="my_list">Danh sách của tôi</string>
+    <string name="children_mode">Chế độ trẻ em</string>
+    <string name="package_management">Quản lý gói dịch vụ</string>
+    <string name="notification_management">Quản lý thông báo</string>
+    <string name="help_reply">Trợ giúp và phàn hồi</string>
+    <string name="sign_out">Đăng xuất</string>
 
 </resources>
