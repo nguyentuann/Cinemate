@@ -99,10 +99,11 @@ fun SignUpScreen(
 
             CommonButton(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp),
+                    .fillMaxWidth().padding(top = 32.dp),
                 title = stringResource(R.string.get_started),
-                onClick = {}
+                onClick = {
+                    navController.navigate(Route.CheckMail.route)
+                }
             )
 
             Text(

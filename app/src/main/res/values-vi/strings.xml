@@ -1,13 +1,26 @@
 <resources>
     <string name="app_name">Cinemate</string>
     <string name="welcome_message">Chào mừng đến với Cinemate!</string>
+
+
     <string name="sign_in">Đăng nhập</string>
     <string name="sign_up">Đăng ký</string>
     <string name="email_placeholder">Địa chỉ email</string>
     <string name="password_placeholder">Mật khẩu</string>
+    <string name="password_confirm_placeholder">Xác nhận mật khẩu</string>
     <string name="forgot_password">Quên mật khẩu?</string>
     <string name="register_account">Chưa có tài khoản? Đăng ký ngay !!!</string>
     <string name="term">Đồng ý với các điều khoản sử dụng</string>
     <string name="get_started">Bắt đầu</string>
     <string name="have_account">Đã có tài khoản? Đăng nhập</string>
+    <string name="complete_register">Hoàn tất đăng ký để bắt đầu xem</string>
+    <string name="almost_done">Sắp xong rồi, chúng tôi vừa gửi email tới %s</string>
+    <string name="few_steps">Chỉ còn vài bước nữa để xem những bộ phim yêu thích của bạn</string>
+    <string name="forward_email">Tiếp tục đến email</string>
+    <string name="create_password">Thiết lập mật khẩu</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="verify_email">Xác minh email</string>
+    <string name="update_password">Cập nhật mật khẩu</string>
+    <string name="instruct_update_password">Chúng tôi sẽ gửi email với hướng dẫn để đặt lại mật khẩu của bạn.</string>
+
 </resources>

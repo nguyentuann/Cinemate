@@ -100,7 +100,7 @@ fun SignInScreen(
                     .padding(top = 32.dp)
                     .clickable(
                         onClick = {
-
+                            navController.navigate(Route.ForgetPassword.route)
                         }
                     ),
                 text = stringResource(R.string.forgot_password),
