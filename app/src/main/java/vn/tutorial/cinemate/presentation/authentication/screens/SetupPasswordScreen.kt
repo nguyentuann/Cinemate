@@ -97,9 +97,15 @@ fun SetupPasswordScreen(
             CommonButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp, bottom = 120.dp),
+                    .padding(top = 32.dp),
                 title = stringResource(R.string.confirm),
-                onClick = {}
+                onClick = {
+                    navController.navigate(Route.Home.route) {
+                        popUpTo(Route.CreatePassword.route) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
     }

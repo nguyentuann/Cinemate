@@ -79,7 +79,7 @@ fun ChangePasswordScreen(
             CommonButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp, bottom = 120.dp),
+                    .padding(top = 32.dp),
                 title = stringResource(R.string.change_password),
                 onClick = {
                     navController.navigate(Route.Home.route) {

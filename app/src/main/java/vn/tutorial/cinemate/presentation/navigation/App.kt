@@ -8,7 +8,7 @@ import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScree
 @Composable
 fun App() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = Route.VerifyEmail.route) {
+    NavHost(navController, startDestination = Route.SignIn.route) {
         authenticationNavGraph(navController)
     }
 }

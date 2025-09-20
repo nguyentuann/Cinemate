@@ -33,6 +33,9 @@ fun CheckMailScreen(
     Scaffold(
         topBar = {
             AppBar(
+                onBack = {
+                    navController.popBackStack()
+                },
                 actions = {
                     Text(
                         modifier = Modifier
@@ -58,7 +61,7 @@ fun CheckMailScreen(
             Modifier
                 .fillMaxSize()
                 .padding(it)
-                .padding(horizontal = 32.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {

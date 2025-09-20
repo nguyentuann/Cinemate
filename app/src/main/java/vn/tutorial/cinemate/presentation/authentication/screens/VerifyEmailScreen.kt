@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -31,13 +33,17 @@ fun VerifyEmailScreen(
 ) {
     Scaffold(
         topBar = {
-            AppBar()
+            AppBar(
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     ) {
         Column(
             modifier = modifier
                 .padding(it)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp).imePadding()
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -65,7 +71,7 @@ fun VerifyEmailScreen(
             CommonButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp, bottom = 120.dp),
+                    .padding(top = 32.dp),
                 title = stringResource(R.string.confirm),
                 onClick = {
                     navController.navigate(Route.ChangePassword.route)
