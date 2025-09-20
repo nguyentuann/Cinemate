@@ -20,7 +20,7 @@
     <string name="create_password">Create Password</string>
     <string name="confirm">Confirm</string>
     <string name="verify_email">Verify Email</string>
-    <string name="update_password">Update Password</string>
+    <string name="change_password">Update Password</string>
     <string name="instruct_update_password">We will send an email with instructions to reset your password.</string>
     
     
