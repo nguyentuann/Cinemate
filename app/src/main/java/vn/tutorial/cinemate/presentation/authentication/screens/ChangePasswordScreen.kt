@@ -24,7 +24,7 @@ import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
-import vn.tutorial.cinemate.presentation.navigation.Route
+import vn.tutorial.cinemate.navigation.Route
 
 @Composable
 fun ChangePasswordScreen(

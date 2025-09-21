@@ -1,5 +1,6 @@
-package vn.tutorial.cinemate.presentation.navigation
+package vn.tutorial.cinemate.navigation
 
+import SplashScreen
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -13,6 +14,13 @@ import vn.tutorial.cinemate.presentation.home.HomeScreen
 import vn.tutorial.cinemate.presentation.settings.screens.ProfileScreen
 
 fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
+
+    composable(route = Route.Splash.route) {
+        SplashScreen(
+            navController = navController
+        )
+    }
+
     composable(route = Route.SignIn.route) {
         SignInScreen(
             navController = navController

@@ -1,6 +1,5 @@
 package vn.tutorial.cinemate.presentation.authentication.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,17 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
+import vn.tutorial.cinemate.common.components.SignInText
 import vn.tutorial.cinemate.core.util.Validator
+import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
-import vn.tutorial.cinemate.presentation.navigation.Route
 
 @Composable
 fun SetupPasswordScreen(
-    modifier: Modifier = Modifier, navController: NavController
+    modifier: Modifier = Modifier,
+    navController: NavHostController
 ) {
 
     Scaffold(
@@ -37,21 +38,7 @@ fun SetupPasswordScreen(
             AppBar(onBack = {
                 navController.popBackStack()
             }, actions = {
-                Text(
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .clickable(
-                            onClick = {
-                                navController.navigate(Route.SignIn.route) {
-                                    popUpTo(Route.SignIn.route) {
-                                        inclusive = true
-                                    }
-                                }
-                            }),
-                    text = stringResource(R.string.sign_in),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
+                SignInText(navController)
             })
         }) {
         Column(
@@ -92,7 +79,7 @@ fun SetupPasswordScreen(
                     isMatch = it == password
                 },
                 isValidPassword = isMatch,
-                errorMessage = if (isValidPassword == false) stringResource(R.string.not_match_password) else null
+                errorMessage = if (isMatch == false) stringResource(R.string.not_match_password) else null
             )
 
             CommonButton(
@@ -103,9 +90,8 @@ fun SetupPasswordScreen(
                 onClick = {
                     if (isValidPassword == true && isMatch == true) {
                         navController.navigate(Route.Home.route) {
-                            popUpTo(Route.CreatePassword.route) {
-                                inclusive = true
-                            }
+                            popUpTo(0)
+                            launchSingleTop = true
                         }
                     }
                 })

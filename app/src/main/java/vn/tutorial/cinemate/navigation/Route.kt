@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.presentation.navigation
+package vn.tutorial.cinemate.navigation
 
 sealed class Route(val route: String) {
     object SignIn: Route("sign_in")
@@ -11,4 +11,6 @@ sealed class Route(val route: String) {
     object Profile: Route("profile")
 
     object Home: Route("home")
+
+    object Splash: Route("splash")
 }
