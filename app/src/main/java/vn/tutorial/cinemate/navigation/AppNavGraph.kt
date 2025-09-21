@@ -1,6 +1,6 @@
 package vn.tutorial.cinemate.navigation
 
-import SplashScreen
+import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
