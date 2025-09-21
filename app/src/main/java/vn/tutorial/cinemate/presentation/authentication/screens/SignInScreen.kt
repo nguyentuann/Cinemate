@@ -27,7 +27,7 @@ import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
-import vn.tutorial.cinemate.presentation.navigation.Route
+import vn.tutorial.cinemate.navigation.Route
 
 @Composable
 fun SignInScreen(
@@ -121,9 +121,8 @@ fun SignInScreen(
                     .clickable(
                         onClick = {
                             navController.navigate(Route.SignUp.route) {
-                                popUpTo(Route.SignIn.route) {
-                                    inclusive = true
-                                }
+                                popUpTo(0)
+                                launchSingleTop = true
                             }
                         }
                     ),

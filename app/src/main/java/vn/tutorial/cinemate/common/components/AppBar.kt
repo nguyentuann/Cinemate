@@ -12,6 +12,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.R
@@ -19,6 +20,7 @@ import vn.tutorial.cinemate.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
+    hasBack: Boolean = true,
     onBack: () -> Unit = {},
     actions: @Composable () -> Unit = {}
 ) {
@@ -32,19 +34,21 @@ fun AppBar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = onBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
+            if (hasBack) {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
         },
         actions = {
             actions()
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = Color.Transparent,
             titleContentColor = MaterialTheme.colorScheme.onBackground,
             actionIconContentColor = MaterialTheme.colorScheme.onBackground
         )

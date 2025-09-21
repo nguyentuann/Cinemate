@@ -23,7 +23,9 @@ import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
-import vn.tutorial.cinemate.presentation.navigation.Route
+import vn.tutorial.cinemate.common.components.SignInText
+import vn.tutorial.cinemate.core.util.underLineText
+import vn.tutorial.cinemate.navigation.Route
 
 @Composable
 fun CheckMailScreen(
@@ -37,22 +39,7 @@ fun CheckMailScreen(
                     navController.popBackStack()
                 },
                 actions = {
-                    Text(
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                            .clickable(
-                                onClick = {
-                                    navController.navigate(Route.SignIn.route) {
-                                        popUpTo(Route.SignIn.route) {
-                                            inclusive = true
-                                        }
-                                    }
-                                }
-                            ),
-                        text = stringResource(R.string.sign_in),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                    SignInText(navController)
                 }
             )
         }
@@ -100,19 +87,3 @@ fun CheckMailScreen(
     }
 }
 
-fun underLineText(message: String, email: String, color: Color, fontWeight: FontWeight) =
-    buildAnnotatedString {
-        val parts = message.split("%s")
-        append(parts[0])
-        withStyle(
-            style = SpanStyle(
-                textDecoration = TextDecoration.Underline,
-                color = color,
-                fontWeight = fontWeight
-            ),
-
-            ) {
-            append(email)
-        }
-        if (parts.size > 1) append(parts[1])
-    }
