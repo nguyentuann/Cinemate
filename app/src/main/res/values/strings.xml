@@ -36,6 +36,8 @@
     <string name="help_reply">Help and reply</string>
     <string name="sign_out">Sign out</string>
     
-    
-    
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_password">Password must be at least 6 characters</string>
+    <string name="not_match_password">Password does not match</string>
+
 </resources>

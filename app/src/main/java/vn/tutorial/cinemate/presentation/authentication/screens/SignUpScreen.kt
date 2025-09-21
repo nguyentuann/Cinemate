@@ -26,7 +26,8 @@ import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
-import vn.tutorial.cinemate.common.components.CommonTextField
+import vn.tutorial.cinemate.core.util.Validator
+import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.presentation.navigation.Route
 
 @Composable
@@ -54,7 +55,7 @@ fun SignUpScreen(
         ) {
 
             var email by remember { mutableStateOf("") }
-            var isErrorEmail by remember { mutableStateOf(false) }
+            var isValidEmail: Boolean? by remember { mutableStateOf(null) }
             var isChecked by remember { mutableStateOf(false) }
 
 
@@ -64,17 +65,15 @@ fun SignUpScreen(
                 color = MaterialTheme.colorScheme.onPrimary
             )
 
-            CommonTextField(
+            EmailTextField(
                 modifier = Modifier
                     .padding(top = 8.dp),
                 value = email,
                 onValueChange = {
                     email = it
-                    isErrorEmail = it.length < 3
+                    isValidEmail = Validator.isValidEmail(it)
                 },
-                placeholder = stringResource(R.string.email_placeholder),
-                isError = isErrorEmail,
-                errorMessage = if (isErrorEmail) "Email không đúng" else null
+                isValidEmail = isValidEmail,
             )
 
             Row(
@@ -99,10 +98,13 @@ fun SignUpScreen(
 
             CommonButton(
                 modifier = Modifier
-                    .fillMaxWidth().padding(top = 32.dp),
+                    .fillMaxWidth()
+                    .padding(top = 32.dp),
                 title = stringResource(R.string.get_started),
                 onClick = {
-                    navController.navigate(Route.CheckMail.route)
+                    if (isValidEmail == true && isChecked) {
+                        navController.navigate(Route.CreatePassword.route)
+                    }
                 }
             )
 

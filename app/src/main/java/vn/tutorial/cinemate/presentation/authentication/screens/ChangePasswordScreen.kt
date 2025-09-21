@@ -22,7 +22,8 @@ import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
-import vn.tutorial.cinemate.common.components.CommonTextField
+import vn.tutorial.cinemate.core.util.Validator
+import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
 import vn.tutorial.cinemate.presentation.navigation.Route
 
 @Composable
@@ -50,30 +51,34 @@ fun ChangePasswordScreen(
         ) {
             var password by remember { mutableStateOf("") }
             var confirmPassword by remember { mutableStateOf("") }
-            var isError by remember { mutableStateOf(false) }
+            var isValidPassword: Boolean? by remember { mutableStateOf(null) }
+            var isMatch: Boolean? by remember { mutableStateOf(null) }
 
             Text(
-                modifier = Modifier.padding(bottom = 32.dp),
                 text = stringResource(R.string.change_password),
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            CommonTextField(
-                modifier = Modifier.padding(bottom = 16.dp),
+            PasswordTextField(
+                modifier = Modifier.padding(top = 16.dp),
                 value = password,
-                onValueChange = { password = it },
-                placeholder = stringResource(R.string.password_placeholder),
+                onValueChange = {
+                    password = it
+                    isValidPassword = Validator.isValidPassword(it)
+                },
+                isValidPassword = isValidPassword,
+                errorMessage = if (isValidPassword == false) stringResource(R.string.invalid_password) else null
             )
-            CommonTextField(
-                modifier = Modifier.padding(bottom = 16.dp),
+
+            PasswordTextField(
+                modifier = Modifier.padding(top = 16.dp),
                 value = confirmPassword,
                 onValueChange = {
                     confirmPassword = it
-                    isError = it != password
+                    isMatch = it == password
                 },
-                isError = isError,
-                placeholder = stringResource(R.string.password_confirm_placeholder),
-                errorMessage = "Password does not match",
+                isValidPassword = isMatch,
+                errorMessage = if (isValidPassword == false) stringResource(R.string.not_match_password) else null
             )
 
             CommonButton(
@@ -82,9 +87,11 @@ fun ChangePasswordScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.change_password),
                 onClick = {
-                    navController.navigate(Route.Home.route) {
-                        popUpTo(Route.ChangePassword.route) {
-                            inclusive = true
+                    if (isValidPassword == true && isMatch == true) {
+                        navController.navigate(Route.SignIn.route) {
+                            popUpTo(Route.SignIn.route) {
+                                inclusive = true
+                            }
                         }
                     }
                 }

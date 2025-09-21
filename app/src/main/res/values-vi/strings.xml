@@ -37,4 +37,9 @@
     <string name="help_reply">Trợ giúp và phàn hồi</string>
     <string name="sign_out">Đăng xuất</string>
 
+
+    <string name="invalid_email">Email không hợp lệ</string>
+    <string name="invalid_password">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="not_match_password">Mật khẩu không trùng nhau</string>
+
 </resources>

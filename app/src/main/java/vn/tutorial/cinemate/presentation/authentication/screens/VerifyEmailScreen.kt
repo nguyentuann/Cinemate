@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +22,8 @@ import androidx.navigation.NavController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
-import vn.tutorial.cinemate.common.components.CommonTextField
+import vn.tutorial.cinemate.core.util.Validator
+import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.presentation.navigation.Route
 
 @Composable
@@ -43,13 +43,15 @@ fun VerifyEmailScreen(
         Column(
             modifier = modifier
                 .padding(it)
-                .padding(horizontal = 16.dp).imePadding()
+                .padding(horizontal = 16.dp)
+                .imePadding()
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             var email by remember { mutableStateOf("") }
+            var isValidEmail: Boolean? by remember { mutableStateOf(null) }
 
             Text(
                 modifier = Modifier.padding(bottom = 32.dp),
@@ -61,11 +63,13 @@ fun VerifyEmailScreen(
                 text = stringResource(R.string.instruct_update_password),
                 style = MaterialTheme.typography.bodyMedium,
             )
-            CommonTextField(
-                modifier = Modifier.padding(bottom = 16.dp),
+            EmailTextField(
                 value = email,
-                onValueChange = { email = it },
-                placeholder = stringResource(R.string.email_placeholder),
+                onValueChange = {
+                    email = it
+                    isValidEmail = Validator.isValidEmail(it)
+                },
+                isValidEmail = isValidEmail,
             )
 
             CommonButton(
@@ -74,7 +78,9 @@ fun VerifyEmailScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.confirm),
                 onClick = {
-                    navController.navigate(Route.ChangePassword.route)
+                    if (isValidEmail == true) {
+                        navController.navigate(Route.ChangePassword.route)
+                    }
                 }
             )
         }

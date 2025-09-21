@@ -24,7 +24,9 @@ import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
-import vn.tutorial.cinemate.common.components.CommonTextField
+import vn.tutorial.cinemate.core.util.Validator
+import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
+import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
 import vn.tutorial.cinemate.presentation.navigation.Route
 
 @Composable
@@ -56,35 +58,32 @@ fun SignInScreen(
                 color = MaterialTheme.colorScheme.onPrimary
             )
 
-            var username by remember { mutableStateOf("") }
+            var email by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
-            var isErrorEmail by remember { mutableStateOf(false) }
-            var isErrorPassword by remember { mutableStateOf(false) }
+            var isValidEmail: Boolean? by remember { mutableStateOf(null) }
+            var isValidPassword: Boolean? by remember { mutableStateOf(null) }
 
-            CommonTextField(
+            EmailTextField(
                 modifier = Modifier
                     .padding(top = 8.dp),
-                value = username,
+                value = email,
                 onValueChange = {
-                    username = it
-                    isErrorEmail = it.length < 3
+                    email = it
+                    isValidEmail = Validator.isValidEmail(it)
                 },
-                placeholder = stringResource(R.string.email_placeholder),
-                isError = isErrorEmail,
-                errorMessage = if (isErrorEmail) "Username quá ngắn" else null
+                isValidEmail = isValidEmail,
             )
 
-            CommonTextField(
+            PasswordTextField(
                 modifier = Modifier
                     .padding(top = 16.dp),
                 value = password,
                 onValueChange = {
                     password = it
-                    isErrorPassword = it.length < 3
+                    isValidPassword = Validator.isValidPassword(it)
                 },
-                placeholder = stringResource(R.string.password_placeholder),
-                isError = isErrorPassword,
-                errorMessage = if (isErrorPassword) "Password quá ngắn" else null
+                isValidPassword = isValidPassword,
+                errorMessage = if (isValidPassword == false) stringResource(R.string.invalid_password) else null
             )
 
             CommonButton(
@@ -93,13 +92,14 @@ fun SignInScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.sign_in),
                 onClick = {
-                    navController.navigate(Route.Home.route) {
-                        popUpTo(Route.SignIn.route) {
-                            inclusive = true
+                    if (isValidEmail == true && isValidPassword == true) {
+                        navController.navigate(Route.Home.route) {
+                            popUpTo(Route.SignIn.route) {
+                                inclusive = true
+                            }
                         }
                     }
-                }
-            )
+                })
 
             Text(
                 modifier = Modifier

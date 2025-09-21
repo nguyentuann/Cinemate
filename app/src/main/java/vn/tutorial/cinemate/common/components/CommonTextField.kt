@@ -11,6 +11,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.common.styles.Styles
@@ -22,7 +23,10 @@ fun CommonTextField(
     isError: Boolean = false,
     errorMessage: String? = null,
     onValueChange: (String) -> Unit = {},
-    placeholder: String
+    placeholder: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     Column(modifier = modifier) {
         OutlinedTextField(
@@ -46,7 +50,11 @@ fun CommonTextField(
                     textAlign = TextAlign.Center
                 )
             },
-            textStyle = MaterialTheme.typography.bodyMedium
+            textStyle = MaterialTheme.typography.bodyMedium,
+
+            visualTransformation = visualTransformation,
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon
 
         )
         if (isError && !errorMessage.isNullOrEmpty()) {
