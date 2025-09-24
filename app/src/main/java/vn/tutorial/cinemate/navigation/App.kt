@@ -9,5 +9,7 @@ fun App() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = Route.Splash.route) {
         authenticationNavGraph(navController)
+        mainNavGraph(navController)
     }
+
 }

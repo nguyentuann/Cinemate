@@ -103,7 +103,7 @@ fun SignUpScreen(
                 title = stringResource(R.string.get_started),
                 onClick = {
                     if (isValidEmail == true && isChecked) {
-                        navController.navigate(Route.CreatePassword.route)
+                        navController.navigate(Route.CheckMail.route)
                     }
                 }
             )

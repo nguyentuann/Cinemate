@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
+import vn.tutorial.cinemate.core.helper.openMail
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.navigation.Route
@@ -78,9 +79,10 @@ fun VerifyEmailScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.confirm),
                 onClick = {
-                    if (isValidEmail == true) {
-                        navController.navigate(Route.ChangePassword.route)
-                    }
+                    openMail(navController.context)
+//                    if (isValidEmail == true) {
+//                        navController.navigate(Route.ChangePassword.route)
+//                    }
                 }
             )
         }
