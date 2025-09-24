@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.presentation.home
+package vn.tutorial.cinemate.presentation.comingSoon
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,16 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun HomeScreen() {
+fun ComingSoonScreen() {
     Scaffold {
         Column(
-            Modifier
-                .padding(it)
-                .fillMaxSize(),
+            Modifier.padding(it).fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Home Screen")
+            Text("Coming Soon Screen")
         }
     }
 }

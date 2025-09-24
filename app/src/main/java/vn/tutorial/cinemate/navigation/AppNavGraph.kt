@@ -1,6 +1,5 @@
 package vn.tutorial.cinemate.navigation
 
-import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -11,8 +10,12 @@ import vn.tutorial.cinemate.presentation.authentication.screens.SetupPasswordScr
 import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
-import vn.tutorial.cinemate.presentation.home.HomeScreen
-import vn.tutorial.cinemate.presentation.settings.screens.ProfileScreen
+import vn.tutorial.cinemate.presentation.comingSoon.ComingSoonScreen
+import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
+import vn.tutorial.cinemate.presentation.more.MoreScreen
+import vn.tutorial.cinemate.presentation.notification.NotificationScreen
+import vn.tutorial.cinemate.presentation.search.SearchScreen
+import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 
 fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 
@@ -63,11 +66,10 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 }
 
 fun NavGraphBuilder.mainNavGraph(navController: NavHostController) {
-    composable(route = Route.Profile.route) {
-        ProfileScreen()
-    }
-
-    composable(route = Route.Home.route) {
-        HomeScreen()
-    }
+    composable(Route.Home.route) { HomeScreen() }
+    composable(Route.Search.route) { SearchScreen() }
+    composable(Route.ComingSoon.route) { ComingSoonScreen() }
+    composable(Route.Notification.route) { NotificationScreen() }
+    composable(Route.More.route) { MoreScreen() }
 }
+

@@ -1,5 +1,6 @@
 package vn.tutorial.cinemate.presentation.authentication.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,7 +30,7 @@ import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.navigation.Route
-
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
@@ -47,7 +48,6 @@ fun SignUpScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(it)
                 .padding(horizontal = 16.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.Center,

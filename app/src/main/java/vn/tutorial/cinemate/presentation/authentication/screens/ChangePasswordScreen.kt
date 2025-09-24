@@ -1,5 +1,6 @@
 package vn.tutorial.cinemate.presentation.authentication.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,8 @@ import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
 import vn.tutorial.cinemate.navigation.Route
 
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ChangePasswordScreen(
     modifier: Modifier = Modifier,
@@ -43,7 +46,6 @@ fun ChangePasswordScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(it)
                 .padding(horizontal = 16.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.Center,

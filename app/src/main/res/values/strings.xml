@@ -39,5 +39,9 @@
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_password">Password must be at least 8 characters, contain uppercase letters, numbers and special characters</string>
     <string name="not_match_password">Password does not match</string>
+    
+    <string name="movie_info">Info</string>
+
+
 
 </resources>
