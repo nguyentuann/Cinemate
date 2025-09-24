@@ -20,7 +20,6 @@ fun SignInText(
     Text(
         text = stringResource(R.string.sign_in),
         style = MaterialTheme.typography.bodyLarge,
-        color = Color.White,
         modifier = Modifier
             .padding(end = 16.dp)
             .clickable {
