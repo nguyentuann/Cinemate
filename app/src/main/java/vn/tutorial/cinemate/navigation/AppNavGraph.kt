@@ -4,6 +4,7 @@ import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import vn.tutorial.cinemate.presentation.authentication.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CheckMailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SetupPasswordScreen
@@ -49,12 +50,22 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         ChangePasswordScreen(navController = navController)
     }
 
+    composable(
+        route = Route.CreatePassword.route,
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "https://myapp.com/verify"
+            }
+        )
+    ) {
+        SetupPasswordScreen(navController = navController)
+    }
+}
 
+fun NavGraphBuilder.mainNavGraph(navController: NavHostController) {
     composable(route = Route.Profile.route) {
         ProfileScreen()
     }
-
-
 
     composable(route = Route.Home.route) {
         HomeScreen()

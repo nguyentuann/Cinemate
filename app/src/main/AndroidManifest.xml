@@ -15,11 +15,18 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Cinemate">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <!--định nghĩa để nhận intent -->
+                <data
+                    android:host="cinemate.com"
+                    android:scheme="https"
+                    android:path="/create_password"
+                    />
             </intent-filter>
         </activity>
     </application>

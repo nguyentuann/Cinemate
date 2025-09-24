@@ -1,8 +1,6 @@
 package vn.tutorial.cinemate.presentation.authentication.components
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -12,7 +10,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import vn.tutorial.cinemate.R
@@ -23,7 +23,7 @@ fun PasswordTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    isValidPassword: Boolean?,
+    isValidPassword: Boolean? = null,
     errorMessage: String? = null
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
@@ -40,9 +40,17 @@ fun PasswordTextField(
         },
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
-            val image = if (passwordVisible) Icons.Default.Check else Icons.Default.Lock
+            val image = if (passwordVisible) {
+                ImageVector.vectorResource(id = R.drawable.show_password)
+            } else {
+                ImageVector.vectorResource(id = R.drawable.hide_password)
+            }
+
             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                Icon(imageVector = image, contentDescription = null)
+                Icon(
+                    imageVector = image,
+                    contentDescription = null
+                )
             }
         }
     )

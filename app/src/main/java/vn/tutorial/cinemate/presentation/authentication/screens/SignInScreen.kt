@@ -61,7 +61,7 @@ fun SignInScreen(
             var email by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
             var isValidEmail: Boolean? by remember { mutableStateOf(null) }
-            var isValidPassword: Boolean? by remember { mutableStateOf(null) }
+//            var isValidPassword: Boolean? by remember { mutableStateOf(null) }
 
             EmailTextField(
                 modifier = Modifier
@@ -80,10 +80,7 @@ fun SignInScreen(
                 value = password,
                 onValueChange = {
                     password = it
-                    isValidPassword = Validator.isValidPassword(it)
                 },
-                isValidPassword = isValidPassword,
-                errorMessage = if (isValidPassword == false) stringResource(R.string.invalid_password) else null
             )
 
             CommonButton(
@@ -92,7 +89,7 @@ fun SignInScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.sign_in),
                 onClick = {
-                    if (isValidEmail == true && isValidPassword == true) {
+                    if (isValidEmail == true ) {
                         navController.navigate(Route.Home.route) {
                             popUpTo(Route.SignIn.route) {
                                 inclusive = true
