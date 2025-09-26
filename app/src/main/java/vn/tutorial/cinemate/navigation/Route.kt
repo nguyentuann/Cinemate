@@ -14,11 +14,14 @@ sealed class Route(val route: String) {
 
 
     // todo route main
-    object Main: Route("main")
     object Home: Route("home")
     object More: Route("more")
     object Notification: Route("notification")
     object ComingSoon: Route("coming_soon")
     object Search: Route("search")
+
+    object Detail: Route("detail/{movieId}") {
+        fun createRoute(movieId: Int) = "detail/$movieId"
+    }
 
 }

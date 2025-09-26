@@ -43,5 +43,7 @@
     <string name="not_match_password">Mật khẩu không trùng nhau</string>
 
     <string name="movie_info">Thông tin</string>
+    <string name="share">Chia sẻ</string>
+    <string name="rate">Đánh giá</string>
 
 </resources>

@@ -1,6 +1,5 @@
 package vn.tutorial.cinemate.presentation.home.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,15 +27,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.common.components.InteractionButton
 import vn.tutorial.cinemate.common.components.RatingBar
 import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.home.mock.Movie
 
 val headerItems = mapOf(
@@ -48,9 +49,9 @@ val headerItems = mapOf(
 @Composable
 fun HeroBanner(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     movie: Movie,
     addToMyList: () -> Unit = { },
-    play: () -> Unit = { }
 ) {
     var showInfoDialog by remember { mutableStateOf(false) }
 
@@ -86,7 +87,9 @@ fun HeroBanner(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(4f),
-                onClick = play,
+                onClick = {
+                    navController.navigate(Route.Detail.createRoute(movieId = movie.id))
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Gray,
                     contentColor = Color.Black
@@ -117,28 +120,6 @@ fun HeroBanner(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun InteractionButton(
-    modifier: Modifier = Modifier,
-    icon: Int,
-    title: String,
-    onClick: () -> Unit = { }
-) {
-    Column(
-        modifier = modifier.clickable(onClick = { onClick() }),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Icon(
-            painter = painterResource(icon),
-            contentDescription = null
-        )
-        Text(
-            text = title,
-            style = MaterialTheme.typography.bodyMedium
-        )
     }
 }
 

@@ -66,4 +66,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.foudation)
     implementation(libs.coil.compose)
+
+    implementation (libs.androidx.media3.exoplayer)
+    implementation (libs.androidx.media3.ui)
+
 }

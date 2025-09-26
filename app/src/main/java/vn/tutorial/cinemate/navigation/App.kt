@@ -35,7 +35,7 @@ fun App() {
             startDestination = Route.Home.route,
         ) {
             authenticationNavGraph(navController)
-            mainNavGraph(navController)
+            mainNavGraph(navController, it)
         }
     }
 }

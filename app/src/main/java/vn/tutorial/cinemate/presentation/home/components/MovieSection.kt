@@ -20,11 +20,12 @@ import vn.tutorial.cinemate.presentation.home.mock.Movie
 
 @Composable
 fun MovieSection(
+    modifier: Modifier = Modifier,
     sectionTitle: String,
     movies: List<Movie>
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = modifier.padding(horizontal = 16.dp)
     ) {
         Text(
             text = sectionTitle,
