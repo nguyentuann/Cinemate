@@ -1,8 +1,11 @@
 package vn.tutorial.cinemate.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import vn.tutorial.cinemate.presentation.authentication.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CheckMailScreen
@@ -10,7 +13,8 @@ import vn.tutorial.cinemate.presentation.authentication.screens.SetupPasswordScr
 import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
-import vn.tutorial.cinemate.presentation.comingSoon.ComingSoonScreen
+import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
+import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
 import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
 import vn.tutorial.cinemate.presentation.more.MoreScreen
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
@@ -65,11 +69,24 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     }
 }
 
-fun NavGraphBuilder.mainNavGraph(navController: NavHostController) {
-    composable(Route.Home.route) { HomeScreen() }
+fun NavGraphBuilder.mainNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
+    composable(Route.Home.route) {
+        HomeScreen(
+            innerPadding = innerPadding,
+            navController = navController
+        )
+    }
     composable(Route.Search.route) { SearchScreen() }
     composable(Route.ComingSoon.route) { ComingSoonScreen() }
     composable(Route.Notification.route) { NotificationScreen() }
     composable(Route.More.route) { MoreScreen() }
+
+    composable(
+        Route.Detail.route,
+        arguments = listOf(navArgument("movieId") { type = NavType.IntType })
+    ) {
+        val movieId = it.arguments?.getInt("movieId") ?: return@composable
+        DetailScreen(movieId = movieId, navController)
+    }
 }
 

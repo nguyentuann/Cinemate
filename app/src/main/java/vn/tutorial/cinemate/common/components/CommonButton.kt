@@ -13,7 +13,7 @@ import vn.tutorial.cinemate.common.styles.Styles
 fun CommonButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = { },
-    title: String
+    title: String,
 ) {
     Button(
         modifier = modifier.height(50.dp),

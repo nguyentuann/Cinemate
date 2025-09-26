@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +32,7 @@ fun RatingBar(
         Text(
             modifier = Modifier.padding(end = 16.dp),
             text = rating.toString(),
-            style = MaterialTheme.typography.bodyMedium.copy(
+            style = MaterialTheme.typography.titleSmall.copy(
                 fontSize = 20.sp
             )
         )

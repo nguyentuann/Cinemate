@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.presentation.comingSoon
+package vn.tutorial.cinemate.presentation.coming_soon
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
