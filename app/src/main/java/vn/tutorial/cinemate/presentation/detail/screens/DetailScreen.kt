@@ -34,7 +34,13 @@ import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.ExpandableText
 import vn.tutorial.cinemate.common.components.InteractionButton
 import vn.tutorial.cinemate.common.components.RatingBar
+import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.domain.model.filmMock
+import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
+import vn.tutorial.cinemate.presentation.detail.components.InteractionBar
+import vn.tutorial.cinemate.presentation.detail.components.TrailerPlayer
 import vn.tutorial.cinemate.presentation.home.components.MovieSection
 import vn.tutorial.cinemate.presentation.home.mock.bannerMovie
 import vn.tutorial.cinemate.presentation.home.mock.sectionData
@@ -43,25 +49,23 @@ import vn.tutorial.cinemate.presentation.home.mock.sectionData
 @Composable
 fun DetailScreen(
     movieId: Int,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
-
     val movie = bannerMovie
     val scrollState = rememberScrollState()
+
     Scaffold {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
                 .verticalScroll(scrollState)
         ) {
-            AsyncImage(
-                model = movie.posterUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+
+            // todo trailer
+            TrailerPlayer(filmMock.trailerUrl)
+
             Spacer(
                 modifier = Modifier.height(16.dp)
             )
@@ -70,28 +74,13 @@ fun DetailScreen(
                 Modifier.padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // title
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = movie.title,
-                        style = MaterialTheme.typography.titleMedium
-                    )
 
-                    RatingBar(
-                        rating = movie.rating
-                    )
-                }
-
-                // button play
                 Button(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(Route.PlayVideo.route)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Gray,
                         contentColor = Color.Black
@@ -99,26 +88,14 @@ fun DetailScreen(
                     shape = Styles.ShapeStyles.mediumCorner,
                 ) {
                     Icon(
-                        Icons.Default.PlayArrow,
+                        AppIcons.play(),
                         contentDescription = null,
                         modifier = Modifier.padding(end = 8.dp)
                     )
                     Text("Play", style = MaterialTheme.typography.bodyLarge)
                 }
 
-                // description
-                Text(
-                    text = movie.description,
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-
-                // overview
-                ExpandableText(
-                    text = movie.overview
-                )
-                // interaction bar
+                FilmInformation()
 
                 HorizontalDivider()
 
@@ -140,28 +117,7 @@ fun DetailScreen(
 }
 
 @Composable
-fun InteractionBar(
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        InteractionButton(
-            icon = R.drawable.ic_add,
-            title = stringResource(R.string.my_list),
-            onClick = {}
-        )
-        InteractionButton(
-            icon = R.drawable.ic_rate,
-            title = stringResource(R.string.rate),
-            onClick = {}
-        )
-        InteractionButton(
-            icon = R.drawable.ic_share,
-            title = stringResource(R.string.share),
-            onClick = {}
-        )
-    }
+fun Trailer() {
+
 }
+

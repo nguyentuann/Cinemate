@@ -17,4 +17,5 @@ object Styles {
         val thick = BorderStroke(2.dp, Color.Black)
     }
 
+
 }

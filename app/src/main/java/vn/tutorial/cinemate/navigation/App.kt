@@ -1,6 +1,7 @@
 package vn.tutorial.cinemate.navigation
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

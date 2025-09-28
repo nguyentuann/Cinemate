@@ -14,7 +14,9 @@ import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
 import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
+import vn.tutorial.cinemate.presentation.detail.components.VideoPlayer
 import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
+import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
 import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
 import vn.tutorial.cinemate.presentation.more.MoreScreen
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
@@ -67,9 +69,13 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     ) {
         SetupPasswordScreen(navController = navController)
     }
+
 }
 
-fun NavGraphBuilder.mainNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
+fun NavGraphBuilder.mainNavGraph(
+    navController: NavHostController,
+    innerPadding: PaddingValues,
+) {
     composable(Route.Home.route) {
         HomeScreen(
             innerPadding = innerPadding,
@@ -81,12 +87,21 @@ fun NavGraphBuilder.mainNavGraph(navController: NavHostController, innerPadding:
     composable(Route.Notification.route) { NotificationScreen() }
     composable(Route.More.route) { MoreScreen() }
 
+
     composable(
         Route.Detail.route,
         arguments = listOf(navArgument("movieId") { type = NavType.IntType })
-    ) {
-        val movieId = it.arguments?.getInt("movieId") ?: return@composable
-        DetailScreen(movieId = movieId, navController)
+    ) { backStackEntry ->
+        val movieId = backStackEntry.arguments?.getInt("movieId") ?: return@composable
+        DetailScreen(
+            movieId = movieId,
+            navController = navController,
+        )
+    }
+
+    composable(Route.PlayVideo.route) { backStackEntry ->
+
+        PlayVideoScreen(1)
     }
 }
 

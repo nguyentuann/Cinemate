@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import vn.tutorial.cinemate.ui.theme.yellow
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -24,8 +25,8 @@ fun RatingBar(
     rating: Double,
     modifier: Modifier = Modifier,
     maxRating: Int = 5,
-    starSize: Dp = 24.dp,
-    starColor: Color = Color.Yellow
+    starSize: Dp = 20.dp,
+    starColor: Color = yellow
 ) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
 
@@ -33,7 +34,7 @@ fun RatingBar(
             modifier = Modifier.padding(end = 16.dp),
             text = rating.toString(),
             style = MaterialTheme.typography.titleSmall.copy(
-                fontSize = 20.sp
+                fontSize = 18.sp
             )
         )
 

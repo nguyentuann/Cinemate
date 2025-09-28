@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
@@ -30,11 +32,13 @@ import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewModel
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     Scaffold(
         topBar = {
