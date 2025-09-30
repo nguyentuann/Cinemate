@@ -45,5 +45,9 @@
     <string name="movie_info">Thông tin</string>
     <string name="share">Chia sẻ</string>
     <string name="rate">Đánh giá</string>
+    <string name="comment">Bình luận</string>
+    <string name="add_comment">Thêm bình luận</string>
+
+    <string name="comment_rating">Bình luận và đánh giá</string>
 
 </resources>

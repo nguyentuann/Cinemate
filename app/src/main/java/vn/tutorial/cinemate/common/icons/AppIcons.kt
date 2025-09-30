@@ -77,4 +77,7 @@ object AppIcons {
 
     @Composable
     fun logo(): Painter = painterResource(R.drawable.logo)
+
+    @Composable
+    fun send(): Painter = painterResource(R.drawable.ic_send)
 }

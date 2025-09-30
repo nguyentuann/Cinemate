@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.presentation.more
+package vn.tutorial.cinemate.presentation.more.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,7 @@ import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.data.listOptions
 import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.presentation.more.components.MoreItem
 
 @Composable
 fun MoreScreen(

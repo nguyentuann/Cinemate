@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.presentation.more
+package vn.tutorial.cinemate.presentation.more.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

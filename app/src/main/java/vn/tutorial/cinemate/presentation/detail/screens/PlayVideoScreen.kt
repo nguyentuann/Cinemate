@@ -15,14 +15,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.presentation.detail.components.Comment
 import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
 import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
 import vn.tutorial.cinemate.presentation.detail.components.VideoPlayer
 
 @Composable
-fun PlayVideoScreen(movieId: Int) {
+fun PlayVideoScreen(movieId: String) {
 
     var showComments by remember { mutableStateOf(false) }
 
@@ -46,7 +48,7 @@ fun PlayVideoScreen(movieId: Int) {
 
             HorizontalDivider()
             Text(
-                text = "Comments",
+                text = stringResource(R.string.comment),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier
                     .padding(16.dp)

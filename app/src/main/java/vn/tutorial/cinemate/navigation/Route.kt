@@ -20,10 +20,12 @@ sealed class Route(val route: String) {
     object ComingSoon: Route("coming_soon")
     object Search: Route("search")
 
-    object Detail: Route("detail/{movieId}") {
-        fun createRoute(movieId: Int) = "detail/$movieId"
+    object Detail: Route("detail/{filmId}") {
+        fun createRoute(filmId: String) = "detail/$filmId"
     }
 
-    object PlayVideo: Route("play_video")
+    object PlayVideo: Route("play_video/{filmId}") {
+        fun createRoute(filmId: String) = "play_video/$filmId"
+    }
 
 }
