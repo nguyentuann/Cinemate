@@ -28,4 +28,8 @@ sealed class Route(val route: String) {
         fun createRoute(filmId: String) = "play_video/$filmId"
     }
 
+    // todo route setting
+    object Favorite: Route("favorite")
+    object History: Route("history")
+
 }

@@ -39,10 +39,11 @@ fun App() {
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = Route.Home.route,
+                startDestination = Route.Favorite.route,
             ) {
                 authenticationNavGraph(navController)
                 mainNavGraph(navController, it)
+                personalNavGraph(navController)
             }
         }
     }

@@ -17,20 +17,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.R
-import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.data.listOptions
 import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.presentation.more.components.MoreItem
 
 @Composable
 fun MoreScreen(
     modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        topBar = {
-            AppBar()
-        },
-    ) {
+    val navController = LocalNavController.current
+    Scaffold {
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -61,7 +58,9 @@ fun MoreScreen(
                     MoreItem(
                         title = stringResource(option.titleRes),
                         icon = option.icon,
-                        onClick = option.action
+                        onClick = {
+                            navController.navigate(option.route)
+                        }
                     )
                 }
             }

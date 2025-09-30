@@ -17,6 +17,7 @@ import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
 import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
 import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
 import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
+import vn.tutorial.cinemate.presentation.more.screens.FavoriteScreen
 import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
 import vn.tutorial.cinemate.presentation.search.SearchScreen
@@ -103,6 +104,12 @@ fun NavGraphBuilder.mainNavGraph(
     ) { backStackEntry ->
         val filmId = backStackEntry.arguments?.getString("filmId") ?: return@composable
         PlayVideoScreen(filmId)
+    }
+}
+
+fun NavGraphBuilder.personalNavGraph(navController: NavHostController) {
+    composable(Route.Favorite.route){
+        FavoriteScreen()
     }
 }
 
