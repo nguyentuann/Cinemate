@@ -1,7 +1,6 @@
 package vn.tutorial.cinemate.common.components
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -13,32 +12,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.common.icons.AppIcons
 
 data class BottomNavItem(
     val label: String,
-    val icon: Int,
+    val icon: Painter,
     val route: String
 )
 
 @Composable
 fun BottomBar(navController: NavHostController) {
     val items = listOf(
-        BottomNavItem("Home", R.drawable.ic_home, "home"),
-        BottomNavItem("Search", R.drawable.ic_search, "search"),
-        BottomNavItem("Coming Soon", R.drawable.ic_coming_soon, "coming_soon"),
-        BottomNavItem("Notification", R.drawable.ic_notification, "notification"),
-        BottomNavItem("More", R.drawable.ic_more, "more")
+        BottomNavItem("Home", AppIcons.home(), "home"),
+        BottomNavItem("Search", AppIcons.search(), "search"),
+        BottomNavItem("Coming Soon", AppIcons.comingSoon(), "coming_soon"),
+        BottomNavItem("Notification", AppIcons.notification(), "notification"),
+        BottomNavItem("More", AppIcons.more(), "more")
     )
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.surface,
-        modifier = Modifier.height(110.dp)
     ) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -47,7 +44,7 @@ fun BottomBar(navController: NavHostController) {
 
             // Animation scale khi chọn icon
             val scale by animateFloatAsState(
-                targetValue = if (selected) 1.3f else 1f,
+                targetValue = if (selected) 1.5f else 1f,
                 label = "iconScale"
             )
 
@@ -64,7 +61,7 @@ fun BottomBar(navController: NavHostController) {
                 },
                 icon = {
                     Icon(
-                        painter = painterResource(item.icon),
+                        item.icon,
                         contentDescription = item.label,
                         modifier = Modifier.scale(scale)
                     )

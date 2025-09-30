@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.common.icons.AppIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,7 +32,7 @@ fun AppBar(
     TopAppBar(
         title = {
             Image(
-                painter = painterResource(R.drawable.logo),
+                AppIcons.logo(),
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)

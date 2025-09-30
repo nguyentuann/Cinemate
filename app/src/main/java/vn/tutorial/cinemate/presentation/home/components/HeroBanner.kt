@@ -27,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,9 +37,10 @@ import coil.compose.AsyncImage
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.InteractionButton
 import vn.tutorial.cinemate.common.components.RatingBar
+import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.domain.model.FilmDetailModel
 import vn.tutorial.cinemate.navigation.Route
-import vn.tutorial.cinemate.presentation.home.mock.Movie
 
 val headerItems = mapOf(
     "TV Shows" to {},
@@ -52,7 +52,7 @@ val headerItems = mapOf(
 fun HeroBanner(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    movie: Movie,
+    film: FilmDetailModel,
     addToMyList: () -> Unit = { },
 ) {
     var showInfoDialog by remember { mutableStateOf(false) }
@@ -62,7 +62,7 @@ fun HeroBanner(
     ) {
         Box {
             AsyncImage(
-                model = movie.posterUrl,
+                model = film.verticalPoster,
                 contentDescription = null,
                 modifier = Modifier
             )
@@ -74,7 +74,7 @@ fun HeroBanner(
                         if (isSystemInDarkTheme())
                             Color.Black.copy(alpha = 0.4f)
                         else
-                            Color.White.copy(alpha=0.05f)
+                            Color.White.copy(alpha = 0.05f)
                     )
             )
 
@@ -93,7 +93,7 @@ fun HeroBanner(
             ) {
             InteractionButton(
                 modifier = Modifier.weight(3f),
-                icon = R.drawable.ic_add,
+                icon = AppIcons.add(),
                 title = stringResource(R.string.my_list),
                 onClick = addToMyList
             )
@@ -102,7 +102,7 @@ fun HeroBanner(
                     .fillMaxHeight()
                     .weight(4f),
                 onClick = {
-                    navController.navigate(Route.Detail.createRoute(1))
+                    navController.navigate(Route.PlayVideo.createRoute(film.id))
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Gray,
@@ -120,7 +120,7 @@ fun HeroBanner(
 
             InteractionButton(
                 modifier = Modifier.weight(3f),
-                icon = R.drawable.ic_info,
+                icon = AppIcons.info(),
                 title = stringResource(R.string.movie_info),
                 onClick = {
                     showInfoDialog = true
@@ -129,7 +129,7 @@ fun HeroBanner(
 
             if (showInfoDialog) {
                 ShowInfo(
-                    movie = movie,
+                    film = film,
                     onDismiss = { showInfoDialog = false }
                 )
             }
@@ -138,12 +138,12 @@ fun HeroBanner(
 }
 
 @Composable
-private fun ShowInfo(movie: Movie, onDismiss: () -> Unit) {
+private fun ShowInfo(film: FilmDetailModel, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = movie.title,
+                text = film.title,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -154,16 +154,12 @@ private fun ShowInfo(movie: Movie, onDismiss: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = movie.description,
-                    style = MaterialTheme.typography.headlineSmall
-                )
-                Text(
-                    text = movie.overview,
+                    text = film.description,
                     style = MaterialTheme.typography.bodyMedium
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
-                RatingBar(rating = movie.rating, starSize = 28.dp)
+                RatingBar(rating = film.rating, starSize = 28.dp)
             }
         },
         confirmButton = {

@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.InteractionButton
+import vn.tutorial.cinemate.common.icons.AppIcons
 
 @Composable
 fun InteractionBar(
@@ -20,17 +21,17 @@ fun InteractionBar(
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         InteractionButton(
-            icon = R.drawable.ic_add,
+            icon =  AppIcons.add(),
             title = stringResource(R.string.my_list),
             onClick = {}
         )
         InteractionButton(
-            icon = R.drawable.ic_rate,
+            icon = AppIcons.rate(),
             title = stringResource(R.string.rate),
             onClick = {}
         )
         InteractionButton(
-            icon = R.drawable.ic_share,
+            icon = AppIcons.share(),
             title = stringResource(R.string.share),
             onClick = {}
         )

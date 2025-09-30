@@ -7,9 +7,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import vn.tutorial.cinemate.presentation.home.components.FilmSection
 import vn.tutorial.cinemate.presentation.home.components.HeroBanner
-import vn.tutorial.cinemate.presentation.home.components.MovieSection
-import vn.tutorial.cinemate.presentation.home.mock.bannerMovie
+import vn.tutorial.cinemate.presentation.home.mock.bannerFilm
 import vn.tutorial.cinemate.presentation.home.mock.sectionData
 
 @Composable
@@ -23,14 +23,14 @@ fun HomeScreen(
             .fillMaxSize()
     ) {
         item {
-            HeroBanner(movie = bannerMovie, navController = navController)
+            HeroBanner(film = bannerFilm, navController = navController)
         }
 
-        sectionData.forEach { (title, movies) ->
+        sectionData.forEach { (title, films) ->
             item {
-                MovieSection(
+                FilmSection(
                     sectionTitle = title,
-                    movies = movies
+                    films = films,
                 )
             }
         }

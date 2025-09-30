@@ -14,11 +14,10 @@ import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
 import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
-import vn.tutorial.cinemate.presentation.detail.components.VideoPlayer
 import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
 import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
 import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
-import vn.tutorial.cinemate.presentation.more.MoreScreen
+import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
 import vn.tutorial.cinemate.presentation.search.SearchScreen
 import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
@@ -90,18 +89,20 @@ fun NavGraphBuilder.mainNavGraph(
 
     composable(
         Route.Detail.route,
-        arguments = listOf(navArgument("movieId") { type = NavType.IntType })
+        arguments = listOf(navArgument("filmId") { type = NavType.StringType })
     ) { backStackEntry ->
-        val movieId = backStackEntry.arguments?.getInt("movieId") ?: return@composable
+        val filmId = backStackEntry.arguments?.getString("filmId") ?: return@composable
         DetailScreen(
-            movieId = movieId,
-            navController = navController,
+            filmId = filmId,
         )
     }
 
-    composable(Route.PlayVideo.route) { backStackEntry ->
-
-        PlayVideoScreen(1)
+    composable(
+        Route.PlayVideo.route,
+        arguments = listOf(navArgument("filmId") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val filmId = backStackEntry.arguments?.getString("filmId") ?: return@composable
+        PlayVideoScreen(filmId)
     }
 }
 
