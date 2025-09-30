@@ -24,4 +24,6 @@ sealed class Route(val route: String) {
         fun createRoute(movieId: Int) = "detail/$movieId"
     }
 
+    object PlayVideo: Route("play_video")
+
 }

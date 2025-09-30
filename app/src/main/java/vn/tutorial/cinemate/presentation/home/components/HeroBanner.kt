@@ -1,5 +1,7 @@
 package vn.tutorial.cinemate.presentation.home.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,8 +64,20 @@ fun HeroBanner(
             AsyncImage(
                 model = movie.posterUrl,
                 contentDescription = null,
-                modifier = Modifier.alpha(0.6f)
+                modifier = Modifier
             )
+
+            Box(
+                Modifier
+                    .matchParentSize()
+                    .background(
+                        if (isSystemInDarkTheme())
+                            Color.Black.copy(alpha = 0.4f)
+                        else
+                            Color.White.copy(alpha=0.05f)
+                    )
+            )
+
             HeaderBar(
                 headerItems = headerItems
             )
@@ -88,7 +102,7 @@ fun HeroBanner(
                     .fillMaxHeight()
                     .weight(4f),
                 onClick = {
-                    navController.navigate(Route.Detail.createRoute(movieId = movie.id))
+                    navController.navigate(Route.Detail.createRoute(1))
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Gray,

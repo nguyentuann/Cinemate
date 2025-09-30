@@ -58,10 +58,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
-
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.foudation)
@@ -69,5 +69,8 @@ dependencies {
 
     implementation (libs.androidx.media3.exoplayer)
     implementation (libs.androidx.media3.ui)
+    implementation (libs.androidx.media3.exoplayer.hls)
+
+    implementation (libs.androidx.hilt.navigation.compose)
 
 }
