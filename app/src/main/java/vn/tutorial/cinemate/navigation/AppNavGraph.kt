@@ -13,6 +13,7 @@ import vn.tutorial.cinemate.presentation.authentication.screens.SetupPasswordScr
 import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.VerifyOTPScreen
 import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
 import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
 import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
@@ -43,8 +44,12 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         )
     }
 
-    composable(route = Route.CheckMail.route) {
-        CheckMailScreen("NhatTuan@gmail.com", navController)
+    composable(
+        route = "${Route.CheckMail.route}/{email}",
+        arguments = listOf(navArgument("email") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val email = backStackEntry.arguments?.getString("email") ?: return@composable
+        CheckMailScreen(email)
     }
 
     composable(route = Route.CreatePassword.route) {
@@ -54,6 +59,11 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     composable(route = Route.VerifyEmail.route) {
         VerifyEmailScreen(navController = navController)
     }
+
+    composable(Route.VerifyOTP.route) {
+        VerifyOTPScreen()
+    }
+
 
     composable(route = Route.ChangePassword.route) {
         ChangePasswordScreen(navController = navController)
@@ -108,7 +118,7 @@ fun NavGraphBuilder.mainNavGraph(
 }
 
 fun NavGraphBuilder.personalNavGraph(navController: NavHostController) {
-    composable(Route.Favorite.route){
+    composable(Route.Favorite.route) {
         FavoriteScreen()
     }
 }

@@ -39,7 +39,7 @@ fun App() {
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = Route.Favorite.route,
+                startDestination = Route.VerifyOTP.route,
             ) {
                 authenticationNavGraph(navController)
                 mainNavGraph(navController, it)

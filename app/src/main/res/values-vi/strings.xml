@@ -17,7 +17,6 @@
     <string name="almost_done">Sắp xong rồi, chúng tôi vừa gửi email tới %s</string>
     <string name="few_steps">Chỉ còn vài bước nữa để xem những bộ phim yêu thích của bạn</string>
     <string name="forward_email">Tiếp tục đến email</string>
-    <string name="create_password">Thiết lập mật khẩu</string>
     <string name="confirm">Xác nhận</string>
     <string name="verify_email">Xác minh email</string>
     <string name="change_password">Cập nhật mật khẩu</string>
@@ -51,5 +50,11 @@
     <string name="comment_rating">Bình luận và đánh giá</string>
 
     <string name="favorite_films">Phim yêu thích</string>
+
+    <string name="first_name">Tên của bạn</string>
+    <string name="last_name">Họ của bạn</string>
+    <string name="account_info">Tạo thông tin</string>
+    <string name="not_empty">Trường này không được để trống</string>
+    <string name="verify_otp">Xác minh OTP</string>
 
 </resources>

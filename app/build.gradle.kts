@@ -73,4 +73,7 @@ dependencies {
 
     implementation (libs.androidx.hilt.navigation.compose)
 
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
+
 }

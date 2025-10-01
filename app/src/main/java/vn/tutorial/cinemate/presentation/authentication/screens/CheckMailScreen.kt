@@ -19,12 +19,13 @@ import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.SignInText
 import vn.tutorial.cinemate.core.helper.openMail
 import vn.tutorial.cinemate.core.util.underLineText
+import vn.tutorial.cinemate.navigation.LocalNavController
 
 @Composable
 fun CheckMailScreen(
     email: String,
-    navController: NavHostController
 ) {
+    val navController = LocalNavController.current
     Scaffold(
         topBar = {
             AppBar(
