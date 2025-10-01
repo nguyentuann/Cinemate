@@ -1,9 +1,11 @@
 package vn.tutorial.cinemate.navigation
 
-import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import vn.tutorial.cinemate.presentation.authentication.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CheckMailScreen
@@ -11,8 +13,16 @@ import vn.tutorial.cinemate.presentation.authentication.screens.SetupPasswordScr
 import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
-import vn.tutorial.cinemate.presentation.home.HomeScreen
-import vn.tutorial.cinemate.presentation.settings.screens.ProfileScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.VerifyOTPScreen
+import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
+import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
+import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
+import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
+import vn.tutorial.cinemate.presentation.more.screens.FavoriteScreen
+import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
+import vn.tutorial.cinemate.presentation.notification.NotificationScreen
+import vn.tutorial.cinemate.presentation.search.SearchScreen
+import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 
 fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 
@@ -34,8 +44,12 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         )
     }
 
-    composable(route = Route.CheckMail.route) {
-        CheckMailScreen("NhatTuan@gmail.com", navController)
+    composable(
+        route = "${Route.CheckMail.route}/{email}",
+        arguments = listOf(navArgument("email") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val email = backStackEntry.arguments?.getString("email") ?: return@composable
+        CheckMailScreen(email)
     }
 
     composable(route = Route.CreatePassword.route) {
@@ -45,6 +59,11 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     composable(route = Route.VerifyEmail.route) {
         VerifyEmailScreen(navController = navController)
     }
+
+    composable(Route.VerifyOTP.route) {
+        VerifyOTPScreen()
+    }
+
 
     composable(route = Route.ChangePassword.route) {
         ChangePasswordScreen(navController = navController)
@@ -60,14 +79,47 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     ) {
         SetupPasswordScreen(navController = navController)
     }
+
 }
 
-fun NavGraphBuilder.mainNavGraph(navController: NavHostController) {
-    composable(route = Route.Profile.route) {
-        ProfileScreen()
+fun NavGraphBuilder.mainNavGraph(
+    navController: NavHostController,
+    innerPadding: PaddingValues,
+) {
+    composable(Route.Home.route) {
+        HomeScreen(
+            innerPadding = innerPadding,
+            navController = navController
+        )
+    }
+    composable(Route.Search.route) { SearchScreen() }
+    composable(Route.ComingSoon.route) { ComingSoonScreen() }
+    composable(Route.Notification.route) { NotificationScreen() }
+    composable(Route.More.route) { MoreScreen() }
+
+
+    composable(
+        Route.Detail.route,
+        arguments = listOf(navArgument("filmId") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val filmId = backStackEntry.arguments?.getString("filmId") ?: return@composable
+        DetailScreen(
+            filmId = filmId,
+        )
     }
 
-    composable(route = Route.Home.route) {
-        HomeScreen()
+    composable(
+        Route.PlayVideo.route,
+        arguments = listOf(navArgument("filmId") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val filmId = backStackEntry.arguments?.getString("filmId") ?: return@composable
+        PlayVideoScreen(filmId)
     }
 }
+
+fun NavGraphBuilder.personalNavGraph(navController: NavHostController) {
+    composable(Route.Favorite.route) {
+        FavoriteScreen()
+    }
+}
+

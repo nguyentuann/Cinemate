@@ -17,7 +17,6 @@
     <string name="almost_done">Almost done, we just sent an email to %s</string>
     <string name="few_steps">Just a few steps away from watching your favorite movies</string>
     <string name="forward_email">Continue to email</string>
-    <string name="create_password">Create Password</string>
     <string name="confirm">Confirm</string>
     <string name="verify_email">Verify Email</string>
     <string name="change_password">Update Password</string>
@@ -39,5 +38,23 @@
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_password">Password must be at least 8 characters, contain uppercase letters, numbers and special characters</string>
     <string name="not_match_password">Password does not match</string>
+    
+    <string name="movie_info">Info</string>
+    <string name="share">Share</string>
+    <string name="rate">Rate</string>
+    <string name="comment">Comments</string>
+    <string name="add_comment">Add comment</string>
+    
+    <string name="comment_rating">Comments And Ratings</string>
+    
+    <string name="favorite_films">Favorite Films</string>
+    
+    <string name="first_name">Your first name</string>
+    <string name="last_name">Your last name</string>
+    <string name="account_info">Create information</string>
+    <string name="not_empty">This field is not empty</string>
+    <string name="verify_otp">Verification OTP</string>
+
+
 
 </resources>

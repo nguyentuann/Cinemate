@@ -15,13 +15,15 @@ import vn.tutorial.cinemate.navigation.Route
 
 @Composable
 fun SignInText(
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    isSplash: Boolean = false
 ) {
     Text(
         text = stringResource(R.string.sign_in),
         style = MaterialTheme.typography.bodyLarge,
-        color = Color.White,
-        modifier = Modifier
+        color = if (isSplash) Color.White else MaterialTheme.colorScheme.onBackground,
+        modifier = modifier
             .padding(end = 16.dp)
             .clickable {
                 navController.navigate(Route.SignIn.route) {

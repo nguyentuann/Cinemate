@@ -1,5 +1,6 @@
 package vn.tutorial.cinemate.presentation.authentication.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,19 +24,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.core.util.Validator
-import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
+import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: SignUpViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state.collectAsState()
+    var isChecked by remember { mutableStateOf(false) }
+    var isValidEmail: Boolean? by remember { mutableStateOf(null) }
+
     Scaffold(
         topBar = {
             AppBar(
@@ -47,30 +57,23 @@ fun SignUpScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(it)
                 .padding(horizontal = 16.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            var email by remember { mutableStateOf("") }
-            var isValidEmail: Boolean? by remember { mutableStateOf(null) }
-            var isChecked by remember { mutableStateOf(false) }
-
-
             Text(
                 text = stringResource(R.string.sign_up),
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onPrimary
             )
 
             EmailTextField(
                 modifier = Modifier
-                    .padding(top = 8.dp),
-                value = email,
+                    .padding(top = 16.dp),
+                value = state.value.email,
                 onValueChange = {
-                    email = it
+                    viewModel.updateEmail(it)
                     isValidEmail = Validator.isValidEmail(it)
                 },
                 isValidEmail = isValidEmail,
@@ -103,7 +106,7 @@ fun SignUpScreen(
                 title = stringResource(R.string.get_started),
                 onClick = {
                     if (isValidEmail == true && isChecked) {
-                        navController.navigate(Route.CheckMail.route)
+                        navController.navigate(Route.CreatePassword.route)
                     }
                 }
             )

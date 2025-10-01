@@ -9,9 +9,15 @@ lifecycleRuntimeKtx = "2.9.3"
 activityCompose = "1.11.0"
 composeBom = "2024.09.00"
 
-navigationCompose = "2.9.4"
+media3Exoplayer = "1.8.0"
+navigationCompose = "2.9.3"
+hiltNavigationVersion = "1.2.0"
 hiltVersion = "2.54"
 foundation = "1.9.1"
+coiVersion = "2.7.0"
+
+retrofit = "2.9.0"
+converterGson = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,7 +40,14 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
 foudation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coiVersion" }
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3Exoplayer" }
+androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Exoplayer" }
+androidx-media3-exoplayer-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "media3Exoplayer" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationVersion" }
 
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 
 
 [plugins]

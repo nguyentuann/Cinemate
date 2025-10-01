@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.domain.usecase
+package vn.tutorial.cinemate.core.base_class
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +11,6 @@ abstract class BaseUseCase<in Params, out Result>(
         withContext(dispatcher) {
             execute(param)
         }
-
     protected abstract suspend fun execute(param: Params): Result
 
 }

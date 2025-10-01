@@ -61,7 +61,7 @@ fun SplashScreen(navController: NavHostController) {
                     contentDescription = null,
                     modifier = Modifier.size(100.dp)
                 )
-                SignInText(navController)
+                SignInText(navController = navController, isSplash = true)
             }
 
             // Indicator
