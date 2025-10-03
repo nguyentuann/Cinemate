@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import vn.tutorial.cinemate.core.constant.ApiEndpoints
+import vn.tutorial.cinemate.data.remote.interceptor.AuthInterceptor
 import vn.tutorial.cinemate.data.remote.services.AuthService
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -19,8 +20,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

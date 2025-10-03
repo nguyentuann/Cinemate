@@ -36,11 +36,11 @@ import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewMode
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SetupPasswordScreen(
+fun CreatePasswordScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: SignUpViewModel = hiltViewModel(
-        navController.getBackStackEntry("forgot_password_graph")
+        navController.getBackStackEntry("sign_up_graph")
     )
 ) {
     val state = viewModel.state.collectAsState()

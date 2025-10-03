@@ -54,6 +54,7 @@
     <string name="account_info">Create information</string>
     <string name="not_empty">This field is not empty</string>
     <string name="verify_otp">Verification OTP</string>
+    <string name="error">An error has occurred</string>
 
 
 

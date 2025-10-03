@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
             val locale = settingsViewModel.locale.collectAsState().value
             val theme = settingsViewModel.theme.collectAsState().value
 
-//            ProvideAppLocale(locale) {
             CinemateTheme(
             ) {
                 Surface(
@@ -36,7 +35,6 @@ class MainActivity : ComponentActivity() {
                     App()
                 }
             }
-//            }
         }
     }
 }

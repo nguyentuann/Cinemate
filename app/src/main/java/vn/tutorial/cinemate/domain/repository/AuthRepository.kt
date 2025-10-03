@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.domain.repository
 
 import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.domain.model.UserModel
+import vn.tutorial.cinemate.navigation.Route
 
 interface AuthRepository {
     suspend fun signUp(
@@ -10,7 +11,7 @@ interface AuthRepository {
         lastName: String,
         password: String,
         passwordConfirm: String
-    ): Resource<UserModel>
+    ): Resource<UserModel?>
 
     suspend fun verifyOTP(
         email: String,
@@ -26,4 +27,10 @@ interface AuthRepository {
         otp: String,
         newPassword: String
     ): Resource<String?>
+
+
+    suspend fun signIn(
+        email: String,
+        password: String
+    ): Resource<UserModel?>
 }

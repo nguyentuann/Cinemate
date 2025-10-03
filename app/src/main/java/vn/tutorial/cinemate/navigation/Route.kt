@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.navigation
 
 sealed class Route(val route: String) {
     //todo route splash
+    object Started: Route("started")
     object Splash: Route("splash")
 
     // todo route auth
