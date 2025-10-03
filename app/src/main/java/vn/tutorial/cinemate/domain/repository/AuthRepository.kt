@@ -15,5 +15,15 @@ interface AuthRepository {
     suspend fun verifyOTP(
         email: String,
         otp: String
-    ): Resource<Boolean>
+    ): Resource<Boolean?>
+
+    suspend fun verifyEmail(
+        email: String
+    ): Resource<String?>
+
+    suspend fun forgotPassword(
+        email: String,
+        otp: String,
+        newPassword: String
+    ): Resource<String?>
 }

@@ -3,9 +3,12 @@ package vn.tutorial.cinemate.data.repositoryImpl
 import android.util.Log
 import coil.network.HttpException
 import vn.tutorial.cinemate.core.base_class.Resource
-import vn.tutorial.cinemate.data.remote.requests.SignUpRequest
-import vn.tutorial.cinemate.data.remote.requests.VerifyOTPRequest
-import vn.tutorial.cinemate.data.remote.responses.toUserModel
+import vn.tutorial.cinemate.data.remote.requests.authentication.ResetPasswordRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.SignUpRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyEmailRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyOTPRequest
+import vn.tutorial.cinemate.data.remote.responses.BaseResponse
+import vn.tutorial.cinemate.data.remote.responses.authentication.toUserModel
 import vn.tutorial.cinemate.data.remote.services.AuthService
 import vn.tutorial.cinemate.domain.model.UserModel
 import vn.tutorial.cinemate.domain.repository.AuthRepository
@@ -14,6 +17,24 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthService
 ) : AuthRepository {
+
+    private suspend fun <T> safeApiCall(
+        apiCall: suspend () -> BaseResponse<T>
+    ): Resource<T?> {
+        return try {
+            val response = apiCall()
+            if (response.status == "success") {
+                Resource.Success(response.data)
+            } else {
+                Resource.Error(response.message ?: "An unexpected error occurred")
+            }
+        } catch (e: HttpException) {
+            Resource.Error(e.message ?: "An unexpected error occurred")
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "An unexpected error occurred")
+        }
+    }
+
     override suspend fun signUp(
         email: String,
         firstName: String,
@@ -49,24 +70,31 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun verifyOTP(
         email: String,
         otp: String
-    ): Resource<Boolean> {
-        try {
-            val response = authService.verifyOTP(
-                VerifyOTPRequest(
+    ): Resource<Boolean?> {
+        return safeApiCall {
+            authService.verifyOTP(VerifyOTPRequest(email = email, otp = otp))
+        }
+    }
+
+    override suspend fun verifyEmail(email: String): Resource<String?> {
+        return safeApiCall {
+            authService.forgotPassword(VerifyEmailRequest(email = email))
+        }
+    }
+
+    override suspend fun forgotPassword(
+        email: String,
+        otp: String,
+        newPassword: String
+    ): Resource<String?> {
+        return safeApiCall {
+            authService.resetPassword(
+                ResetPasswordRequest(
                     email = email,
-                    otp = otp
+                    otp = otp,
+                    newPassword = newPassword
                 )
             )
-            return if (response.status == "success") {
-                Resource.Success(true)
-            } else {
-                Resource.Error(response.message)
-            }
-        } catch (e: HttpException) {
-            // todo xử lý các lỗi từ server
-            return Resource.Error(e.message ?: "An unexpected error occurred")
-        } catch (e: Exception) {
-            return Resource.Error(e.message ?: "An unexpected error occurred")
         }
     }
 }
