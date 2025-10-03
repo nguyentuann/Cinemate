@@ -89,11 +89,11 @@ fun VerifyEmailScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.confirm),
                 onClick = {
-//                    viewModel.verifyEmail(
-//                        onSuccess = {
-//                            navController.navigate(Route.ChangePassword.route)
-//                        }
-//                    )
+                    viewModel.verifyEmail(
+                        onSuccess = {
+                            navController.navigate(Route.ChangePassword.route)
+                        }
+                    )
                     navController.navigate(Route.ChangePassword.route)
                 }
             )

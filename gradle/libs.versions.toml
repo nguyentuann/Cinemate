@@ -18,6 +18,7 @@ coiVersion = "2.7.0"
 
 retrofit = "2.9.0"
 converterGson = "2.9.0"
+encrypted = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,7 +49,7 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
-
+security-crypto = { module = "androidx.security:security-crypto", version.ref = "encrypted" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
