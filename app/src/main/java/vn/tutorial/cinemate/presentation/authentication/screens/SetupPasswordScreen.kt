@@ -39,21 +39,21 @@ import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewMode
 fun SetupPasswordScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = hiltViewModel(
+        navController.getBackStackEntry("forgot_password_graph")
+    )
 ) {
     val state = viewModel.state.collectAsState()
 
     LaunchedEffect(state.value.user) {
         if (state.value.user != null) {
-            navController.navigate("${Route.CheckMail.route}/${state.value.email}") {
+            navController.navigate(Route.CheckMail.createRoute(email = state.value.email)) {
                 popUpTo(Route.SignUp.route) {
                     inclusive = true
                 }
             }
         }
     }
-
-
 
     Scaffold(
         topBar = {
@@ -91,8 +91,7 @@ fun SetupPasswordScreen(
                 },
                 isError = isFirstNameValid == false,
                 placeholder = stringResource(R.string.first_name),
-                errorMessage = if (isFirstNameValid == false
-                ) stringResource(R.string.not_empty) else null,
+                errorMessage = if (isFirstNameValid == false) stringResource(R.string.not_empty) else null,
             )
 
             CommonTextField(
@@ -104,8 +103,7 @@ fun SetupPasswordScreen(
                 },
                 isError = isLastNameValid == false,
                 placeholder = stringResource(R.string.last_name),
-                errorMessage = if (isFirstNameValid == false)
-                    stringResource(R.string.not_empty) else null,
+                errorMessage = if (isFirstNameValid == false) stringResource(R.string.not_empty) else null,
             )
 
 
@@ -151,15 +149,13 @@ fun SetupPasswordScreen(
                         isLastNameValid = state.value.lastName.isNotEmpty()
 
                     }
-                }
-            )
+                })
         }
 
         LoadingAndError(
             isLoading = state.value.isLoading,
             error = state.value.error,
-            onErrorDismiss = { viewModel.clearError() }
-        )
+            onErrorDismiss = { viewModel.clearError() })
 
     }
 }

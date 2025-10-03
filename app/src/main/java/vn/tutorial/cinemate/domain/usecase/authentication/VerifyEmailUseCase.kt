@@ -5,19 +5,17 @@ import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.domain.repository.AuthRepository
 import javax.inject.Inject
 
-class VerifyOTPUseCase @Inject constructor(
+class VerifyEmailUseCase @Inject constructor(
     private val authRepository: AuthRepository
-) : BaseUseCase<VerifyOTPUseCase.Params, Resource<Boolean?>>() {
+): BaseUseCase<VerifyEmailUseCase.Params, Resource<String?>>() {
 
     data class Params(
-        val email: String,
-        val otp: String
+        val email: String
     )
 
-    override suspend fun execute(param: Params): Resource<Boolean?> {
-        return authRepository.verifyOTP(
-            email = param.email,
-            otp = param.otp
+    override suspend fun execute(param: Params): Resource<String?> {
+        return authRepository.verifyEmail(
+            email = param.email
         )
     }
 }

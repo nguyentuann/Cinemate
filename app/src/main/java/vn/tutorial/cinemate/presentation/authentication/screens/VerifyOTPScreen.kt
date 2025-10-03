@@ -33,15 +33,18 @@ import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SignInText
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
-import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewModel
+import vn.tutorial.cinemate.presentation.authentication.viewModel.VerifyOTPViewModel
 
 @Composable
 fun VerifyOTPScreen(
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: VerifyOTPViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
+
     val state = viewModel.state.collectAsState()
+
     val focusRequesters = remember { List(state.value.otp.size) { FocusRequester() } }
+
     Scaffold(
         topBar = {
             AppBar(

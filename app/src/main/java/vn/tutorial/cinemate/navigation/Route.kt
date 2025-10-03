@@ -7,7 +7,9 @@ sealed class Route(val route: String) {
     // todo route auth
     object SignIn: Route("sign_in")
     object SignUp: Route("sign_up")
-    object CheckMail: Route("check_mail")
+    object CheckMail: Route("check_mail/{email}") {
+        fun createRoute(email: String) = "check_mail/$email"
+    }
     object CreatePassword: Route("create_password")
     object ChangePassword: Route("change_password")
     object VerifyEmail: Route("verify_email")

@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.data.remote.responses
+package vn.tutorial.cinemate.data.remote.responses.authentication
 
 import com.google.gson.annotations.SerializedName
 import vn.tutorial.cinemate.domain.model.UserModel

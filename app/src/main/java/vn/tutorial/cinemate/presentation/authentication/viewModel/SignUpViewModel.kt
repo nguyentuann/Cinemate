@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import vn.tutorial.cinemate.core.base_class.Resource
+import vn.tutorial.cinemate.core.base_class.executeUseCase
 import vn.tutorial.cinemate.domain.model.UserModel
 import vn.tutorial.cinemate.domain.usecase.authentication.SignUpUseCase
 import vn.tutorial.cinemate.domain.usecase.authentication.VerifyOTPUseCase
@@ -18,7 +19,6 @@ data class SignUpUiState(
     val lastName: String = "Nguyen",
     val password: String = "Nhat@tuan2402",
     val passwordConfirm: String = "Nhat@tuan2402",
-    val otp: List<Int> = List(4) { -1 },
     val isLoading: Boolean = false,
     val user: UserModel? = null,
     val error: String? = null
@@ -53,33 +53,11 @@ class SignUpViewModel @Inject constructor(
         _state.value = _state.value.copy(passwordConfirm = passwordConfirm)
     }
 
-    fun updateOTP(value: String, index: Int) {
-        // chỉ nhận ký tự số 0-9, và chỉ 1 ký tự
-        if (value.length == 1 && value[0].isDigit()) {
-            val newOtp = _state.value.otp.toMutableList()
-            newOtp[index] = value.toInt() // chuyển char '5' thành int 5
-            _state.value = _state.value.copy(otp = newOtp)
-        } else if (value.isEmpty()) {
-            // nếu xoá ký tự
-            val newOtp = _state.value.otp.toMutableList()
-            newOtp[index] = -1
-            _state.value = _state.value.copy(otp = newOtp)
-        }
-    }
-
-    fun getOtpCode(): String {
-        return _state.value.otp
-            .filter { it != -1 } // bỏ mấy ô chưa nhập
-            .joinToString("") { it.toString() }
-    }
-
-
-
     fun clearError() {
         _state.value = _state.value.copy(error = null)
     }
 
-    fun signUp() {
+    fun signUp2() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, error = null)
 
@@ -121,35 +99,46 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun verifyOTP(otp: String, onSuccess: () -> Unit) {
-        viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, error = null)
-
-            when (val result = verifyOTPUseCase(
-                VerifyOTPUseCase.Params(
-                    email = _state.value.email,
-                    otp = otp
+    fun signUp() {
+        executeUseCase(
+            state = _state,
+            block = {
+                signUpUseCase(
+                    SignUpUseCase.Params(
+                        email = _state.value.email,
+                        firstName = _state.value.firstName,
+                        lastName = _state.value.lastName,
+                        password = _state.value.password,
+                        passwordConfirm = _state.value.passwordConfirm
+                    )
                 )
-            )) {
-                is Resource.Success -> {
-                    _state.value = _state.value.copy(
-                        isLoading = false,
-                        error = null
+            },
+            onSuccess = { user ->
+                _state.value.copy(
+                    isLoading = false,
+                    user = user,
+                    error = null
+                )
+            },
+            onError = { errorMsg ->
+                _state.value.copy(
+                    isLoading = false,
+                    error = errorMsg,
+                    user = UserModel(
+                        id = "1",
+                        email = _state.value.email,
+                        firstName = _state.value.firstName,
+                        lastName = _state.value.lastName,
+                        isEnabled = false
                     )
-                    onSuccess()
-                }
-
-                is Resource.Error -> {
-                    _state.value = _state.value.copy(
-                        isLoading = false,
-                        error = result.message
-                    )
-                }
-
-                is Resource.Loading -> {
-                    _state.value = _state.value.copy(isLoading = true)
-                }
+                )
+            },
+            onLoading = {
+                _state.value.copy(isLoading = true, error = null)
             }
-        }
+        )
     }
+
+
+
 }
