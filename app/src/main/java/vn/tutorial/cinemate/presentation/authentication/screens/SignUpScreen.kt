@@ -44,7 +44,7 @@ fun SignUpScreen(
         navController.getBackStackEntry("sign_up_graph")
     )
 ) {
-    val state = viewModel.state.collectAsState()
+    val state = viewModel.state.collectAsState().value
     var isChecked by remember { mutableStateOf(false) }
     var isValidEmail: Boolean? by remember { mutableStateOf(null) }
 
@@ -74,7 +74,7 @@ fun SignUpScreen(
             EmailTextField(
                 modifier = Modifier
                     .padding(top = 16.dp),
-                value = state.value.email,
+                value = state.email,
                 onValueChange = {
                     viewModel.updateEmail(it)
                     isValidEmail = Validator.isValidEmail(it)

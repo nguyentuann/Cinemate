@@ -1,6 +1,7 @@
 package vn.tutorial.cinemate.data.repositoryImpl
 
-import coil.network.HttpException
+import com.google.gson.Gson
+import retrofit2.Response
 import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.TokenStorage
@@ -30,20 +31,28 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     private suspend fun <T> safeApiCall(
-        apiCall: suspend () -> BaseResponse<T>
+        apiCall: suspend () -> Response<BaseResponse<T>>
     ): Resource<T?> {
         return try {
             val response = apiCall()
-            if (response.status == "success") {
-                Resource.Success(response.data)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null && body.status == "success") {
+                    Resource.Success(body.data)
+                } else {
+                    Resource.Error(body?.detail ?: body?.message ?: "An unexpected error occurred")
+                }
             } else {
-                Resource.Error(response.detail ?: "An unexpected error occurred")
+                val errorBody = response.errorBody().toString()
+                LogUtil(errorBody)
+                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                LogUtil(errorResponse.toString())
+                Resource.Error(
+                    errorResponse?.detail ?: errorResponse?.message
+                    ?: "An unexpected error occurred"
+                )
             }
-        } catch (e: HttpException) {
-            LogUtil("Lot vao safeApiCall 1")
-            Resource.Error(e.message ?: "An unexpected error occurred")
         } catch (e: Exception) {
-            LogUtil("Lot vao safeApiCall 2")
             Resource.Error(e.message ?: "An unexpected error occurred")
         }
     }

@@ -41,9 +41,9 @@ fun VerifyOTPScreen(
 ) {
     val navController = LocalNavController.current
 
-    val state = viewModel.state.collectAsState()
+    val state = viewModel.state.collectAsState().value
 
-    val focusRequesters = remember { List(state.value.otp.size) { FocusRequester() } }
+    val focusRequesters = remember { List(state.otp.size) { FocusRequester() } }
 
     Scaffold(
         topBar = {
@@ -73,7 +73,7 @@ fun VerifyOTPScreen(
             // 4 ô verity OTP code
 
             Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                state.value.otp.forEachIndexed { index, digit ->
+                state.otp.forEachIndexed { index, digit ->
                     OutlinedTextField(
                         value = if (digit == -1) "" else digit.toString(),
                         onValueChange = { value ->
@@ -105,7 +105,7 @@ fun VerifyOTPScreen(
                 title = stringResource(R.string.confirm),
                 onClick = {
 
-                    if (!state.value.otp.contains(-1)) {
+                    if (!state.otp.contains(-1)) {
                         Log.d("SignUp", "onClick: ${viewModel.getOtpCode()}")
                         viewModel.verifyOTP(
                             otp = viewModel.getOtpCode(),
@@ -123,8 +123,8 @@ fun VerifyOTPScreen(
         }
 
         LoadingAndError(
-            isLoading = state.value.isLoading,
-            error = state.value.error,
+            isLoading = state.isLoading,
+            error = state.error,
             onErrorDismiss = {
                 viewModel.clearError()
             }

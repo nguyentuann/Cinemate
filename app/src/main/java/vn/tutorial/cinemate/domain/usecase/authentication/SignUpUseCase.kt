@@ -19,7 +19,6 @@ class SignUpUseCase @Inject constructor(
     )
 
     override suspend fun execute(param: Params): Resource<UserModel?> {
-        Log.d("SignUp", "Call sign up use case")
         return authRepository.signUp(
             email = param.email,
             firstName = param.firstName,

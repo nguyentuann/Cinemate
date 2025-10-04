@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class BaseResponse<T>(
     @SerializedName("status") val status: String,
     @SerializedName("data") val data: T? = null,      // nullable
-    @SerializedName("message") val message: String?,  // nullable
-    @SerializedName("path") val path: String?,
-    @SerializedName("method") val method: String?,
+    @SerializedName("message") val message: String? =null,  // nullable
+    @SerializedName("path") val path: String? = null,
+    @SerializedName("method") val method: String? = null,
 
 
     // khi có lỗi từ server

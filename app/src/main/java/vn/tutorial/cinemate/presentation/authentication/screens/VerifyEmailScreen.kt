@@ -42,7 +42,7 @@ fun VerifyEmailScreen(
     )
 ) {
 
-    val state = viewModel.state.collectAsState()
+    val state = viewModel.state.collectAsState().value
 
     Scaffold(
         topBar = {
@@ -75,7 +75,7 @@ fun VerifyEmailScreen(
                 style = MaterialTheme.typography.bodyMedium,
             )
             EmailTextField(
-                value = state.value.email,
+                value = state.email,
                 onValueChange = {
                     viewModel.updateEmail(it)
                     isValidEmail = Validator.isValidEmail(it)
@@ -100,8 +100,8 @@ fun VerifyEmailScreen(
         }
 
         LoadingAndError(
-            isLoading = state.value.isLoading,
-            error = state.value.error,
+            isLoading = state.isLoading,
+            error = state.error,
             onErrorDismiss = {
                 viewModel.clearError()
             }
