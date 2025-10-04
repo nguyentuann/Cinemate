@@ -3,13 +3,7 @@ package vn.tutorial.cinemate.data.remote.responses.authentication
 import com.google.gson.annotations.SerializedName
 import vn.tutorial.cinemate.domain.model.UserModel
 
-//data class SignUpResponse(
-//    @SerializedName("status") val status: String,
-//    @SerializedName("data") val data: DataWrapperSignUp,
-//    @SerializedName("message") val message: String,
-//    @SerializedName("path") val path: String,
-//    @SerializedName("method") val method: String
-//)
+
 
 data class DataWrapperSignUp(
     @SerializedName("user") val user: UserDto

@@ -73,11 +73,11 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     // todo gom các màn forgot password thành 1 graph con
     navigation(
         startDestination = Route.VerifyEmail.route,
-        route = "forgot_password_graph"
+        route = Route.ForgotPasswordGraph.route
     ) {
         composable(route = Route.VerifyEmail.route) {
             val parentEntry = remember(navController) {
-                navController.getBackStackEntry("forgot_password_graph")
+                navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
             }
             val viewModel: ForgotPasswordViewModel = hiltViewModel(parentEntry)
 
@@ -90,7 +90,7 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 
         composable(route = Route.ChangePassword.route) {
             val parentEntry = remember(navController) {
-                navController.getBackStackEntry("forgot_password_graph")
+                navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
             }
             val viewModel: ForgotPasswordViewModel = hiltViewModel(parentEntry)
 
@@ -104,11 +104,11 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     // todo sign up graph
     navigation(
         startDestination = Route.SignUp.route,
-        route = "sign_up_graph"
+        route = Route.SignInGraph.route
     ) {
         composable(route = Route.SignUp.route) {
             val parentEntry = remember(navController) {
-                navController.getBackStackEntry("sign_up_graph")
+                navController.getBackStackEntry(Route.SignInGraph.route)
             }
             val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
             SignUpScreen(navController = navController, viewModel = viewModel)
@@ -116,7 +116,7 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 
         composable(route = Route.CreatePassword.route) {
             val parentEntry = remember(navController) {
-                navController.getBackStackEntry("sign_up_graph")
+                navController.getBackStackEntry(Route.SignInGraph.route)
             }
             val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
             CreatePasswordScreen(navController = navController, viewModel = viewModel)

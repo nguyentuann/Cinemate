@@ -4,6 +4,8 @@ sealed class Route(val route: String) {
     //todo route splash
     object Started: Route("started")
     object Splash: Route("splash")
+    object SignInGraph: Route("sign_in_graph")
+    object ForgotPasswordGraph: Route("forgot_password_graph")
 
     // todo route auth
     object SignIn: Route("sign_in")

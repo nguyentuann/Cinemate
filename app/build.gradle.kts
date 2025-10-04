@@ -77,5 +77,6 @@ dependencies {
     implementation(libs.retrofit)
 
     implementation(libs.security.crypto)
+    implementation(libs.gson)
 
 }

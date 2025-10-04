@@ -43,11 +43,11 @@ fun CreatePasswordScreen(
         navController.getBackStackEntry("sign_up_graph")
     )
 ) {
-    val state = viewModel.state.collectAsState()
+    val state = viewModel.state.collectAsState().value
 
-    LaunchedEffect(state.value.user) {
-        if (state.value.user != null) {
-            navController.navigate(Route.CheckMail.createRoute(email = state.value.email)) {
+    LaunchedEffect(state.user) {
+        if (state.user != null) {
+            navController.navigate(Route.CheckMail.createRoute(email = state.email)) {
                 popUpTo(Route.SignUp.route) {
                     inclusive = true
                 }
@@ -84,7 +84,7 @@ fun CreatePasswordScreen(
 
             CommonTextField(
                 modifier = Modifier.padding(top = 16.dp),
-                value = state.value.firstName,
+                value = state.firstName,
                 onValueChange = {
                     viewModel.updateFirstName(it)
                     isFirstNameValid = it.isNotEmpty()
@@ -96,7 +96,7 @@ fun CreatePasswordScreen(
 
             CommonTextField(
                 modifier = Modifier.padding(top = 16.dp),
-                value = state.value.lastName,
+                value = state.lastName,
                 onValueChange = {
                     viewModel.updateLastName(it)
                     isLastNameValid = it.isNotEmpty()
@@ -109,7 +109,7 @@ fun CreatePasswordScreen(
 
             PasswordTextField(
                 modifier = Modifier.padding(top = 16.dp),
-                value = state.value.password,
+                value = state.password,
                 onValueChange = {
                     viewModel.updatePassword(it)
                     isValidPassword = Validator.isValidPassword(it)
@@ -120,10 +120,10 @@ fun CreatePasswordScreen(
 
             PasswordTextField(
                 modifier = Modifier.padding(top = 16.dp),
-                value = state.value.passwordConfirm,
+                value = state.passwordConfirm,
                 onValueChange = {
                     viewModel.updatePasswordConfirm(it)
-                    isMatch = it == state.value.password
+                    isMatch = it == state.password
                 },
                 isValidPassword = isMatch,
                 errorMessage = if (isMatch == false) stringResource(R.string.not_match_password) else null
@@ -145,16 +145,16 @@ fun CreatePasswordScreen(
                             isMatch = false
                         }
 
-                        isFirstNameValid = state.value.firstName.isNotEmpty()
-                        isLastNameValid = state.value.lastName.isNotEmpty()
+                        isFirstNameValid = state.firstName.isNotEmpty()
+                        isLastNameValid = state.lastName.isNotEmpty()
 
                     }
                 })
         }
 
         LoadingAndError(
-            isLoading = state.value.isLoading,
-            error = state.value.error,
+            isLoading = state.isLoading,
+            error = state.error,
             onErrorDismiss = { viewModel.clearError() })
 
     }
