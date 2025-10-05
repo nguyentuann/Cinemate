@@ -139,7 +139,7 @@ fun NavGraphBuilder.mainNavGraph(
             navController = navController
         )
     }
-    composable(Route.Search.route) { SearchScreen() }
+    composable(Route.Search.route) { SearchScreen(navController = navController) }
     composable(Route.ComingSoon.route) { ComingSoonScreen() }
     composable(Route.Notification.route) { NotificationScreen() }
     composable(Route.More.route) { MoreScreen() }

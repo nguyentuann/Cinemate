@@ -69,4 +69,5 @@
 
     <string name="sign_out_confirm">Bạn có chắc chắn muốn đăng xuất không?</string>
     <string name="cancel">Hủy</string>
+    <string name="result">Kết quả</string>
 </resources>

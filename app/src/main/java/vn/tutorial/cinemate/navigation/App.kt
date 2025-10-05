@@ -29,6 +29,7 @@ fun App(
         Route.Home.route,
         Route.ComingSoon.route,
         Route.Notification.route,
+        Route.Search.route,
         Route.More.route,
     )
 
@@ -42,7 +43,7 @@ fun App(
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = Route.More.route,
+                startDestination = Route.Search.route,
             ) {
                 authenticationNavGraph(navController)
                 mainNavGraph(navController, it)

@@ -53,6 +53,7 @@ fun CardFilmItem(
     modifier: Modifier = Modifier,
     onDelete: (FilmDetailModel) -> Unit = { _ -> },
     isHistory: Boolean = false,
+    isSearch: Boolean = false,
 ) {
     val navController = LocalNavController.current
     var showActions by remember { mutableStateOf(false) }
@@ -145,17 +146,19 @@ fun CardFilmItem(
 
                 }
 
-                IconButton(
-                    modifier = Modifier.size(36.dp),
-                    onClick = {
-                        showActions = true
-                    },
-                ) {
-                    Icon(
+                if (!isSearch) {
+                    IconButton(
+                        modifier = Modifier.size(36.dp),
+                        onClick = {
+                            showActions = true
+                        },
+                    ) {
+                        Icon(
 
-                        AppIcons.option(),
-                        contentDescription = null,
-                    )
+                            AppIcons.option(),
+                            contentDescription = null,
+                        )
+                    }
                 }
 
             }
