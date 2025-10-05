@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import vn.tutorial.cinemate.common.components.BottomBar
-import vn.tutorial.cinemate.presentation.settings.viewModel.SettingsViewModel
+import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
 
 val LocalNavController = staticCompositionLocalOf<NavHostController> {
     error("No NavController provided")

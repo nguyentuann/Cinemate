@@ -24,7 +24,8 @@ data class ProfileOption(
 val listOptions = listOf(
     ProfileOption(
         R.string.information,
-        Icons.Default.Info
+        Icons.Default.Info,
+        route = Route.Profile.route
     ),
     ProfileOption(
         R.string.watching_history,
@@ -57,8 +58,4 @@ val listOptions = listOf(
         R.string.help_reply,
         Icons.Default.Phone
     ),
-    ProfileOption(
-        R.string.sign_out,
-        Icons.AutoMirrored.Filled.ExitToApp
-    )
 )

@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import vn.tutorial.cinemate.navigation.App
-import vn.tutorial.cinemate.presentation.settings.viewModel.SettingsViewModel
+import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
 import vn.tutorial.cinemate.ui.theme.CinemateTheme
 
 @AndroidEntryPoint

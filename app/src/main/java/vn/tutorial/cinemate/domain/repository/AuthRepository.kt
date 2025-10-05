@@ -33,4 +33,8 @@ interface AuthRepository {
         email: String,
         password: String
     ): Resource<UserModel?>
+
+    suspend fun signOut(
+        refreshToken: String
+    ): Resource<String?>
 }

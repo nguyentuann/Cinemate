@@ -1,9 +1,5 @@
-package vn.tutorial.cinemate.presentation.settings.viewModel
+package vn.tutorial.cinemate.presentation.more.viewModels
 
-import android.app.Activity
-import android.os.Build
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

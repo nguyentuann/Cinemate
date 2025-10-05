@@ -104,4 +104,7 @@ object AppIcons {
 
     @Composable
     fun delete(): Painter = painterResource(R.drawable.ic_delete)
+
+    @Composable
+    fun arrowRight(): Painter = painterResource(R.drawable.ic_arrow_right)
 }

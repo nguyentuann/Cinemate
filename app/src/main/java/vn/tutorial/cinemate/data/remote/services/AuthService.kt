@@ -6,12 +6,14 @@ import retrofit2.http.POST
 import vn.tutorial.cinemate.core.constant.ApiEndpoints
 import vn.tutorial.cinemate.data.remote.requests.authentication.ResetPasswordRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignInRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.SignOutRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignUpRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyEmailRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyOTPRequest
 import vn.tutorial.cinemate.data.remote.responses.authentication.BaseResponse
 import vn.tutorial.cinemate.data.remote.responses.authentication.DataWrapperSignIn
 import vn.tutorial.cinemate.data.remote.responses.authentication.DataWrapperSignUp
+import vn.tutorial.cinemate.domain.usecase.authentication.SignOutUseCase
 
 interface AuthService {
 
@@ -39,4 +41,10 @@ interface AuthService {
     suspend fun signIn(
         @Body signInRequest: SignInRequest
     ): Response<BaseResponse<DataWrapperSignIn>>
+
+
+    @POST(ApiEndpoints.LOGOUT)
+    suspend fun signOut(
+        @Body refreshToken: SignOutRequest
+    ): Response<BaseResponse<String>>
 }
