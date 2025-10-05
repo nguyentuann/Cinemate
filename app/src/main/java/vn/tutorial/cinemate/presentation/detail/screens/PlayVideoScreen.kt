@@ -22,6 +22,7 @@ import vn.tutorial.cinemate.presentation.detail.components.Comment
 import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
 import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
 import vn.tutorial.cinemate.presentation.detail.components.VideoPlayer
+import vn.tutorial.cinemate.presentation.detail.viewModels.PlayVideoViewModel
 
 @Composable
 fun PlayVideoScreen(movieId: String) {

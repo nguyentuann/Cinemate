@@ -29,7 +29,7 @@
     <string name="information">Thông tin cá nhân</string>
     <string name="theme_language">Chủ đề và ngôn ngữ</string>
     <string name="watching_history">Lịch sử xem</string>
-    <string name="my_list">Danh sách của tôi</string>
+    <string name="my_list">Yêu thích</string>
     <string name="children_mode">Chế độ trẻ em</string>
     <string name="package_management">Quản lý gói dịch vụ</string>
     <string name="notification_management">Quản lý thông báo</string>
@@ -57,5 +57,16 @@
     <string name="not_empty">Trường này không được để trống</string>
     <string name="verify_otp">Xác minh OTP</string>
     <string name="error">Đã xảy ra lỗi</string>
+    <string name="search_placeholder">Nhập để tìm kiếm …</string>
+    <string name="delete">Xóa</string>
+    <string name="add_to_favorite">Thêm vào yêu thích</string>
+    
+    <string name="dark_theme">Chủ đề tối</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="select_language">Chọn ngôn ngữ</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="vietnamese">Tiếng Việt</string>
 
+    <string name="sign_out_confirm">Bạn có chắc chắn muốn đăng xuất không?</string>
+    <string name="cancel">Hủy</string>
 </resources>

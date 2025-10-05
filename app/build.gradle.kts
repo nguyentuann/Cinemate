@@ -78,5 +78,6 @@ dependencies {
 
     implementation(libs.security.crypto)
     implementation(libs.gson)
+    implementation(libs.appcompat)
 
 }

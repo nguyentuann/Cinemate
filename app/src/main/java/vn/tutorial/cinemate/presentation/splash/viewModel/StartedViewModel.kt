@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import vn.tutorial.cinemate.data.local.TokenStorage
+import vn.tutorial.cinemate.data.local.LocalStorage
 import javax.inject.Inject
 
 sealed class SplashState {
@@ -19,7 +19,7 @@ sealed class SplashState {
 
 @HiltViewModel
 class StartedViewModel @Inject constructor(
-    private val tokenStorage: TokenStorage
+    private val localStorage: LocalStorage
 ) : ViewModel() {
     private val _state = MutableStateFlow<SplashState>(SplashState.Loading)
     val state: StateFlow<SplashState> = _state
@@ -30,7 +30,7 @@ class StartedViewModel @Inject constructor(
 
     private fun checkAuth() {
         viewModelScope.launch {
-            val refreshToken = tokenStorage.getRefreshToken()
+            val refreshToken = localStorage.getRefreshToken()
             if (!refreshToken.isNullOrEmpty() && isJwtValid(refreshToken)) {
                 _state.value = SplashState.GoToHome
             } else {
