@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import vn.tutorial.cinemate.common.components.BottomBar
+import vn.tutorial.cinemate.presentation.settings.viewModel.SettingsViewModel
 
 val LocalNavController = staticCompositionLocalOf<NavHostController> {
     error("No NavController provided")
@@ -18,7 +19,9 @@ val LocalNavController = staticCompositionLocalOf<NavHostController> {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun App() {
+fun App(
+    settingViewModel: SettingsViewModel
+) {
     val navController = rememberNavController()
     val route = currentRoute(navController)
 
@@ -39,11 +42,11 @@ fun App() {
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = Route.Favorite.route,
+                startDestination = Route.More.route,
             ) {
                 authenticationNavGraph(navController)
                 mainNavGraph(navController, it)
-                personalNavGraph(navController)
+                personalNavGraph(navController, settingViewModel)
             }
         }
     }

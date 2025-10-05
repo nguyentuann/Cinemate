@@ -1,5 +1,6 @@
 package vn.tutorial.cinemate.presentation.settings.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,17 +12,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import vn.tutorial.cinemate.MainActivity
 import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.ThemeType
 import vn.tutorial.cinemate.presentation.settings.viewModel.SettingsViewModel
-import java.util.Locale
 
+@SuppressLint("ContextCastToActivity")
 @Composable
-fun HomeScreen(
-    settingsViewModel: SettingsViewModel = viewModel()
+fun ThemeAndLanguageScreen(
+    settingsViewModel: SettingsViewModel
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -33,19 +36,31 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(onClick = { settingsViewModel.setLocale(Locale("en")) }) {
+            Button(onClick = {
+                LogUtil("call setLocale en")
+                settingsViewModel.setLocale("en")
+            }) {
                 Text("English")
             }
 
-            Button(onClick = { settingsViewModel.setLocale(Locale("vi")) }) {
+            Button(onClick = {
+                LogUtil("call setLocale vi")
+                settingsViewModel.setLocale("vi")
+            }) {
                 Text("Tiếng Việt")
             }
 
-            Button(onClick = { settingsViewModel.setTheme(ThemeType.LIGHT) }) {
+            Button(onClick = {
+                LogUtil("call set light")
+                settingsViewModel.setTheme(ThemeType.LIGHT)
+            }) {
                 Text("Light Theme")
             }
 
-            Button(onClick = { settingsViewModel.setTheme(ThemeType.DARK) }) {
+            Button(onClick = {
+                LogUtil("call set dark")
+                settingsViewModel.setTheme(ThemeType.DARK)
+            }) {
                 Text("Dark Theme")
             }
         }

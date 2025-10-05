@@ -1,52 +1,90 @@
 package vn.tutorial.cinemate.presentation.authentication.viewModel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import vn.tutorial.cinemate.core.base_class.executeUseCase
+import vn.tutorial.cinemate.domain.model.UserModel
 import vn.tutorial.cinemate.domain.usecase.authentication.SignUpUseCase
-import vn.tutorial.cinemate.domain.usecase.authentication.VerifyEmailUseCase
+import vn.tutorial.cinemate.domain.usecase.authentication.VerifyOTPUseCase
 import javax.inject.Inject
 
-data class SignUpState(
-    var email: String = "",
-    var password: String = "",
-
+data class SignUpUiState(
+    val email: String = "nhattuan@gmail.com",
+    val firstName: String = "Nhat Tuan",
+    val lastName: String = "Nguyen",
+    val password: String = "Nhat@tuan2402",
+    val passwordConfirm: String = "Nhat@tuan2402",
     val isLoading: Boolean = false,
-    var error: String? = null,
-    var success: Boolean = false
+    val user: UserModel? = null,
+    val error: String? = null
 )
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
-    private val verifyEmailUseCase: VerifyEmailUseCase
+    private val verifyOTPUseCase: VerifyOTPUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SignUpState())
-    val state: StateFlow<SignUpState> = _state
+    private val _state = MutableStateFlow(SignUpUiState())
+    val state: StateFlow<SignUpUiState> = _state
 
     fun updateEmail(email: String) {
         _state.value = _state.value.copy(email = email)
+    }
+
+    fun updateFirstName(firstName: String) {
+        _state.value = _state.value.copy(firstName = firstName)
+    }
+
+    fun updateLastName(lastName: String) {
+        _state.value = _state.value.copy(lastName = lastName)
     }
 
     fun updatePassword(password: String) {
         _state.value = _state.value.copy(password = password)
     }
 
-    fun validateEmail() {
-        // todo validate email to forward to
-        viewModelScope.launch {
-            verifyEmailUseCase(_state.value.email)
-        }
+    fun updatePasswordConfirm(passwordConfirm: String) {
+        _state.value = _state.value.copy(passwordConfirm = passwordConfirm)
+    }
+
+    fun clearError() {
+        _state.value = _state.value.copy(error = null)
     }
 
     fun signUp() {
-        // todo call sign up use case
-        viewModelScope.launch {
-            signUpUseCase(SignUpUseCase.Params(_state.value.email, _state.value.password))
-        }
+        executeUseCase(
+            state = _state,
+            block = {
+                signUpUseCase(
+                    SignUpUseCase.Params(
+                        email = _state.value.email,
+                        firstName = _state.value.firstName,
+                        lastName = _state.value.lastName,
+                        password = _state.value.password,
+                        passwordConfirm = _state.value.passwordConfirm
+                    )
+                )
+            },
+            onSuccess = { user ->
+                _state.value.copy(
+                    isLoading = false,
+                    user = user,
+                    error = null
+                )
+            },
+            onError = { errorMsg ->
+                _state.value.copy(
+                    isLoading = false,
+                    error = errorMsg
+                )
+            },
+            onLoading = {
+                _state.value.copy(isLoading = true, error = null)
+            }
+        )
     }
+
 }

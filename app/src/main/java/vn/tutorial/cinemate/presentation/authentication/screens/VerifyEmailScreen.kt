@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,20 +20,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
+import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.core.helper.openMail
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPasswordViewModel
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun VerifyEmailScreen(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
+    viewModel: ForgotPasswordViewModel = hiltViewModel(
+        navController.getBackStackEntry("forgot_password_graph")
+    )
 ) {
+
+    val state = viewModel.state.collectAsState().value
+
     Scaffold(
         topBar = {
             AppBar(
@@ -51,7 +62,6 @@ fun VerifyEmailScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            var email by remember { mutableStateOf("") }
             var isValidEmail: Boolean? by remember { mutableStateOf(null) }
 
             Text(
@@ -65,9 +75,9 @@ fun VerifyEmailScreen(
                 style = MaterialTheme.typography.bodyMedium,
             )
             EmailTextField(
-                value = email,
+                value = state.email,
                 onValueChange = {
-                    email = it
+                    viewModel.updateEmail(it)
                     isValidEmail = Validator.isValidEmail(it)
                 },
                 isValidEmail = isValidEmail,
@@ -79,12 +89,22 @@ fun VerifyEmailScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.confirm),
                 onClick = {
-                    openMail(navController.context)
-//                    if (isValidEmail == true) {
-//                        navController.navigate(Route.ChangePassword.route)
-//                    }
+                    viewModel.verifyEmail(
+                        onSuccess = {
+                            navController.navigate(Route.ChangePassword.route)
+                        }
+                    )
+                    navController.navigate(Route.ChangePassword.route)
                 }
             )
         }
+
+        LoadingAndError(
+            isLoading = state.isLoading,
+            error = state.error,
+            onErrorDismiss = {
+                viewModel.clearError()
+            }
+        )
     }
 }

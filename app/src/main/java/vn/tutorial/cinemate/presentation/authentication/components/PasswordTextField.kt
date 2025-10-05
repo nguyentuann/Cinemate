@@ -35,9 +35,7 @@ fun PasswordTextField(
         placeholder = stringResource(R.string.password_placeholder),
         isError = (isValidPassword == false),
         errorMessage = errorMessage,
-        leadingIcon = {
-            Icon(imageVector = Icons.Default.Lock, contentDescription = null)
-        },
+
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             val image = if (passwordVisible) {

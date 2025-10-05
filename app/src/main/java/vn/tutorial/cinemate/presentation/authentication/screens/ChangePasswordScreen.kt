@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,21 +20,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
+import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.core.util.Validator
-import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
 import vn.tutorial.cinemate.navigation.Route
-
+import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
+import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPasswordViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ChangePasswordScreen(
+    navController: NavHostController,
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    viewModel: ForgotPasswordViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state.collectAsState().value
+
     Scaffold(
         topBar = {
             AppBar(
@@ -51,8 +57,6 @@ fun ChangePasswordScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            var password by remember { mutableStateOf("") }
-            var confirmPassword by remember { mutableStateOf("") }
             var isValidPassword: Boolean? by remember { mutableStateOf(null) }
             var isMatch: Boolean? by remember { mutableStateOf(null) }
 
@@ -63,9 +67,9 @@ fun ChangePasswordScreen(
 
             PasswordTextField(
                 modifier = Modifier.padding(top = 16.dp),
-                value = password,
+                value = state.password,
                 onValueChange = {
-                    password = it
+                    viewModel.updatePassword(it)
                     isValidPassword = Validator.isValidPassword(it)
                 },
                 isValidPassword = isValidPassword,
@@ -74,10 +78,10 @@ fun ChangePasswordScreen(
 
             PasswordTextField(
                 modifier = Modifier.padding(top = 16.dp),
-                value = confirmPassword,
+                value = state.confirmPassword,
                 onValueChange = {
-                    confirmPassword = it
-                    isMatch = it == password
+                    viewModel.updateConfirmPassword(it)
+                    isMatch = it == state.password
                 },
                 isValidPassword = isMatch,
                 errorMessage = if (isValidPassword == false) stringResource(R.string.not_match_password) else null
@@ -90,14 +94,23 @@ fun ChangePasswordScreen(
                 title = stringResource(R.string.change_password),
                 onClick = {
                     if (isValidPassword == true && isMatch == true) {
-                        navController.navigate(Route.SignIn.route) {
-                            popUpTo(Route.SignIn.route) {
-                                inclusive = true
+                        viewModel.resetPassword {
+                            navController.navigate(Route.SignIn.route) {
+                                popUpTo(0) {
+                                    inclusive = true
+                                }
                             }
                         }
                     }
                 }
             )
         }
+        LoadingAndError(
+            isLoading = state.isLoading,
+            error = state.error,
+            onErrorDismiss = {
+                viewModel.clearError()
+            }
+        )
     }
 }
