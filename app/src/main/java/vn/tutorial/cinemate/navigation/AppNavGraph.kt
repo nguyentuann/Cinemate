@@ -1,5 +1,6 @@
 package vn.tutorial.cinemate.navigation
 
+import FavoriteScreen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.remember
@@ -22,11 +23,14 @@ import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewMode
 import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
 import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
 import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
+import vn.tutorial.cinemate.presentation.detail.viewModels.PlayVideoViewModel
 import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
-import vn.tutorial.cinemate.presentation.more.screens.FavoriteScreen
+import vn.tutorial.cinemate.presentation.more.screens.HistoryScreen
 import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
 import vn.tutorial.cinemate.presentation.search.SearchScreen
+import vn.tutorial.cinemate.presentation.settings.screens.ThemeAndLanguageScreen
+import vn.tutorial.cinemate.presentation.settings.viewModel.SettingsViewModel
 import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 import vn.tutorial.cinemate.presentation.splash.screens.StartedScreen
 
@@ -160,9 +164,20 @@ fun NavGraphBuilder.mainNavGraph(
     }
 }
 
-fun NavGraphBuilder.personalNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.personalNavGraph(
+    navController: NavHostController,
+    settingsViewModel: SettingsViewModel
+) {
     composable(Route.Favorite.route) {
         FavoriteScreen()
+    }
+
+    composable(Route.History.route) {
+        HistoryScreen()
+    }
+
+    composable(Route.ThemeAndLanguage.route) {
+        ThemeAndLanguageScreen(settingsViewModel)
     }
 }
 

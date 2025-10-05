@@ -50,7 +50,8 @@ val listOptions = listOf(
     ),
     ProfileOption(
         R.string.theme_language,
-        Icons.Default.Settings
+        Icons.Default.Settings,
+        Route.ThemeAndLanguage.route
     ),
     ProfileOption(
         R.string.help_reply,

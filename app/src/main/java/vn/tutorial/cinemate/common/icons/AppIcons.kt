@@ -101,4 +101,7 @@ object AppIcons {
 
     @Composable
     fun signOut(): Painter = painterResource(R.drawable.ic_signout)
+
+    @Composable
+    fun delete(): Painter = painterResource(R.drawable.ic_delete)
 }

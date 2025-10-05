@@ -37,5 +37,6 @@ sealed class Route(val route: String) {
     // todo route setting
     object Favorite: Route("favorite")
     object History: Route("history")
+    object ThemeAndLanguage: Route("theme_and_language")
 
 }

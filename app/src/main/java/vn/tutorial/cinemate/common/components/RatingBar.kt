@@ -31,10 +31,10 @@ fun RatingBar(
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
 
         Text(
-            modifier = Modifier.padding(end = 16.dp),
+            modifier = Modifier.padding(end = 8.dp),
             text = rating.toString(),
             style = MaterialTheme.typography.titleSmall.copy(
-                fontSize = 18.sp
+                fontSize = starSize.value.sp,
             )
         )
 

@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import retrofit2.Response
 import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.core.util.LogUtil
-import vn.tutorial.cinemate.data.local.TokenStorage
+import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.data.remote.requests.authentication.ResetPasswordRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignInRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignUpRequest
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthService,
-    private val tokenStorage: TokenStorage
+    private val localStorage: LocalStorage
 ) : AuthRepository {
 
     fun <T, R> Resource<T>.mapData(transform: (T?) -> R?): Resource<R?> {
@@ -121,8 +121,8 @@ class AuthRepositoryImpl @Inject constructor(
         }.mapData { wrapper ->
             val accessToken = wrapper?.accessToken
             val refreshToken = wrapper?.refreshToken
-            tokenStorage.saveAccessToken(accessToken ?: "")
-            tokenStorage.saveRefreshToken(refreshToken ?: "")
+            localStorage.saveAccessToken(accessToken ?: "")
+            localStorage.saveRefreshToken(refreshToken ?: "")
 
             wrapper?.user?.toUserModel()
         }
