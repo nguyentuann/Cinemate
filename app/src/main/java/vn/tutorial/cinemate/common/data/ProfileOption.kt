@@ -47,7 +47,8 @@ val listOptions = listOf(
     ),
     ProfileOption(
         R.string.notification_management,
-        Icons.Default.Notifications
+        Icons.Default.Notifications,
+        route = Route.SettingNotification.route
     ),
     ProfileOption(
         R.string.theme_language,

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Cinemate</string>
     <string name="welcome_message">Welcome to Cinemate!</string>
+    <string name="default_notification_channel_id" translatable="false">cinemate_channel</string>
 
-    
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="email_placeholder">Email Address</string>
@@ -21,10 +21,10 @@
     <string name="verify_email">Verify Email</string>
     <string name="change_password">Update Password</string>
     <string name="instruct_update_password">We will send an email with instructions to reset your password</string>
-    
+
     <string name="profile">Profile</string>
     <string name="account_management">Account Management</string>
-    
+
     <string name="information">Personal information</string>
     <string name="theme_language">Theme and Language</string>
     <string name="watching_history">Watching history</string>
@@ -34,21 +34,21 @@
     <string name="notification_management">Notification management</string>
     <string name="help_reply">Help and reply</string>
     <string name="sign_out">Sign out</string>
-    
+
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_password">Password must be at least 8 characters, contain uppercase letters, numbers and special characters</string>
     <string name="not_match_password">Password does not match</string>
-    
+
     <string name="movie_info">Info</string>
     <string name="share">Share</string>
     <string name="rate">Rate</string>
     <string name="comment">Comments</string>
     <string name="add_comment">Add comment</string>
-    
+
     <string name="comment_rating">Comments And Ratings</string>
-    
+
     <string name="favorite_films">Favorite Films</string>
-    
+
     <string name="first_name">Your first name</string>
     <string name="last_name">Your last name</string>
     <string name="account_info">Create information</string>
@@ -58,16 +58,22 @@
     <string name="search_placeholder">Type something to search …</string>
     <string name="delete">Delete</string>
     <string name="add_to_favorite">Add to favorite</string>
-    
+
     <string name="dark_theme">Dark theme</string>
     <string name="language">Language</string>
     <string name="select_language">Select Language</string>
     <string name="english">English</string>
     <string name="vietnamese">Vietnamese</string>
-    
+
     <string name="sign_out_confirm">Are you sure you want to sign out?</string>
     <string name="cancel">Cancel</string>
     <string name="result">Results</string>
+
+    <string name="receive_notifications">Receive Notifications</string>
+    <string name="deny_notifications">Notifications denied</string>
+    <string name="deny_notifications_desc">You have declined notification permission. Please re-enable it in your system settings to receive new notifications</string>
+    <string name="access_notifications">Allow Cinemate to send you notifications</string>
+    <string name="open_settings">Open settings</string>
 
 
 </resources>

@@ -39,5 +39,6 @@ sealed class Route(val route: String) {
     object History: Route("history")
     object ThemeAndLanguage: Route("theme_and_language")
     object Profile: Route("profile")
+    object SettingNotification: Route("setting_notification")
 
 }

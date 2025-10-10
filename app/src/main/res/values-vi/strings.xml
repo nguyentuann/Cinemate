@@ -60,7 +60,7 @@
     <string name="search_placeholder">Nhập để tìm kiếm …</string>
     <string name="delete">Xóa</string>
     <string name="add_to_favorite">Thêm vào yêu thích</string>
-    
+
     <string name="dark_theme">Chủ đề tối</string>
     <string name="language">Ngôn ngữ</string>
     <string name="select_language">Chọn ngôn ngữ</string>
@@ -70,4 +70,10 @@
     <string name="sign_out_confirm">Bạn có chắc chắn muốn đăng xuất không?</string>
     <string name="cancel">Hủy</string>
     <string name="result">Kết quả</string>
+
+    <string name="receive_notifications">Nhận thông báo</string>
+    <string name="deny_notifications">Từ chối thông báo</string>
+    <string name="deny_notifications_desc">Bạn đã từ chối quyền nhận thông báo. Vui lòng bật lại quyền này trong cài đặt hệ thống để nhận thông báo mới</string>
+    <string name="access_notifications">Cho phép Cinemate gửi cho bạn thông báo</string>
+    <string name="open_settings">Mở cài đặt</string>
 </resources>

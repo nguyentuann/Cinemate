@@ -27,6 +27,7 @@ import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
 import vn.tutorial.cinemate.presentation.more.screens.HistoryScreen
 import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
 import vn.tutorial.cinemate.presentation.more.screens.PersonalInformationScreen
+import vn.tutorial.cinemate.presentation.more.screens.SettingNotificationScreen
 import vn.tutorial.cinemate.presentation.more.screens.ThemeAndLanguageScreen
 import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
@@ -182,6 +183,10 @@ fun NavGraphBuilder.personalNavGraph(
 
     composable(Route.Profile.route) {
         PersonalInformationScreen()
+    }
+
+    composable(Route.SettingNotification.route) {
+        SettingNotificationScreen()
     }
 }
 
