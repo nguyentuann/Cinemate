@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.core.base_class
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -16,6 +17,7 @@ fun <S, P> ViewModel.executeUseCase(
     viewModelScope.launch {
         // loading ban đầu
         onLoading?.let { state.value = it() }
+        delay(1000)
 
         when (val result = block()) {
             is Resource.Success -> {

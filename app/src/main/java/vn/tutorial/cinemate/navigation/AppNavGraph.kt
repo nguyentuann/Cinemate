@@ -2,6 +2,8 @@ package vn.tutorial.cinemate.navigation
 
 import FavoriteScreen
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -140,7 +142,7 @@ fun NavGraphBuilder.mainNavGraph(
             navController = navController
         )
     }
-    composable(Route.Search.route) { SearchScreen(navController = navController) }
+    composable(Route.Search.route) { SearchScreen() }
     composable(Route.ComingSoon.route) { ComingSoonScreen() }
     composable(Route.Notification.route) { NotificationScreen() }
     composable(Route.More.route) { MoreScreen() }
@@ -165,6 +167,7 @@ fun NavGraphBuilder.mainNavGraph(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.personalNavGraph(
     navController: NavHostController,
     settingsViewModel: SettingsViewModel
