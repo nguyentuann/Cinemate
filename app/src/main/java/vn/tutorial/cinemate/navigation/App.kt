@@ -1,6 +1,8 @@
 package vn.tutorial.cinemate.navigation
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -17,6 +19,7 @@ val LocalNavController = staticCompositionLocalOf<NavHostController> {
     error("No NavController provided")
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun App(
@@ -43,7 +46,7 @@ fun App(
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = Route.Search.route,
+                startDestination = Route.Notification.route,
             ) {
                 authenticationNavGraph(navController)
                 mainNavGraph(navController, it)

@@ -76,4 +76,7 @@
     <string name="deny_notifications_desc">Bạn đã từ chối quyền nhận thông báo. Vui lòng bật lại quyền này trong cài đặt hệ thống để nhận thông báo mới</string>
     <string name="access_notifications">Cho phép Cinemate gửi cho bạn thông báo</string>
     <string name="open_settings">Mở cài đặt</string>
+    <string name="notification">Thông báo</string>
+    <string name="important">Quan trọng</string>
+    <string name="other">Khác</string>
 </resources>

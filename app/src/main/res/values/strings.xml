@@ -76,5 +76,9 @@
     <string name="access_notifications">Allow Cinemate to send you notifications</string>
     <string name="open_settings">Open settings</string>
 
+    <string name="notification">Notifications</string>
+    <string name="important">Important</string>
+    <string name="other">Other</string>
+
 
 </resources>

@@ -22,8 +22,8 @@ encrypted = "1.1.0"
 googleGson = "2.10.1"
 firebaseMessage = "23.1.2"
 firebaseBom = "34.3.0"
-
 appCompat = "1.7.1"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +59,7 @@ gson = { module = "com.google.code.gson:gson", version.ref = "googleGson" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebaseMessage" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

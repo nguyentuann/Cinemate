@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.domain.model.filmMock
@@ -31,8 +30,8 @@ import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
 import vn.tutorial.cinemate.presentation.detail.components.InteractionBar
 import vn.tutorial.cinemate.presentation.detail.components.TrailerPlayer
 import vn.tutorial.cinemate.presentation.home.components.FilmSection
-import vn.tutorial.cinemate.presentation.home.mock.bannerFilm
-import vn.tutorial.cinemate.presentation.home.mock.sectionData
+import vn.tutorial.cinemate.mockdata.bannerFilm
+import vn.tutorial.cinemate.mockdata.sectionData
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
