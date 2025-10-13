@@ -23,6 +23,9 @@
     <string name="instruct_update_password">Chúng tôi sẽ gửi email với hướng dẫn để đặt lại mật khẩu của bạn</string>
 
 
+    <string name="create_password_info">Hãy tạo mật khẩu để bảo vệ tài khoản của bạn</string>
+    <string name="success_verify_email">Tuyệt vời, bạn đã xác thực email thành công</string>
+    <string name="create_password">Tạo mật khẩu</string>
     <string name="profile">Cá nhân</string>
     <string name="account_management">Quản lý tài khoản</string>
 

@@ -21,6 +21,10 @@
     <string name="verify_email">Verify Email</string>
     <string name="change_password">Update Password</string>
     <string name="instruct_update_password">We will send an email with instructions to reset your password</string>
+    <string name="create_password_info">Please create a password to protect your account</string>
+
+    <string name="success_verify_email">Great, you have successfully verified your email.</string>
+    <string name="create_password">Create Password</string>
 
     <string name="profile">Profile</string>
     <string name="account_management">Account Management</string>

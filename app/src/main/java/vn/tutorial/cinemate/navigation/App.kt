@@ -23,9 +23,9 @@ val LocalNavController = staticCompositionLocalOf<NavHostController> {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun App(
-    settingViewModel: SettingsViewModel
+    settingViewModel: SettingsViewModel,
+    navController: NavHostController
 ) {
-    val navController = rememberNavController()
     val route = currentRoute(navController)
 
     val routeHasBottomBar = listOf(
@@ -46,7 +46,7 @@ fun App(
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = Route.Notification.route,
+                startDestination = Route.SignUpGraph.route,
             ) {
                 authenticationNavGraph(navController)
                 mainNavGraph(navController, it)

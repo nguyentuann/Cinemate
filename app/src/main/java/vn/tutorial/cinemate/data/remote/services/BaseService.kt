@@ -5,6 +5,7 @@ import vn.tutorial.cinemate.data.remote.responses.authentication.BaseResponse
 
 import com.google.gson.Gson
 import retrofit2.Response
+import vn.tutorial.cinemate.core.util.LogUtil
 
 abstract class BaseService {
 

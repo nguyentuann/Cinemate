@@ -10,9 +10,11 @@ import vn.tutorial.cinemate.data.remote.requests.authentication.SignOutRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignUpRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyEmailRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyOTPRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyTokenRequest
 import vn.tutorial.cinemate.data.remote.responses.authentication.BaseResponse
 import vn.tutorial.cinemate.data.remote.responses.authentication.DataWrapperSignIn
 import vn.tutorial.cinemate.data.remote.responses.authentication.DataWrapperSignUp
+import vn.tutorial.cinemate.data.remote.responses.authentication.VerifyTokenResponse
 import vn.tutorial.cinemate.domain.usecase.authentication.SignOutUseCase
 
 interface AuthService {
@@ -21,6 +23,11 @@ interface AuthService {
     suspend fun signUp(
         @Body signUpRequest: SignUpRequest
     ): Response<BaseResponse<DataWrapperSignUp>>
+
+    @POST(ApiEndpoints.VERIFY_EMAIL)
+    suspend fun verifyEmail(
+        @Body verifyEmailRequest: VerifyEmailRequest
+    ): Response<BaseResponse<Unit>>
 
     @POST(ApiEndpoints.VERIFY_OTP)
     suspend fun verifyOTP(
@@ -47,4 +54,9 @@ interface AuthService {
     suspend fun signOut(
         @Body refreshToken: SignOutRequest
     ): Response<BaseResponse<String>>
+
+    @POST(ApiEndpoints.VERIFY_TOKEN)
+    suspend fun verifyToken(
+        @Body token: VerifyTokenRequest
+    ): Response<BaseResponse<VerifyTokenResponse>>
 }

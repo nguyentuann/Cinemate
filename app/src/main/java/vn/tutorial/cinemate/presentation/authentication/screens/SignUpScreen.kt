@@ -29,7 +29,7 @@ import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
-import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
@@ -41,7 +41,7 @@ fun SignUpScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: SignUpViewModel = hiltViewModel(
-        navController.getBackStackEntry("sign_up_graph")
+        navController.getBackStackEntry(Route.SignUpGraph.route)
     )
 ) {
     val state = viewModel.state.collectAsState().value
@@ -98,7 +98,7 @@ fun SignUpScreen(
                     text = stringResource(R.string.term),
                     style = MaterialTheme.typography.bodySmall.copy(
                         textDecoration = TextDecoration.Underline
-                    )
+                    ),
                 )
             }
 
@@ -108,9 +108,16 @@ fun SignUpScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.get_started),
                 onClick = {
-                    LogUtil(isValidEmail.toString())
                     if (isValidEmail == true && isChecked) {
-                        navController.navigate(Route.CreatePassword.route)
+                        viewModel.verifyEmailSignUp {
+                            navController.navigate(
+                                Route.CheckMail.createRoute(
+                                    email = state.email
+                                )
+                            )
+                        }
+                    } else {
+                        isValidEmail = false
                     }
                 }
             )
@@ -133,5 +140,12 @@ fun SignUpScreen(
                 )
             )
         }
+        LoadingAndError(
+            isLoading = state.isLoading,
+            error = state.error,
+            onErrorDismiss = {
+                viewModel.clearError()
+            }
+        )
     }
 }

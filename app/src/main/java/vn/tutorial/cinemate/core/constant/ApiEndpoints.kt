@@ -1,7 +1,7 @@
 package vn.tutorial.cinemate.core.constant
 
 object ApiEndpoints {
-    const val BASE_URL = "https://27240b75-c170-4625-b3c2-9f3bdef0f9e6.mock.pstmn.io/"
+    const val BASE_URL = "http://192.168.1.4:8585/auth/api/v1/"
 
     // todo Authentication
     const val SIGN_UP = "sign-up"
@@ -13,5 +13,6 @@ object ApiEndpoints {
     const val CHANGE_PASSWORD = "change-password"
     const val LOGOUT = "log-out"
     const val REFRESH_TOKEN = "refresh-token"
-
+    const val VERIFY_EMAIL = "verify-email"
+    const val VERIFY_TOKEN = "verify-token"
 }

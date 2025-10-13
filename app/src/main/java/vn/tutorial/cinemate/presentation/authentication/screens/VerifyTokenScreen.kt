@@ -8,25 +8,32 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
+import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SignInText
-import vn.tutorial.cinemate.core.helper.openMail
-import vn.tutorial.cinemate.core.util.underLineText
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.LocalNavController
+import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewModel
 
 @Composable
-fun CheckMailScreen(
-    email: String,
+fun VerifyTokenScreen(
+    token: String,
+    navController: NavHostController,
+    viewModel: SignUpViewModel = hiltViewModel(
+        navController.getBackStackEntry(Route.SignUpGraph.route)
+    )
 ) {
-    val navController = LocalNavController.current
-    val context = LocalNavController.current.context
+    val state = viewModel.state.collectAsState().value
     Scaffold(
         topBar = {
             AppBar(
@@ -49,36 +56,36 @@ fun CheckMailScreen(
             ) {
             Text(
                 modifier = Modifier.padding(vertical = 32.dp),
-                text = stringResource(R.string.complete_register),
+                text = stringResource(R.string.success_verify_email),
                 style = MaterialTheme.typography.titleMedium
             )
 
             Text(
-                modifier = Modifier.padding(bottom = 16.dp),
-                text = underLineText(
-                    stringResource(R.string.almost_done, "%s"),
-                    email,
-                    MaterialTheme.colorScheme.primary,
-                    MaterialTheme.typography.bodyMedium.fontWeight!!
-
-                ),
-                style = MaterialTheme.typography.bodyMedium,
-            )
-
-            Text(
-                text = stringResource(R.string.few_steps),
+                text = stringResource(R.string.create_password_info),
                 style = MaterialTheme.typography.bodyMedium,
             )
             CommonButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
-                title = stringResource(R.string.forward_email),
+                title = stringResource(R.string.create_password),
                 onClick = {
-                    openMail(context = context)
+                    viewModel.verifyToken(token) {
+                        navController.navigate(Route.CreatePassword.route) {
+                            popUpTo(Route.SignUpGraph.route) {
+                                inclusive = false
+                            }
+                        }
+                    }
                 }
             )
         }
+        LoadingAndError(
+            isLoading = state.isLoading,
+            error = state.error,
+            onErrorDismiss = {
+                viewModel.clearError()
+            }
+        )
     }
 }
-

@@ -29,8 +29,10 @@ import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.CommonTextField
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SignInText
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
 import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewModel
 
@@ -40,21 +42,10 @@ fun CreatePasswordScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: SignUpViewModel = hiltViewModel(
-        navController.getBackStackEntry("sign_up_graph")
+        navController.getBackStackEntry(Route.SignUpGraph.route)
     )
 ) {
     val state = viewModel.state.collectAsState().value
-
-    LaunchedEffect(state.user) {
-        if (state.user != null) {
-            navController.navigate(Route.CheckMail.createRoute(email = state.email)) {
-                popUpTo(Route.SignUp.route) {
-                    inclusive = true
-                }
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             AppBar(onBack = {
@@ -74,38 +65,19 @@ fun CreatePasswordScreen(
 
             var isValidPassword: Boolean? by remember { mutableStateOf(null) }
             var isMatch: Boolean? by remember { mutableStateOf(null) }
-            var isFirstNameValid: Boolean? by remember { mutableStateOf(null) }
-            var isLastNameValid: Boolean? by remember { mutableStateOf(null) }
 
             Text(
-                text = stringResource(R.string.account_info),
+                text = stringResource(R.string.create_password),
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            CommonTextField(
+            EmailTextField(
                 modifier = Modifier.padding(top = 16.dp),
-                value = state.firstName,
-                onValueChange = {
-                    viewModel.updateFirstName(it)
-                    isFirstNameValid = it.isNotEmpty()
-                },
-                isError = isFirstNameValid == false,
-                placeholder = stringResource(R.string.first_name),
-                errorMessage = if (isFirstNameValid == false) stringResource(R.string.not_empty) else null,
+                value = state.email,
+                onValueChange = {},
+                isValidEmail = true,
+                readOnly = true
             )
-
-            CommonTextField(
-                modifier = Modifier.padding(top = 16.dp),
-                value = state.lastName,
-                onValueChange = {
-                    viewModel.updateLastName(it)
-                    isLastNameValid = it.isNotEmpty()
-                },
-                isError = isLastNameValid == false,
-                placeholder = stringResource(R.string.last_name),
-                errorMessage = if (isFirstNameValid == false) stringResource(R.string.not_empty) else null,
-            )
-
 
             PasswordTextField(
                 modifier = Modifier.padding(top = 16.dp),
@@ -135,7 +107,7 @@ fun CreatePasswordScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.confirm),
                 onClick = {
-                    if (isValidPassword == true && isMatch == true && isFirstNameValid == true && isLastNameValid == true) {
+                    if (isValidPassword == true && isMatch == true) {
                         viewModel.signUp()
                     } else {
                         if (isValidPassword != true) {
@@ -144,10 +116,6 @@ fun CreatePasswordScreen(
                         if (isMatch != true) {
                             isMatch = false
                         }
-
-                        isFirstNameValid = state.firstName.isNotEmpty()
-                        isLastNameValid = state.lastName.isNotEmpty()
-
                     }
                 })
         }

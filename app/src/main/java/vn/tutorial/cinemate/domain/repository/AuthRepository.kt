@@ -7,10 +7,8 @@ import vn.tutorial.cinemate.navigation.Route
 interface AuthRepository {
     suspend fun signUp(
         email: String,
-        firstName: String,
-        lastName: String,
         password: String,
-        passwordConfirm: String
+        token: String
     ): Resource<UserModel?>
 
     suspend fun verifyOTP(
@@ -20,7 +18,7 @@ interface AuthRepository {
 
     suspend fun verifyEmail(
         email: String
-    ): Resource<String?>
+    ): Resource<Unit?>
 
     suspend fun forgotPassword(
         email: String,
@@ -36,5 +34,9 @@ interface AuthRepository {
 
     suspend fun signOut(
         refreshToken: String
+    ): Resource<String?>
+
+    suspend fun verifyToken(
+        token: String
     ): Resource<String?>
 }

@@ -28,6 +28,7 @@ fun CommonTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    readOnly: Boolean = false,
 ) {
     Column(modifier = modifier) {
         OutlinedTextField(
@@ -36,6 +37,7 @@ fun CommonTextField(
                 .fillMaxWidth()
                 .height(56.dp),
             value = value,
+            readOnly = readOnly,
             onValueChange = onValueChange,
             shape = Styles.ShapeStyles.smallCorner,
             colors = OutlinedTextFieldDefaults.colors(
@@ -52,7 +54,6 @@ fun CommonTextField(
                 )
             },
             textStyle = MaterialTheme.typography.bodyMedium,
-
             visualTransformation = visualTransformation,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,

@@ -20,6 +20,7 @@ import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyOTPScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.VerifyTokenScreen
 import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPasswordViewModel
 import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewModel
 import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
@@ -111,11 +112,11 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     // todo sign up graph
     navigation(
         startDestination = Route.SignUp.route,
-        route = Route.SignInGraph.route
+        route = Route.SignUpGraph.route
     ) {
         composable(route = Route.SignUp.route) {
             val parentEntry = remember(navController) {
-                navController.getBackStackEntry(Route.SignInGraph.route)
+                navController.getBackStackEntry(Route.SignUpGraph.route)
             }
             val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
             SignUpScreen(navController = navController, viewModel = viewModel)
@@ -123,10 +124,22 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 
         composable(route = Route.CreatePassword.route) {
             val parentEntry = remember(navController) {
-                navController.getBackStackEntry(Route.SignInGraph.route)
+                navController.getBackStackEntry(Route.SignUpGraph.route)
             }
             val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
             CreatePasswordScreen(navController = navController, viewModel = viewModel)
+        }
+
+        composable(
+            Route.VerifyToken.route,
+            arguments = listOf(navArgument("token") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val parentEntry = remember(navController) {
+                navController.getBackStackEntry(Route.SignUpGraph.route)
+            }
+            val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
+            val token = backStackEntry.arguments?.getString("token") ?: return@composable
+            VerifyTokenScreen(token, navController, viewModel)
         }
     }
 

@@ -8,6 +8,7 @@ import vn.tutorial.cinemate.data.remote.requests.authentication.SignOutRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignUpRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyEmailRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyOTPRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyTokenRequest
 import vn.tutorial.cinemate.data.remote.responses.authentication.toUserModel
 import vn.tutorial.cinemate.data.remote.services.AuthService
 import vn.tutorial.cinemate.data.remote.services.BaseService
@@ -20,21 +21,25 @@ class AuthRepositoryImpl @Inject constructor(
     private val localStorage: LocalStorage
 ) : AuthRepository, BaseService() {
 
+    override suspend fun verifyToken(token: String): Resource<String?> {
+        return safeApiCall {
+            authService.verifyToken(
+                VerifyTokenRequest(token = token)
+            )
+        }.mapData { wrapper -> wrapper?.email }
+    }
+
     override suspend fun signUp(
         email: String,
-        firstName: String,
-        lastName: String,
         password: String,
-        passwordConfirm: String
+        token: String
     ): Resource<UserModel?> {
         return safeApiCall {
             authService.signUp(
                 SignUpRequest(
                     email = email,
-                    firstName = firstName,
-                    lastName = lastName,
                     password = password,
-                    passwordConfirm = passwordConfirm
+                    token = token
                 )
             )
         }.mapData { wrapper ->
@@ -48,9 +53,9 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun verifyEmail(email: String): Resource<String?> {
+    override suspend fun verifyEmail(email: String): Resource<Unit?> {
         return safeApiCall {
-            authService.forgotPassword(VerifyEmailRequest(email = email))
+            authService.verifyEmail(VerifyEmailRequest(email = email))
         }
     }
 

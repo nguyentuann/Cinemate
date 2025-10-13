@@ -4,7 +4,7 @@ sealed class Route(val route: String) {
     //todo route splash
     object Started: Route("started")
     object Splash: Route("splash")
-    object SignInGraph: Route("sign_in_graph")
+    object SignUpGraph: Route("sign_up_graph")
     object ForgotPasswordGraph: Route("forgot_password_graph")
 
     // todo route auth
@@ -17,6 +17,9 @@ sealed class Route(val route: String) {
     object ChangePassword: Route("change_password")
     object VerifyEmail: Route("verify_email")
     object VerifyOTP: Route("verify_otp")
+    object VerifyToken: Route("verify_token/{token}") {
+        fun createRoute(token: String) = "verify_token/$token"
+    }
 
 
     // todo route main
