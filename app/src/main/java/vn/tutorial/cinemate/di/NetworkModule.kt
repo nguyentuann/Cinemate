@@ -10,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import vn.tutorial.cinemate.core.constant.ApiEndpoints
 import vn.tutorial.cinemate.data.remote.interceptor.AuthInterceptor
 import vn.tutorial.cinemate.data.remote.services.AuthService
+import vn.tutorial.cinemate.data.remote.services.FilmService
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -44,6 +45,12 @@ object NetworkModule {
     @Provides
     fun provideAuthService(retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFilmService(retrofit: Retrofit): FilmService {
+        return retrofit.create(FilmService::class.java)
     }
 }
 

@@ -63,9 +63,10 @@ fun SignInScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
+                modifier = Modifier
+                    .padding(top = 16.dp),
                 text = stringResource(R.string.sign_in),
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onPrimary
             )
 
             EmailTextField(
@@ -111,7 +112,7 @@ fun SignInScreen(
                     .padding(top = 32.dp)
                     .clickable(
                         onClick = {
-                            navController.navigate(Route.VerifyEmail.route)
+                            navController.navigate(Route.ForgotPassword.route)
                         }
                     ),
                 text = stringResource(R.string.forgot_password),

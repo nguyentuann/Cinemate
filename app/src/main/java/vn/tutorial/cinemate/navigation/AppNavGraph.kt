@@ -2,6 +2,8 @@ package vn.tutorial.cinemate.navigation
 
 import FavoriteScreen
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,10 +16,11 @@ import androidx.navigation.navigation
 import vn.tutorial.cinemate.presentation.authentication.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CheckMailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CreatePasswordScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.ForgotPasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
-import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyOTPScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.VerifyTokenScreen
 import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPasswordViewModel
 import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewModel
 import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
@@ -27,6 +30,7 @@ import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
 import vn.tutorial.cinemate.presentation.more.screens.HistoryScreen
 import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
 import vn.tutorial.cinemate.presentation.more.screens.PersonalInformationScreen
+import vn.tutorial.cinemate.presentation.more.screens.SettingNotificationScreen
 import vn.tutorial.cinemate.presentation.more.screens.ThemeAndLanguageScreen
 import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
@@ -72,20 +76,30 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         CheckMailScreen(email)
     }
 
-    composable(Route.VerifyOTP.route) { VerifyOTPScreen() }
-
     // todo gom các màn forgot password thành 1 graph con
     navigation(
-        startDestination = Route.VerifyEmail.route,
+        startDestination = Route.ForgotPassword.route,
         route = Route.ForgotPasswordGraph.route
     ) {
-        composable(route = Route.VerifyEmail.route) {
+        composable(route = Route.ForgotPassword.route) {
             val parentEntry = remember(navController) {
                 navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
             }
             val viewModel: ForgotPasswordViewModel = hiltViewModel(parentEntry)
 
-            VerifyEmailScreen(
+            ForgotPasswordScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+
+        composable(route = Route.VerifyOTP.route) {
+            val parentEntry = remember(navController) {
+                navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
+            }
+            val viewModel: ForgotPasswordViewModel = hiltViewModel(parentEntry)
+
+            VerifyOTPScreen(
                 navController = navController,
                 viewModel = viewModel
             )
@@ -108,11 +122,11 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
     // todo sign up graph
     navigation(
         startDestination = Route.SignUp.route,
-        route = Route.SignInGraph.route
+        route = Route.SignUpGraph.route
     ) {
         composable(route = Route.SignUp.route) {
             val parentEntry = remember(navController) {
-                navController.getBackStackEntry(Route.SignInGraph.route)
+                navController.getBackStackEntry(Route.SignUpGraph.route)
             }
             val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
             SignUpScreen(navController = navController, viewModel = viewModel)
@@ -120,10 +134,22 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 
         composable(route = Route.CreatePassword.route) {
             val parentEntry = remember(navController) {
-                navController.getBackStackEntry(Route.SignInGraph.route)
+                navController.getBackStackEntry(Route.SignUpGraph.route)
             }
             val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
             CreatePasswordScreen(navController = navController, viewModel = viewModel)
+        }
+
+        composable(
+            Route.VerifyToken.route,
+            arguments = listOf(navArgument("token") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val parentEntry = remember(navController) {
+                navController.getBackStackEntry(Route.SignUpGraph.route)
+            }
+            val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
+            val token = backStackEntry.arguments?.getString("token") ?: return@composable
+            VerifyTokenScreen(token, navController, viewModel)
         }
     }
 
@@ -164,6 +190,7 @@ fun NavGraphBuilder.mainNavGraph(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.personalNavGraph(
     navController: NavHostController,
     settingsViewModel: SettingsViewModel
@@ -182,6 +209,10 @@ fun NavGraphBuilder.personalNavGraph(
 
     composable(Route.Profile.route) {
         PersonalInformationScreen()
+    }
+
+    composable(Route.SettingNotification.route) {
+        SettingNotificationScreen()
     }
 }
 

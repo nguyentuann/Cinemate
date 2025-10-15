@@ -26,6 +26,7 @@ fun CheckMailScreen(
     email: String,
 ) {
     val navController = LocalNavController.current
+    val context = LocalNavController.current.context
     Scaffold(
         topBar = {
             AppBar(
@@ -74,7 +75,7 @@ fun CheckMailScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.forward_email),
                 onClick = {
-
+                    openMail(context = context)
                 }
             )
         }

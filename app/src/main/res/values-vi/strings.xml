@@ -23,6 +23,9 @@
     <string name="instruct_update_password">Chúng tôi sẽ gửi email với hướng dẫn để đặt lại mật khẩu của bạn</string>
 
 
+    <string name="create_password_info">Hãy tạo mật khẩu để bảo vệ tài khoản của bạn</string>
+    <string name="success_verify_email">Tuyệt vời, bạn đã xác thực email thành công</string>
+    <string name="create_password">Tạo mật khẩu</string>
     <string name="profile">Cá nhân</string>
     <string name="account_management">Quản lý tài khoản</string>
 
@@ -60,7 +63,7 @@
     <string name="search_placeholder">Nhập để tìm kiếm …</string>
     <string name="delete">Xóa</string>
     <string name="add_to_favorite">Thêm vào yêu thích</string>
-    
+
     <string name="dark_theme">Chủ đề tối</string>
     <string name="language">Ngôn ngữ</string>
     <string name="select_language">Chọn ngôn ngữ</string>
@@ -69,4 +72,14 @@
 
     <string name="sign_out_confirm">Bạn có chắc chắn muốn đăng xuất không?</string>
     <string name="cancel">Hủy</string>
+    <string name="result">Kết quả</string>
+
+    <string name="receive_notifications">Nhận thông báo</string>
+    <string name="deny_notifications">Từ chối thông báo</string>
+    <string name="deny_notifications_desc">Bạn đã từ chối quyền nhận thông báo. Vui lòng bật lại quyền này trong cài đặt hệ thống để nhận thông báo mới</string>
+    <string name="access_notifications">Cho phép Cinemate gửi cho bạn thông báo</string>
+    <string name="open_settings">Mở cài đặt</string>
+    <string name="notification">Thông báo</string>
+    <string name="important">Quan trọng</string>
+    <string name="other">Khác</string>
 </resources>

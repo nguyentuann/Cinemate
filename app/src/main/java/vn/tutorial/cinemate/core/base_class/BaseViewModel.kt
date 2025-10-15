@@ -2,9 +2,10 @@ package vn.tutorial.cinemate.core.base_class
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-
+import vn.tutorial.cinemate.core.util.LogUtil
 
 fun <S, P> ViewModel.executeUseCase(
     state: MutableStateFlow<S>,

@@ -10,38 +10,51 @@ import vn.tutorial.cinemate.data.remote.requests.authentication.SignOutRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignUpRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyEmailRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyOTPRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyTokenRequest
 import vn.tutorial.cinemate.data.remote.responses.authentication.BaseResponse
 import vn.tutorial.cinemate.data.remote.responses.authentication.DataWrapperSignIn
 import vn.tutorial.cinemate.data.remote.responses.authentication.DataWrapperSignUp
-import vn.tutorial.cinemate.domain.usecase.authentication.SignOutUseCase
+import vn.tutorial.cinemate.data.remote.responses.authentication.VerifyTokenResponse
 
 interface AuthService {
+
+    @POST(ApiEndpoints.VERIFY_EMAIL)
+    suspend fun verifyEmail(
+        @Body verifyEmailRequest: VerifyEmailRequest
+    ): Response<BaseResponse<Unit>>
+
+    @POST(ApiEndpoints.VERIFY_TOKEN)
+    suspend fun verifyToken(
+        @Body token: VerifyTokenRequest
+    ): Response<BaseResponse<VerifyTokenResponse>>
 
     @POST(ApiEndpoints.SIGN_UP)
     suspend fun signUp(
         @Body signUpRequest: SignUpRequest
     ): Response<BaseResponse<DataWrapperSignUp>>
 
-    @POST(ApiEndpoints.VERIFY_OTP)
-    suspend fun verifyOTP(
-        @Body verifyOTPRequest: VerifyOTPRequest
-    ): Response<BaseResponse<Boolean>>
 
     @POST(ApiEndpoints.FORGOT_PASSWORD)
     suspend fun forgotPassword(
         @Body forgotPasswordRequest: VerifyEmailRequest
     ): Response<BaseResponse<String>>
 
+    @POST(ApiEndpoints.VERIFY_OTP)
+    suspend fun verifyOTP(
+        @Body verifyOTPRequest: VerifyOTPRequest
+    ): Response<BaseResponse<Boolean>>
+
     @POST(ApiEndpoints.RESET_PASSWORD)
     suspend fun resetPassword(
         @Body resetPasswordRequest: ResetPasswordRequest
     ): Response<BaseResponse<String>>
 
+
+
     @POST(ApiEndpoints.LOGIN)
     suspend fun signIn(
         @Body signInRequest: SignInRequest
     ): Response<BaseResponse<DataWrapperSignIn>>
-
 
     @POST(ApiEndpoints.LOGOUT)
     suspend fun signOut(
