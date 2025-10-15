@@ -15,8 +15,8 @@ class ResetPasswordUseCase @Inject constructor(
         val newPassword: String,
     )
 
-    override suspend fun execute(param: ResetPasswordUseCase.Params): Resource<String?> {
-        return authRepository.forgotPassword(
+    override suspend fun execute(param: Params): Resource<String?> {
+        return authRepository.resetPassword(
             email = param.email,
             otp = param.otp,
             newPassword = param.newPassword

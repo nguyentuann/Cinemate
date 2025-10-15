@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.domain.usecase.authentication.SignOutUseCase
 import javax.inject.Inject
@@ -28,6 +29,7 @@ class SignOutViewModel @Inject constructor(
     }
 
     fun signOut(onSuccess: () -> Unit) {
+        LogUtil("refresh token: ${localStorage.getRefreshToken()}")
         executeUseCase(
             state = _state,
             block = {

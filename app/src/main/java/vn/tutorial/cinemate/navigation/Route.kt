@@ -15,7 +15,7 @@ sealed class Route(val route: String) {
     }
     object CreatePassword: Route("create_password")
     object ChangePassword: Route("change_password")
-    object VerifyEmail: Route("verify_email")
+    object ForgotPassword: Route("forgot_password")
     object VerifyOTP: Route("verify_otp")
     object VerifyToken: Route("verify_token/{token}") {
         fun createRoute(token: String) = "verify_token/$token"

@@ -26,7 +26,6 @@ import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.LoadingAndError
-import vn.tutorial.cinemate.core.helper.openMail
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.navigation.Route
@@ -34,14 +33,13 @@ import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPassword
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun VerifyEmailScreen(
+fun ForgotPasswordScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: ForgotPasswordViewModel = hiltViewModel(
-        navController.getBackStackEntry("forgot_password_graph")
+        navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
     )
 ) {
-
     val state = viewModel.state.collectAsState().value
 
     Scaffold(
@@ -89,12 +87,11 @@ fun VerifyEmailScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.confirm),
                 onClick = {
-                    viewModel.verifyEmail(
+                    viewModel.forgotPassword(
                         onSuccess = {
-                            navController.navigate(Route.ChangePassword.route)
+                            navController.navigate(Route.VerifyOTP.route)
                         }
                     )
-                    navController.navigate(Route.ChangePassword.route)
                 }
             )
         }

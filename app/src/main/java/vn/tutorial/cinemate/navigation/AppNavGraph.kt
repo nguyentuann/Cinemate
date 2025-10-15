@@ -16,9 +16,9 @@ import androidx.navigation.navigation
 import vn.tutorial.cinemate.presentation.authentication.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CheckMailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CreatePasswordScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.ForgotPasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
-import vn.tutorial.cinemate.presentation.authentication.screens.VerifyEmailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyOTPScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyTokenScreen
 import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPasswordViewModel
@@ -76,20 +76,30 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         CheckMailScreen(email)
     }
 
-    composable(Route.VerifyOTP.route) { VerifyOTPScreen() }
-
     // todo gom các màn forgot password thành 1 graph con
     navigation(
-        startDestination = Route.VerifyEmail.route,
+        startDestination = Route.ForgotPassword.route,
         route = Route.ForgotPasswordGraph.route
     ) {
-        composable(route = Route.VerifyEmail.route) {
+        composable(route = Route.ForgotPassword.route) {
             val parentEntry = remember(navController) {
                 navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
             }
             val viewModel: ForgotPasswordViewModel = hiltViewModel(parentEntry)
 
-            VerifyEmailScreen(
+            ForgotPasswordScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+
+        composable(route = Route.VerifyOTP.route) {
+            val parentEntry = remember(navController) {
+                navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
+            }
+            val viewModel: ForgotPasswordViewModel = hiltViewModel(parentEntry)
+
+            VerifyOTPScreen(
                 navController = navController,
                 viewModel = viewModel
             )

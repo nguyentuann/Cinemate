@@ -1,6 +1,7 @@
 package vn.tutorial.cinemate.data.repositoryImpl
 
 import vn.tutorial.cinemate.core.base_class.Resource
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.data.remote.requests.authentication.ResetPasswordRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignInRequest
@@ -29,6 +30,13 @@ class AuthRepositoryImpl @Inject constructor(
         }.mapData { wrapper -> wrapper?.email }
     }
 
+    override suspend fun verifyEmail(email: String): Resource<Unit?> {
+        return safeApiCall {
+            authService.verifyEmail(VerifyEmailRequest(email = email))
+        }
+    }
+
+
     override suspend fun signUp(
         email: String,
         password: String,
@@ -47,19 +55,20 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun forgotPassword(email: String): Resource<String?> {
+        return safeApiCall {
+            authService.forgotPassword(VerifyEmailRequest(email = email))
+        }
+    }
+
     override suspend fun verifyOTP(email: String, otp: String): Resource<Boolean?> {
         return safeApiCall {
+            LogUtil("goi verify otp trong repo")
             authService.verifyOTP(VerifyOTPRequest(email = email, otp = otp))
         }
     }
 
-    override suspend fun verifyEmail(email: String): Resource<Unit?> {
-        return safeApiCall {
-            authService.verifyEmail(VerifyEmailRequest(email = email))
-        }
-    }
-
-    override suspend fun forgotPassword(
+    override suspend fun resetPassword(
         email: String,
         otp: String,
         newPassword: String

@@ -1,6 +1,5 @@
 package vn.tutorial.cinemate.presentation.authentication.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,21 +25,23 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SignInText
-import vn.tutorial.cinemate.navigation.LocalNavController
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.Route
-import vn.tutorial.cinemate.presentation.authentication.viewModel.VerifyOTPViewModel
+import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPasswordViewModel
 
 @Composable
 fun VerifyOTPScreen(
-    viewModel: VerifyOTPViewModel = hiltViewModel()
+    navController: NavHostController,
+    viewModel: ForgotPasswordViewModel = hiltViewModel(
+        navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
+    )
 ) {
-    val navController = LocalNavController.current
-
     val state = viewModel.state.collectAsState().value
 
     val focusRequesters = remember { List(state.otp.size) { FocusRequester() } }
@@ -106,17 +107,17 @@ fun VerifyOTPScreen(
                 onClick = {
 
                     if (!state.otp.contains(-1)) {
-                        Log.d("SignUp", "onClick: ${viewModel.getOtpCode()}")
+                        LogUtil("onClick: ${viewModel.getOtpCode()}")
                         viewModel.verifyOTP(
-                            otp = viewModel.getOtpCode(),
                             onSuccess = {
-                                navController.navigate(Route.SignIn.route) {
-                                    popUpTo(0) {
-                                        inclusive = true
+                                navController.navigate(Route.ChangePassword.route) {
+                                    popUpTo(Route.ForgotPasswordGraph.route) {
+                                        inclusive = false
                                     }
                                 }
                             }
                         )
+                        navController.navigate(Route.ChangePassword.route,)
                     }
                 }
             )

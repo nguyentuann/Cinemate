@@ -17,18 +17,21 @@ abstract class BaseService {
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null && body.status == "success") {
+                    LogUtil("vao success co body: $body")
                     Resource.Success(body.data)
                 } else {
                     Resource.Error(body?.detail ?: body?.message ?: "Unexpected error")
                 }
             } else {
                 val errorBody = response.errorBody()?.string()
+                LogUtil("vao error co body: $errorBody")
                 val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
                 Resource.Error(
                     errorResponse?.detail ?: errorResponse?.message ?: "Unexpected error"
                 )
             }
         } catch (e: Exception) {
+            LogUtil("vao catch: ${e.message}")
             Resource.Error(e.message ?: "Unexpected error")
         }
     }
