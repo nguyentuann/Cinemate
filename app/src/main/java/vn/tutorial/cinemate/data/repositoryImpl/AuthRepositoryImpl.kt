@@ -63,7 +63,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun verifyOTP(email: String, otp: String): Resource<Boolean?> {
         return safeApiCall {
-            LogUtil("goi verify otp trong repo")
+            LogUtil("goi verify otp trong repo với data là: $email $otp")
             authService.verifyOTP(VerifyOTPRequest(email = email, otp = otp))
         }
     }
