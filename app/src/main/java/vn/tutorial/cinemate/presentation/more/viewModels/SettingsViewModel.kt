@@ -22,6 +22,18 @@ class SettingsViewModel @Inject constructor(
     private val localStorage: LocalStorage,
     private val app: Application
 ) : ViewModel() {
+
+    init {
+        LogUtil(
+            "Access: ${localStorage.getAccessToken()}"
+        )
+
+        LogUtil(
+            "Refresh: ${localStorage.getRefreshToken()}"
+        )
+
+        localStorage.clearTokens()
+    }
     private var _locale = MutableStateFlow(Locale(localStorage.getLanguage() ?: "vi"))
     var locale: StateFlow<Locale> = _locale
 

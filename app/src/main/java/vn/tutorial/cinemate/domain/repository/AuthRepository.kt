@@ -43,4 +43,10 @@ interface AuthRepository {
         refreshToken: String
     ): Resource<String?>
 
+    suspend fun changePassword(
+        oldPassword: String,
+        newPassword: String,
+        confirmPassword: String
+    ): Resource<String?>
+
 }

@@ -1,7 +1,7 @@
 package vn.tutorial.cinemate.data.remote.services
 
 import vn.tutorial.cinemate.core.base_class.Resource
-import vn.tutorial.cinemate.data.remote.responses.authentication.BaseResponse
+import vn.tutorial.cinemate.data.remote.responses.BaseResponse
 
 import com.google.gson.Gson
 import retrofit2.Response

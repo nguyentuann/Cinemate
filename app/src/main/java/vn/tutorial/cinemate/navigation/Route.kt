@@ -14,7 +14,7 @@ sealed class Route(val route: String) {
         fun createRoute(email: String) = "check_mail/$email"
     }
     object CreatePassword: Route("create_password")
-    object ChangePassword: Route("change_password")
+    object UpdatePassword: Route("update_password")
     object ForgotPassword: Route("forgot_password")
     object VerifyOTP: Route("verify_otp")
     object VerifyToken: Route("verify_token/{token}") {
@@ -43,5 +43,6 @@ sealed class Route(val route: String) {
     object ThemeAndLanguage: Route("theme_and_language")
     object Profile: Route("profile")
     object SettingNotification: Route("setting_notification")
+    object ChangePassword: Route("change_password")
 
 }

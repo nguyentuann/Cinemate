@@ -19,13 +19,14 @@
     <string name="forward_email">Tiếp tục đến email</string>
     <string name="confirm">Xác nhận</string>
     <string name="verify_email">Xác minh email</string>
-    <string name="change_password">Cập nhật mật khẩu</string>
+    <string name="update_password">Cập nhật mật khẩu</string>
     <string name="instruct_update_password">Chúng tôi sẽ gửi email với hướng dẫn để đặt lại mật khẩu của bạn</string>
 
 
     <string name="create_password_info">Hãy tạo mật khẩu để bảo vệ tài khoản của bạn</string>
     <string name="success_verify_email">Tuyệt vời, bạn đã xác thực email thành công</string>
     <string name="create_password">Tạo mật khẩu</string>
+    <string name="change_password">Thay đổi mật khẩu</string>
     <string name="profile">Cá nhân</string>
     <string name="account_management">Quản lý tài khoản</string>
 
@@ -44,6 +45,7 @@
     <string name="invalid_password">Mật khẩu phải có ít nhất 8 ký tự, chứa chữ in hoa, số và ký tự đặc biệt </string>
     <string name="not_match_password">Mật khẩu không trùng nhau</string>
 
+    <string name="new_password_placeholder">Mật khẩu mới</string>
     <string name="movie_info">Thông tin</string>
     <string name="share">Chia sẻ</string>
     <string name="rate">Đánh giá</string>
