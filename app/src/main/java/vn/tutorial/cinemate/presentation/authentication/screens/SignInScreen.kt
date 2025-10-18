@@ -64,7 +64,7 @@ fun SignInScreen(
         ) {
             Text(
                 modifier = Modifier
-                    .padding(top = 16.dp),
+                    .padding(top = 32.dp),
                 text = stringResource(R.string.sign_in),
                 style = MaterialTheme.typography.titleLarge,
             )

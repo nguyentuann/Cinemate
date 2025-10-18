@@ -97,14 +97,13 @@ class ForgotPasswordViewModel @Inject constructor(
     }
 
     fun verifyOTP(onSuccess: () -> Unit) {
-        LogUtil("ForgotPasswordViewModel: email = ${_state.value.email}, otp = ${getOtpCode()}")
         executeUseCase(
             state = _state,
             block = {
                 verifyOTPUseCase(
                     VerifyOTPUseCase.Params(
                         email = _state.value.email,
-                        otp = _state.value.otp.toString(),
+                        otp = getOtpCode()
                     )
                 )
             },
@@ -134,7 +133,7 @@ class ForgotPasswordViewModel @Inject constructor(
                 resetPasswordUseCase(
                     ResetPasswordUseCase.Params(
                         email = _state.value.email,
-                        otp = "",
+                        otp = getOtpCode(),
                         newPassword = _state.value.password
                     )
                 )

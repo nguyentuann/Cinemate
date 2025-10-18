@@ -107,7 +107,6 @@ fun VerifyOTPScreen(
                 onClick = {
 
                     if (!state.otp.contains(-1)) {
-                        LogUtil("onClick: ${viewModel.getOtpCode()}")
                         viewModel.verifyOTP(
                             onSuccess = {
                                 navController.navigate(Route.ChangePassword.route) {
