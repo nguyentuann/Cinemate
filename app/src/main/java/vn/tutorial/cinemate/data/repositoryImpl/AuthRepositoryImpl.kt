@@ -3,6 +3,7 @@ package vn.tutorial.cinemate.data.repositoryImpl
 import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
+import vn.tutorial.cinemate.data.remote.requests.authentication.ChangePasswordRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.ResetPasswordRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignInRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignOutRequest
@@ -111,5 +112,23 @@ class AuthRepositoryImpl @Inject constructor(
                 SignOutRequest(refreshToken = refreshToken)
             )
         }
+    }
+
+    override suspend fun changePassword(
+        oldPassword: String,
+        newPassword: String,
+        confirmPassword: String
+    ): Resource<String?> {
+        authService.changePassword(
+            return safeApiCall {
+                authService.changePassword(
+                    ChangePasswordRequest(
+                        oldPassword = oldPassword,
+                        newPassword = newPassword,
+                        confirmPassword = confirmPassword
+                    )
+                )
+            }
+        )
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Settings
@@ -28,6 +29,11 @@ val listOptions = listOf(
         route = Route.Profile.route
     ),
     ProfileOption(
+        R.string.change_password,
+        Icons.Default.Lock,
+        route = Route.ChangePassword.route
+    ),
+    ProfileOption(
         R.string.watching_history,
         Icons.Default.CheckCircle,
         route = Route.History.route
@@ -39,11 +45,13 @@ val listOptions = listOf(
     ),
     ProfileOption(
         R.string.children_mode,
-        Icons.Default.Face
+        Icons.Default.Face,
+        route =  ""
     ),
     ProfileOption(
         R.string.package_management,
-        Icons.Default.ShoppingCart
+        Icons.Default.ShoppingCart,
+        route =  ""
     ),
     ProfileOption(
         R.string.notification_management,
@@ -57,6 +65,7 @@ val listOptions = listOf(
     ),
     ProfileOption(
         R.string.help_reply,
-        Icons.Default.Phone
+        Icons.Default.Phone,
+        route =  ""
     ),
 )

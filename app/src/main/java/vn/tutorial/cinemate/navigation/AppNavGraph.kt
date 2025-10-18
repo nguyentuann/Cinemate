@@ -13,7 +13,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import vn.tutorial.cinemate.presentation.authentication.screens.ChangePasswordScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.UpdatePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CheckMailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CreatePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.ForgotPasswordScreen
@@ -27,6 +27,7 @@ import vn.tutorial.cinemate.presentation.coming_soon.ComingSoonScreen
 import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
 import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
 import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
+import vn.tutorial.cinemate.presentation.more.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.more.screens.HistoryScreen
 import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
 import vn.tutorial.cinemate.presentation.more.screens.PersonalInformationScreen
@@ -106,13 +107,13 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         }
 
 
-        composable(route = Route.ChangePassword.route) {
+        composable(route = Route.UpdatePassword.route) {
             val parentEntry = remember(navController) {
                 navController.getBackStackEntry(Route.ForgotPasswordGraph.route)
             }
             val viewModel: ForgotPasswordViewModel = hiltViewModel(parentEntry)
 
-            ChangePasswordScreen(
+            UpdatePasswordScreen(
                 navController = navController,
                 viewModel = viewModel
             )
@@ -192,7 +193,6 @@ fun NavGraphBuilder.mainNavGraph(
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.personalNavGraph(
-    navController: NavHostController,
     settingsViewModel: SettingsViewModel
 ) {
     composable(Route.Favorite.route) {
@@ -213,6 +213,10 @@ fun NavGraphBuilder.personalNavGraph(
 
     composable(Route.SettingNotification.route) {
         SettingNotificationScreen()
+    }
+
+    composable(Route.ChangePassword.route) {
+        ChangePasswordScreen()
     }
 }
 

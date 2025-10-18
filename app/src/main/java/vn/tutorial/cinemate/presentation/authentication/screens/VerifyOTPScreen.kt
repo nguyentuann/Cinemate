@@ -109,14 +109,14 @@ fun VerifyOTPScreen(
                     if (!state.otp.contains(-1)) {
                         viewModel.verifyOTP(
                             onSuccess = {
-                                navController.navigate(Route.ChangePassword.route) {
+                                navController.navigate(Route.UpdatePassword.route) {
                                     popUpTo(Route.ForgotPasswordGraph.route) {
                                         inclusive = false
                                     }
                                 }
                             }
                         )
-                        navController.navigate(Route.ChangePassword.route,)
+                        navController.navigate(Route.UpdatePassword.route,)
                     }
                 }
             )

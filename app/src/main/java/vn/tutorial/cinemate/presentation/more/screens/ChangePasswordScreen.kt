@@ -1,6 +1,5 @@
-package vn.tutorial.cinemate.presentation.authentication.screens
+package vn.tutorial.cinemate.presentation.more.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,23 +20,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.core.util.Validator
-import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
-import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPasswordViewModel
+import vn.tutorial.cinemate.presentation.more.viewModels.ChangePasswordViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ChangePasswordScreen(
-    navController: NavHostController,
     modifier: Modifier = Modifier,
-    viewModel: ForgotPasswordViewModel = hiltViewModel()
+    viewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
+    val navController = LocalNavController.current
     val state = viewModel.state.collectAsState().value
 
     Scaffold(
@@ -52,54 +49,64 @@ fun ChangePasswordScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
+                .padding(it)
                 .padding(horizontal = 16.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            var isValidPassword: Boolean? by remember { mutableStateOf(null) }
+            var isValidNewPassword: Boolean? by remember { mutableStateOf(null) }
+            var isValidConfirmPassword: Boolean? by remember { mutableStateOf(null) }
             var isMatch: Boolean? by remember { mutableStateOf(null) }
 
             Text(
-                text = stringResource(R.string.change_password),
+                text = stringResource(R.string.update_password),
                 style = MaterialTheme.typography.titleLarge,
             )
 
             PasswordTextField(
                 modifier = Modifier.padding(top = 16.dp),
-                value = state.password,
+                value = state.oldPassword,
                 onValueChange = {
-                    viewModel.updatePassword(it)
-                    isValidPassword = Validator.isValidPassword(it)
+                    viewModel.updateOldPasswordField(it)
+
                 },
-                isValidPassword = isValidPassword,
-                errorMessage = if (isValidPassword == false) stringResource(R.string.invalid_password) else null
+            )
+
+            PasswordTextField(
+                modifier = Modifier.padding(top = 16.dp),
+                value = state.newPassword,
+                onValueChange = {
+                    viewModel.updateNewPasswordField(it)
+                    isValidNewPassword = Validator.isValidPassword(it)
+                },
+                isValidPassword = isValidNewPassword,
+                errorMessage = if (isValidNewPassword == false) stringResource(R.string.invalid_password) else null,
+                placeHolder = stringResource(R.string.new_password_placeholder)
             )
 
             PasswordTextField(
                 modifier = Modifier.padding(top = 16.dp),
                 value = state.confirmPassword,
                 onValueChange = {
-                    viewModel.updateConfirmPassword(it)
-                    isMatch = it == state.password
+                    viewModel.updateConfirmPasswordField(it)
+                    isValidConfirmPassword = Validator.isValidPassword(it)
+                    isMatch = it == state.newPassword
                 },
-                isValidPassword = isMatch,
-                errorMessage = if (isValidPassword == false) stringResource(R.string.not_match_password) else null
+                isValidPassword = isValidConfirmPassword,
+                errorMessage = if (isValidConfirmPassword == false) stringResource(R.string.not_match_password) else null,
+                placeHolder = stringResource(R.string.password_confirm_placeholder)
             )
 
             CommonButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
-                title = stringResource(R.string.change_password),
+                title = stringResource(R.string.update_password),
                 onClick = {
-                    if (isValidPassword == true && isMatch == true) {
-                        viewModel.resetPassword {
-                            navController.navigate(Route.SignIn.route) {
-                                popUpTo(0) {
-                                    inclusive = true
-                                }
-                            }
+                    if (isValidNewPassword==true && isValidConfirmPassword==true && isMatch == true) {
+                        viewModel.updatePassword{
+                            navController.popBackStack()
                         }
                     }
                 }

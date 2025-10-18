@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import vn.tutorial.cinemate.core.constant.ApiEndpoints
+import vn.tutorial.cinemate.core.constant.api_endpoint.BaseEndpoint
 import vn.tutorial.cinemate.data.remote.interceptor.AuthInterceptor
 import vn.tutorial.cinemate.data.remote.services.AuthService
 import vn.tutorial.cinemate.data.remote.services.FilmService
@@ -35,7 +35,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(ApiEndpoints.BASE_URL)
+        .baseUrl(BaseEndpoint.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(
             GsonConverterFactory.create()
