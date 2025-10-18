@@ -16,3 +16,5 @@ local.properties
 /app/src/main/java/vn/tutorial/cinemate/presentation/home/mock/SectionData.kt
 /app/src/main/java/vn/tutorial/cinemate/presentation/home/mock/MovieData.kt
 /app/src/main/res/drawable/db.png
+/app/src/main/java/vn/tutorial/cinemate/core/constant/ApiEndpoints.kt
+
