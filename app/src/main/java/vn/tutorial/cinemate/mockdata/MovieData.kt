@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.mockdata
 
 import vn.tutorial.cinemate.domain.model.FilmDetailModel
 
+
 val filmMock1 = FilmDetailModel(
     id = "1",
     title = "The Joker",
@@ -123,3 +124,14 @@ val filmMock4 = FilmDetailModel(
     updatedAt = "2020-01-01T12:00:00Z"
 )
 
+
+val listFilm = listOf(
+    filmMock1,
+    filmMock2,
+    filmMock3,
+    filmMock4
+)
+
+fun getFilmById(id: String): FilmDetailModel{
+    return listFilm.first { it.id == id }
+}

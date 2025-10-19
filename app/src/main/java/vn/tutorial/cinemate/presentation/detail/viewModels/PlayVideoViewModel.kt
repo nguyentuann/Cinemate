@@ -4,54 +4,73 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import vn.tutorial.cinemate.core.util.LogUtil
 import javax.inject.Inject
 
+data class VideoPlayerState(
+    var isPlaying: Boolean = false,
+    var speed: Float = 1f,
+    var position: Long = 0L,
+    var duration: Long = 0L,
+    var locked: Boolean = false,
+    var controlsVisible: Boolean = true,
+    var isSilent: Boolean = false,
+    var quality: String = "Auto"
+)
+
+@UnstableApi
 @HiltViewModel
 class PlayVideoViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
+    private val trackSelector = DefaultTrackSelector(context).apply {
+        setParameters(buildUponParameters().setMaxVideoSizeSd())
+    }
+
     val exoPlayer: ExoPlayer by lazy {
-        ExoPlayer.Builder(context).build().apply {
-            playWhenReady = false
-        }
+        ExoPlayer.Builder(context)
+            .setTrackSelector(trackSelector)
+            .build().apply {
+                playWhenReady = false
+            }
     }
 
     private var currentUri: String? = null
 
-    private val _isPlaying = MutableStateFlow(false)
-    val isPlaying: StateFlow<Boolean> = _isPlaying
+    private val _state = MutableStateFlow(VideoPlayerState())
+    val state: StateFlow<VideoPlayerState> = _state
 
-    private val _speed = MutableStateFlow(1f)
-    val speed: StateFlow<Float> = _speed
+    fun selectQuality(height: Int?, label: String) {
+        val parameters = if (height == null) {
+            // Auto
+            trackSelector.buildUponParameters()
+                .clearVideoSizeConstraints()
+                .setForceHighestSupportedBitrate(false)
+        } else {
+            trackSelector.buildUponParameters()
+                .setMaxVideoSize(Int.MAX_VALUE, height)
+                .setMinVideoSize(0, height)
+        }
 
-    private val _position = MutableStateFlow(0L)
-    val position: StateFlow<Long> = _position
-
-    private val _duration = MutableStateFlow(0L)
-    val duration: StateFlow<Long> = _duration
-
-    private val _isFullscreen = MutableStateFlow(false)
-    val isFullscreen: StateFlow<Boolean> = _isFullscreen
-
-    private val _locked = MutableStateFlow(false)
-    val locked: StateFlow<Boolean> = _locked
-
-    private val _controlsVisible = MutableStateFlow(true)
-    val controlsVisible: StateFlow<Boolean> = _controlsVisible
+        trackSelector.setParameters(parameters)
+        _state.value = _state.value.copy(quality = label)
+    }
 
     fun togglePlay() {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
-            _isPlaying.value = false
+            _state.value = _state.value.copy(isPlaying = false)
         } else {
             exoPlayer.play()
-            _isPlaying.value = true
+            _state.value = _state.value.copy(isPlaying = true)
         }
     }
 
@@ -60,29 +79,34 @@ class PlayVideoViewModel @Inject constructor(
     fun seekTo(positionMs: Long) = exoPlayer.seekTo(positionMs)
 
     fun changeSpeed() {
-        _speed.value = when (_speed.value) {
+        val newSpeed = when (_state.value.speed) {
             1f -> 1.5f
             1.5f -> 2f
             else -> 1f
         }
-        exoPlayer.setPlaybackSpeed(_speed.value)
-    }
-
-    fun toggleFullscreen() {
-        _isFullscreen.value = !_isFullscreen.value
+        exoPlayer.setPlaybackSpeed(newSpeed)
+        _state.value = _state.value.copy(speed = newSpeed)
     }
 
     fun toggleLock() {
-        _locked.value = !_locked.value
+        _state.value = _state.value.copy(locked = !_state.value.locked)
     }
 
     fun toggleControls() {
-        _controlsVisible.value = !_controlsVisible.value
+        _state.value = _state.value.copy(controlsVisible = !_state.value.controlsVisible)
     }
 
     fun updateProgress() {
-        _position.value = exoPlayer.currentPosition
-        _duration.value = exoPlayer.duration.coerceAtLeast(0L)
+        _state.value = _state.value.copy(
+            position = exoPlayer.currentPosition,
+            duration = exoPlayer.duration.coerceAtLeast(0L)
+        )
+    }
+
+    fun toggleSilent() {
+        val isSilent = !_state.value.isSilent
+        exoPlayer.volume = if (isSilent) 0f else 1f
+        _state.value = _state.value.copy(isSilent = isSilent)
     }
 
     fun setMedia(uri: String) {
@@ -98,6 +122,7 @@ class PlayVideoViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        LogUtil("call clear")
         exoPlayer.release()
     }
 }

@@ -64,7 +64,6 @@ fun TrailerPlayer(
         factory = {
             PlayerView(context).apply {
                 player = exoPlayer
-                useController = false
                 resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
             }
         },

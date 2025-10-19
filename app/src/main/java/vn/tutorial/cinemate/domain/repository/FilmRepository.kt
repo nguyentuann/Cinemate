@@ -8,4 +8,6 @@ interface FilmRepository {
     suspend fun getTrendingFilms(): Resource<List<FilmDetailModel>?>
     suspend fun getBannerFilms(): Resource<List<FilmDetailModel>?>
     suspend fun getSectionFilms(): Resource<Map<String, List<FilmDetailModel>>?>
+
+    suspend fun getDetailFilm(filmId: String): Resource<FilmDetailModel?>
 }
