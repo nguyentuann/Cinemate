@@ -1,7 +1,6 @@
 package vn.tutorial.cinemate.presentation.detail.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.navigation.LocalNavController
@@ -35,20 +37,29 @@ import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
 import vn.tutorial.cinemate.presentation.detail.components.InteractionBar
 import vn.tutorial.cinemate.presentation.detail.components.TrailerPlayer
 import vn.tutorial.cinemate.presentation.home.components.FilmSection
-import vn.tutorial.cinemate.mockdata.filmMock1
 import vn.tutorial.cinemate.mockdata.sectionData
 import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.presentation.detail.components.Comment
 import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
+import vn.tutorial.cinemate.presentation.detail.viewModels.DetailViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailScreen(
     filmId: String,
+    viewModel: DetailViewModel = hiltViewModel()
 ) {
+    LogUtil(filmId)
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
     var showComments by remember { mutableStateOf(false) }
+    val state = viewModel.state.collectAsState().value
+    val filmDetail = state.filmDetail
+
+    LaunchedEffect(Unit) {
+        viewModel.getDetailFilm(filmId)
+    }
 
     Scaffold {
 
@@ -60,7 +71,9 @@ fun DetailScreen(
         ) {
 
             // todo trailer
-            TrailerPlayer(filmMock1.trailerUrl)
+            filmDetail?.let {
+                TrailerPlayer(filmDetail.trailerUrl)
+            }
 
             Spacer(
                 modifier = Modifier.height(16.dp)
@@ -91,7 +104,9 @@ fun DetailScreen(
                     Text(stringResource(R.string.play), style = MaterialTheme.typography.bodyLarge)
                 }
 
-                FilmInformation()
+                filmDetail?.let {
+                    FilmInformation(filmDetail)
+                }
 
                 HorizontalDivider()
 

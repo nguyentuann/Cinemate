@@ -9,6 +9,7 @@ import vn.tutorial.cinemate.mockdata.filmMock1
 import vn.tutorial.cinemate.mockdata.filmMock2
 import vn.tutorial.cinemate.mockdata.filmMock3
 import vn.tutorial.cinemate.mockdata.filmMock4
+import vn.tutorial.cinemate.mockdata.getFilmById
 import javax.inject.Inject
 
 class FilmRepositoryImpl @Inject constructor(
@@ -62,5 +63,10 @@ class FilmRepositoryImpl @Inject constructor(
             )
         )
         return Resource.Success(mockData)
+    }
+
+    override suspend fun getDetailFilm(filmId: String): Resource<FilmDetailModel?> {
+        val film = getFilmById(filmId)
+        return Resource.Success(film)
     }
 }

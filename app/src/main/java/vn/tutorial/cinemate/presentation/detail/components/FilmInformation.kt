@@ -25,8 +25,8 @@ import vn.tutorial.cinemate.mockdata.filmMock1
 
 @Composable
 fun FilmInformation(
+    film: FilmDetailModel,
     modifier: Modifier = Modifier,
-    film: FilmDetailModel = filmMock1
 ) {
     Column(
         modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)
