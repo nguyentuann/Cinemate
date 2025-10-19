@@ -9,4 +9,6 @@ interface FilmService {
     suspend fun searchFilms(
        @Body query: SearchRequest
     ): Response<BaseResponse<String>>
+
+    suspend fun getHomeFilms(): Response<BaseResponse<String>>
 }

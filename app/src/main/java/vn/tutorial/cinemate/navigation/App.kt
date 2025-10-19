@@ -46,10 +46,10 @@ fun App(
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = Route.Started.route,
+                startDestination = Route.Home.route,
             ) {
                 authenticationNavGraph(navController)
-                mainNavGraph(navController, it)
+                mainNavGraph(it)
                 personalNavGraph( settingViewModel)
             }
         }

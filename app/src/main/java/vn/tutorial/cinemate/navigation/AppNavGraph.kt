@@ -157,13 +157,11 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 }
 
 fun NavGraphBuilder.mainNavGraph(
-    navController: NavHostController,
     innerPadding: PaddingValues,
 ) {
     composable(Route.Home.route) {
         HomeScreen(
             innerPadding = innerPadding,
-            navController = navController
         )
     }
     composable(Route.Search.route) { SearchScreen() }

@@ -8,7 +8,9 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import vn.tutorial.cinemate.domain.model.filmMock
+import vn.tutorial.cinemate.mockdata.filmMock1
+import vn.tutorial.cinemate.mockdata.filmMock2
+import vn.tutorial.cinemate.mockdata.filmMock3
 import vn.tutorial.cinemate.presentation.more.components.CardFilmItem
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 
@@ -17,7 +19,7 @@ fun FavoriteScreen(
     modifier: Modifier = Modifier,
     title: String = "Favorite",
 ) {
-    val films = remember { mutableStateListOf(filmMock, filmMock, filmMock) }
+    val films = remember { mutableStateListOf(filmMock1, filmMock2, filmMock3) }
 
     Scaffold(
         topBar = {

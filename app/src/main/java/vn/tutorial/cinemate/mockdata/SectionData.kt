@@ -1,25 +1,24 @@
 package vn.tutorial.cinemate.mockdata
 
 import vn.tutorial.cinemate.domain.model.FilmDetailModel
-import vn.tutorial.cinemate.domain.model.filmMock
 
 val sectionData = mapOf<String, List<FilmDetailModel>>(
     "Popular on Cinemate" to listOf(
-        filmMock,
-        filmMock,
-        filmMock
+        filmMock1,
+        filmMock2,
+        filmMock3
     ),
 
     "American Movies" to listOf(
-        filmMock,
-        filmMock,
-        filmMock,
-        filmMock,
+        filmMock1,
+        filmMock2,
+        filmMock3,
+        filmMock4,
     ),
 
     "New Release" to listOf(
-        filmMock,
-        filmMock,
-        filmMock,
+        filmMock2,
+        filmMock3,
+        filmMock4,
     )
 )
