@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,21 +22,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
+import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.core.util.Validator
+import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
 import vn.tutorial.cinemate.presentation.authentication.components.PasswordTextField
-import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.authentication.viewModel.SignInViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state.collectAsState().value
+
+    var isValidEmail: Boolean? by remember { mutableStateOf(null) }
+
     Scaffold(
         topBar = {
             AppBar(
@@ -54,21 +63,18 @@ fun SignInScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
+                modifier = Modifier
+                    .padding(top = 32.dp),
                 text = stringResource(R.string.sign_in),
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onPrimary
             )
-
-            var email by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-            var isValidEmail: Boolean? by remember { mutableStateOf(null) }
 
             EmailTextField(
                 modifier = Modifier
-                    .padding(top = 8.dp),
-                value = email,
+                    .padding(top = 16.dp),
+                value = state.email,
                 onValueChange = {
-                    email = it
+                    viewModel.updateEmail(it)
                     isValidEmail = Validator.isValidEmail(it)
                 },
                 isValidEmail = isValidEmail,
@@ -77,9 +83,9 @@ fun SignInScreen(
             PasswordTextField(
                 modifier = Modifier
                     .padding(top = 16.dp),
-                value = password,
+                value = state.password,
                 onValueChange = {
-                    password = it
+                    viewModel.updatePassword(it)
                 },
             )
 
@@ -89,12 +95,15 @@ fun SignInScreen(
                     .padding(top = 32.dp),
                 title = stringResource(R.string.sign_in),
                 onClick = {
-                    if (isValidEmail == true ) {
-                        navController.navigate(Route.Home.route) {
-                            popUpTo(Route.SignIn.route) {
-                                inclusive = true
+                    if (isValidEmail == true) {
+                        viewModel.signIn(
+                            onSuccess = {
+                                navController.navigate(Route.Home.route) {
+                                    popUpTo(0)
+                                    launchSingleTop = true
+                                }
                             }
-                        }
+                        )
                     }
                 })
 
@@ -103,7 +112,7 @@ fun SignInScreen(
                     .padding(top = 32.dp)
                     .clickable(
                         onClick = {
-                            navController.navigate(Route.VerifyEmail.route)
+                            navController.navigate(Route.ForgotPassword.route)
                         }
                     ),
                 text = stringResource(R.string.forgot_password),
@@ -128,7 +137,13 @@ fun SignInScreen(
                     textDecoration = TextDecoration.Underline
                 )
             )
-
         }
+        LoadingAndError(
+            isLoading = state.isLoading,
+            error = state.error,
+            onErrorDismiss = {
+                viewModel.clearError()
+            }
+        )
     }
 }

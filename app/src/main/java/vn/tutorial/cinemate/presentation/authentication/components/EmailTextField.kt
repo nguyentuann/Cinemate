@@ -12,6 +12,7 @@ fun EmailTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isValidEmail: Boolean?,
+    readOnly: Boolean = false
 ) {
 
     CommonTextField(
@@ -20,6 +21,7 @@ fun EmailTextField(
         onValueChange = onValueChange,
         placeholder = stringResource(R.string.email_placeholder),
         isError = (isValidEmail == false),
-        errorMessage = if (isValidEmail == false) stringResource(R.string.invalid_email) else null
+        errorMessage = if (isValidEmail == false) stringResource(R.string.invalid_email) else null,
+        readOnly = readOnly
     )
 }

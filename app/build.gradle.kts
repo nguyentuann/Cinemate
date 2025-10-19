@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -72,5 +73,14 @@ dependencies {
     implementation (libs.androidx.media3.exoplayer.hls)
 
     implementation (libs.androidx.hilt.navigation.compose)
+
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
+
+    implementation(libs.security.crypto)
+    implementation(libs.gson)
+    implementation(libs.appcompat)
+    implementation(libs.firebase.messaging.ktx)
+    implementation(platform(libs.firebase.bom))
 
 }

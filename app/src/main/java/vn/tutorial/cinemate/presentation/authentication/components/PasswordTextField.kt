@@ -24,7 +24,8 @@ fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isValidPassword: Boolean? = null,
-    errorMessage: String? = null
+    errorMessage: String? = null,
+    placeHolder: String = stringResource(R.string.password_placeholder)
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
@@ -32,12 +33,10 @@ fun PasswordTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        placeholder = stringResource(R.string.password_placeholder),
+        placeholder = placeHolder,
         isError = (isValidPassword == false),
         errorMessage = errorMessage,
-        leadingIcon = {
-            Icon(imageVector = Icons.Default.Lock, contentDescription = null)
-        },
+
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             val image = if (passwordVisible) {

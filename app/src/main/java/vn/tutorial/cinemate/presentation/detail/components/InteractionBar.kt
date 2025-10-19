@@ -13,7 +13,10 @@ import vn.tutorial.cinemate.common.icons.AppIcons
 
 @Composable
 fun InteractionBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onMyList: () -> Unit = {},
+    onComment: () -> Unit = {},
+    onShare: () -> Unit = {},
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -23,17 +26,18 @@ fun InteractionBar(
         InteractionButton(
             icon =  AppIcons.add(),
             title = stringResource(R.string.my_list),
-            onClick = {}
+            onClick = onMyList
         )
         InteractionButton(
-            icon = AppIcons.rate(),
-            title = stringResource(R.string.rate),
-            onClick = {}
+            icon = AppIcons.comment(),
+            title = stringResource(R.string.comment),
+            onClick = onComment
         )
+
         InteractionButton(
             icon = AppIcons.share(),
             title = stringResource(R.string.share),
-            onClick = {}
+            onClick = onShare
         )
     }
 }

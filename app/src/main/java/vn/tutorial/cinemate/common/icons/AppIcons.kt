@@ -80,4 +80,34 @@ object AppIcons {
 
     @Composable
     fun send(): Painter = painterResource(R.drawable.ic_send)
+
+    @Composable
+    fun back(): Painter = painterResource(R.drawable.ic_back)
+
+    @Composable
+    fun option(): Painter = painterResource(R.drawable.ic_option)
+
+    @Composable
+    fun changePassword(): Painter = painterResource(R.drawable.ic_change_pw)
+
+    @Composable
+    fun help(): Painter = painterResource(R.drawable.ic_help)
+
+    @Composable
+    fun history(): Painter = painterResource(R.drawable.ic_history)
+
+    @Composable
+    fun services(): Painter = painterResource(R.drawable.ic_service)
+
+    @Composable
+    fun signOut(): Painter = painterResource(R.drawable.ic_signout)
+
+    @Composable
+    fun delete(): Painter = painterResource(R.drawable.ic_delete)
+
+    @Composable
+    fun arrowRight(): Painter = painterResource(R.drawable.ic_arrow_right)
+
+    @Composable
+    fun comment(): Painter = painterResource(R.drawable.ic_comment)
 }

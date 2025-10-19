@@ -11,6 +11,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,18 +28,20 @@ fun CommonTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    readOnly: Boolean = false,
 ) {
     Column(modifier = modifier) {
         OutlinedTextField(
-            modifier = modifier
+            modifier = Modifier
                 .background(MaterialTheme.colorScheme.surface)
                 .fillMaxWidth()
                 .height(56.dp),
             value = value,
+            readOnly = readOnly,
             onValueChange = onValueChange,
             shape = Styles.ShapeStyles.smallCorner,
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+                focusedBorderColor = MaterialTheme.colorScheme.onSurface,
                 errorBorderColor = MaterialTheme.colorScheme.error
             ),
             isError = isError,
@@ -51,12 +54,11 @@ fun CommonTextField(
                 )
             },
             textStyle = MaterialTheme.typography.bodyMedium,
-
             visualTransformation = visualTransformation,
             leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon
+            trailingIcon = trailingIcon,
 
-        )
+            )
         if (isError && !errorMessage.isNullOrEmpty()) {
             Text(
                 text = errorMessage,
