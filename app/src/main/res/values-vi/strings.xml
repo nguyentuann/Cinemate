@@ -84,4 +84,5 @@
     <string name="notification">Thông báo</string>
     <string name="important">Quan trọng</string>
     <string name="other">Khác</string>
+    <string name="play">Phát</string>
 </resources>

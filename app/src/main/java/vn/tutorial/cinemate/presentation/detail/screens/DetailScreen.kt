@@ -18,29 +18,48 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
-import vn.tutorial.cinemate.domain.model.filmMock
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
 import vn.tutorial.cinemate.presentation.detail.components.InteractionBar
 import vn.tutorial.cinemate.presentation.detail.components.TrailerPlayer
 import vn.tutorial.cinemate.presentation.home.components.FilmSection
-import vn.tutorial.cinemate.mockdata.bannerFilm
 import vn.tutorial.cinemate.mockdata.sectionData
+import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.presentation.detail.components.Comment
+import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
+import vn.tutorial.cinemate.presentation.detail.viewModels.DetailViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailScreen(
     filmId: String,
+    viewModel: DetailViewModel = hiltViewModel()
 ) {
+    LogUtil(filmId)
     val navController = LocalNavController.current
-    val movie = bannerFilm
     val scrollState = rememberScrollState()
+    var showComments by remember { mutableStateOf(false) }
+    val state = viewModel.state.collectAsState().value
+    val filmDetail = state.filmDetail
+
+    LaunchedEffect(Unit) {
+        viewModel.getDetailFilm(filmId)
+    }
 
     Scaffold {
 
@@ -52,7 +71,9 @@ fun DetailScreen(
         ) {
 
             // todo trailer
-            TrailerPlayer(filmMock.trailerUrl)
+            filmDetail?.let {
+                TrailerPlayer(filmDetail.trailerUrl)
+            }
 
             Spacer(
                 modifier = Modifier.height(16.dp)
@@ -80,20 +101,34 @@ fun DetailScreen(
                         contentDescription = null,
                         modifier = Modifier.padding(end = 8.dp)
                     )
-                    Text("Play", style = MaterialTheme.typography.bodyLarge)
+                    Text(stringResource(R.string.play), style = MaterialTheme.typography.bodyLarge)
                 }
 
-                FilmInformation()
+                filmDetail?.let {
+                    FilmInformation(filmDetail)
+                }
 
                 HorizontalDivider()
 
-                InteractionBar()
+                InteractionBar(
+                    onComment = {
+                        showComments = true
+                    }
+                )
+
+                if (showComments) {
+                    CommentBottomSheet(
+                        comments = comments,
+                        onDismiss = { showComments = false }
+                    )
+                }
+
+                HorizontalDivider(
+                    Modifier.padding(bottom = 16.dp)
+                )
+
             }
 
-            HorizontalDivider(
-                modifier = Modifier
-                    .padding(16.dp)
-            )
             // recommend movies
             val moviesList = sectionData.map { (_, movies) -> movies }
             FilmSection(
@@ -104,3 +139,42 @@ fun DetailScreen(
     }
 }
 
+
+
+val comments = listOf<Comment>(
+    Comment(
+        id = 1,
+        author = "User1",
+        rating = 4,
+        content = "Great movie! Really enjoyed the plot and characters.",
+        timestamp = "2 days ago"
+    ),
+    Comment(
+        id = 2,
+        author = "User2",
+        rating = 5,
+        content = "Amazing cinematography and soundtrack. A must-watch!",
+        timestamp = "1 week ago"
+    ),
+    Comment(
+        id = 3,
+        author = "User3",
+        rating = 3,
+        content = "It was okay, but I felt the ending was a bit rushed.",
+        timestamp = "3 days ago"
+    ),
+    Comment(
+        id = 4,
+        author = "User4",
+        rating = 2,
+        content = "Didn't live up to the hype. Found it quite boring.",
+        timestamp = "5 days ago"
+    ),
+    Comment(
+        id = 5,
+        author = "User5",
+        rating = 4,
+        content = "Solid performances by the cast. Enjoyed it overall.",
+        timestamp = "1 day ago"
+    ),
+)

@@ -21,11 +21,12 @@ import vn.tutorial.cinemate.common.components.ExpandableText
 import vn.tutorial.cinemate.common.components.RatingBar
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.domain.model.FilmDetailModel
-import vn.tutorial.cinemate.domain.model.filmMock
+import vn.tutorial.cinemate.mockdata.filmMock1
 
 @Composable
 fun FilmInformation(
-    modifier: Modifier = Modifier, film: FilmDetailModel = filmMock
+    film: FilmDetailModel,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)

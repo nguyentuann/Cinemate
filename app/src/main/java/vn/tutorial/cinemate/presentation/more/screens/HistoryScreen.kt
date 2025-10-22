@@ -15,9 +15,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import vn.tutorial.cinemate.domain.model.filmMock
 import vn.tutorial.cinemate.presentation.more.components.CardFilmItem
 import vn.tutorial.cinemate.common.components.SearchBar
+import vn.tutorial.cinemate.mockdata.filmMock1
+import vn.tutorial.cinemate.mockdata.filmMock2
+import vn.tutorial.cinemate.mockdata.filmMock3
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 
 @Composable
@@ -26,9 +28,9 @@ fun HistoryScreen(
     title: String = "History",
 ) {
 
-    val todayFilms = remember { mutableStateListOf(filmMock, filmMock) }
-    val yesterdayFilms = remember { mutableStateListOf(filmMock) }
-    val lastWeekFilms = remember { mutableStateListOf(filmMock, filmMock, filmMock) }
+    val todayFilms = remember { mutableStateListOf(filmMock1, filmMock2) }
+    val yesterdayFilms = remember { mutableStateListOf(filmMock1) }
+    val lastWeekFilms = remember { mutableStateListOf(filmMock1, filmMock2, filmMock3) }
 
     val mapFavoriteFilm = mapOf(
         "Today" to todayFilms,

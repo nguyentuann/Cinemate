@@ -107,4 +107,21 @@ object AppIcons {
 
     @Composable
     fun arrowRight(): Painter = painterResource(R.drawable.ic_arrow_right)
+
+    @Composable
+    fun comment(): Painter = painterResource(R.drawable.ic_comment)
+
+    @Composable
+    fun sound(): Painter = painterResource(R.drawable.ic_sound)
+
+
+    @Composable
+    fun silent(): Painter = painterResource(R.drawable.ic_silent)
+
+    @Composable
+    fun sub(): Painter = painterResource(R.drawable.ic_sub)
+
+    @Composable
+    fun close(): Painter = painterResource(R.drawable.ic_close)
+
 }
