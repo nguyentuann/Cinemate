@@ -34,7 +34,9 @@ class SettingsViewModel @Inject constructor(
 
         localStorage.clearTokens()
     }
-    private var _locale = MutableStateFlow(Locale(localStorage.getLanguage() ?: "vi"))
+
+
+    private var _locale = MutableStateFlow(Locale(localStorage.getLanguage() ?: "en"))
     var locale: StateFlow<Locale> = _locale
 
     private var _theme = MutableStateFlow(

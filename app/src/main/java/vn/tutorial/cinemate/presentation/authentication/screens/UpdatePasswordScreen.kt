@@ -53,6 +53,7 @@ fun UpdatePasswordScreen(
             modifier = modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
+                .padding(top = 32.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -84,7 +85,7 @@ fun UpdatePasswordScreen(
                     isMatch = it == state.password
                 },
                 isValidPassword = isMatch,
-                errorMessage = if (isValidPassword == false) stringResource(R.string.not_match_password) else null
+                errorMessage = if (isMatch == false) stringResource(R.string.not_match_password) else null
             )
 
             CommonButton(

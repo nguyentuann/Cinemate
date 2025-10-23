@@ -20,6 +20,7 @@ abstract class BaseService {
                     LogUtil("vao success co body: $body")
                     Resource.Success(body.data)
                 } else {
+                    LogUtil("vao success ko body: $body")
                     Resource.Error(body?.detail ?: body?.message ?: "Unexpected error")
                 }
             } else {

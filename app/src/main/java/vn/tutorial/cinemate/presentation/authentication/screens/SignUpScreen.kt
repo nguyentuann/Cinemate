@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,6 +49,17 @@ fun SignUpScreen(
     var isChecked by remember { mutableStateOf(false) }
     var isValidEmail: Boolean? by remember { mutableStateOf(null) }
 
+    LaunchedEffect(Unit) {
+        val token = navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.get<String>("verify_token_pending")
+
+        if (!token.isNullOrEmpty()) {
+            navController.navigate(Route.VerifyToken.createRoute(token))
+        }
+    }
+
+
     Scaffold(
         topBar = {
             AppBar(
@@ -60,7 +72,7 @@ fun SignUpScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp).padding(top = 32.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,

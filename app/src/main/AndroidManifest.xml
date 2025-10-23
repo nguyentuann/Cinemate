@@ -25,7 +25,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="fullSensor"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.Cinemate">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,6 +50,7 @@
                 <data
                     android:scheme="http"
                     android:host="localhost"
+                    android:port="3000"
                     android:pathPrefix="/register/confirm"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>

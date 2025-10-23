@@ -20,12 +20,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.App
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
@@ -68,21 +72,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     CompositionLocalProvider(LocalResources provides localizedContext.resources) {
                         App(settingsViewModel, navController)
-                        LaunchedEffect(pendingIntent, navController.currentBackStackEntry) {
-                            val data = pendingIntent?.data
-                            if (data != null && data.path?.startsWith("/register/confirm") == true) {
-                                val token = data.getQueryParameter("token")
-                                if (!token.isNullOrEmpty() && navController.graph.nodes.isNotEmpty()) {
-                                    navController.navigate(Route.VerifyToken.createRoute(token)) {
-                                        popUpTo(navController.graph.startDestinationId) {
-                                            inclusive = false
-                                        }
-                                        launchSingleTop = true
-                                    }
-                                    pendingIntent = null
-                                }
-                            }
-                        }
                     }
                 }
             }

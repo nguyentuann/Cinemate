@@ -1,5 +1,7 @@
 package vn.tutorial.cinemate.core.constant.api_endpoint
 
+import vn.tutorial.cinemate.BuildConfig
+
 object BaseEndpoint {
-    const val BASE_URL = "http://192.168.1.3:8585/"
+    const val BASE_URL = BuildConfig.BASE_URL
 }

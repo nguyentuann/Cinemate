@@ -1,7 +1,7 @@
 package vn.tutorial.cinemate.core.constant.api_endpoint
 
 object AuthEndpoint {
-    private const val PREFIX = "auth/api/v1/"
+    private const val PREFIX = "api/v1/auth/"
 
     // todo Authentication
     const val VERIFY_EMAIL = "${PREFIX}verify-email"
@@ -15,7 +15,6 @@ object AuthEndpoint {
     const val LOGIN = "${PREFIX}login"
     const val LOGOUT = "${PREFIX}log-out"
 
-    const val VERIFY_ACCOUNT = "${PREFIX}verify-account"
     const val CHANGE_PASSWORD = "${PREFIX}change-password"
     const val REFRESH_TOKEN = "${PREFIX}refresh-token"
 }

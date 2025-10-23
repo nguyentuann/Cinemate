@@ -46,7 +46,7 @@ fun App(
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = Route.Home.route,
+                startDestination = Route.Started.route,
             ) {
                 authenticationNavGraph(navController)
                 mainNavGraph(it)

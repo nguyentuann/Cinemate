@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.navigation
 
 import FavoriteScreen
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,13 +13,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
-import vn.tutorial.cinemate.presentation.authentication.screens.UpdatePasswordScreen
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.presentation.authentication.screens.CheckMailScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.CreatePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.ForgotPasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignInScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.SignUpScreen
+import vn.tutorial.cinemate.presentation.authentication.screens.UpdatePasswordScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyOTPScreen
 import vn.tutorial.cinemate.presentation.authentication.screens.VerifyTokenScreen
 import vn.tutorial.cinemate.presentation.authentication.viewModel.ForgotPasswordViewModel
@@ -142,16 +145,24 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         }
 
         composable(
-            Route.VerifyToken.route,
-            arguments = listOf(navArgument("token") { type = NavType.StringType })
+            "${Route.VerifyToken.route}/{token}",
+            arguments = listOf(navArgument("token") { type = NavType.StringType }),
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = "http://localhost:3000/register/confirm?token={token}"
+                    action = Intent.ACTION_VIEW
+                }
+            )
         ) { backStackEntry ->
             val parentEntry = remember(navController) {
                 navController.getBackStackEntry(Route.SignUpGraph.route)
             }
             val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
             val token = backStackEntry.arguments?.getString("token") ?: return@composable
+            LogUtil("Deep link token: $token")
             VerifyTokenScreen(token, navController, viewModel)
         }
+
     }
 
 }

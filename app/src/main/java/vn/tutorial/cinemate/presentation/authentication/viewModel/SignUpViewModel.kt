@@ -74,6 +74,10 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun signUp() {
+        LogUtil(
+            "" +
+                    "call sign up with email: ${_state.value.email}, password: ${_state.value.password}, token: ${_state.value.token}"
+        )
         executeUseCase(
             state = _state,
             block = {
