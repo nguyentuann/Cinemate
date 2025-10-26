@@ -5,13 +5,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
-import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.domain.model.CategoryModel
 import vn.tutorial.cinemate.domain.model.FilmDetailModel
 import vn.tutorial.cinemate.domain.usecase.films.GetBannerFilmsUseCase
 import vn.tutorial.cinemate.domain.usecase.films.GetSectionFilmsUseCase
 import javax.inject.Inject
 
 data class HomeUIState(
+    val category: List<CategoryModel> = emptyList(),
     val heroBannerFilms: List<FilmDetailModel> = emptyList(),
     val sectionFilms: Map<String, List<FilmDetailModel>> = emptyMap(),
     val isLoading: Boolean = false,
@@ -41,6 +42,10 @@ class HomeViewModel @Inject constructor(
         _state.value = _state.value.copy(
             error = null
         )
+    }
+
+    fun getAllCategories() {
+        // todo call to get categories
     }
 
     fun getBannerFilms() {

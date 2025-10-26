@@ -67,7 +67,7 @@ fun MoreScreen(
             )
 
             LazyColumn(
-                modifier = Modifier.padding(bottom = 120.dp)
+                modifier = Modifier.padding(bottom = 80.dp)
             ) {
                 items(listOptions) { option ->
                     MoreItem(
