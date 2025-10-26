@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,10 +25,8 @@ import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
-import vn.tutorial.cinemate.common.components.CommonTextField
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SignInText
-import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.core.util.Validator
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.authentication.components.EmailTextField
@@ -108,7 +105,13 @@ fun CreatePasswordScreen(
                 title = stringResource(R.string.confirm),
                 onClick = {
                     if (isValidPassword == true && isMatch == true) {
-                        viewModel.signUp()
+                        viewModel.signUp {
+                            navController.navigate(Route.Home.route) {
+                                popUpTo(Route.SignUpGraph.route) {
+                                    inclusive = true
+                                }
+                            }
+                        }
                     } else {
                         if (isValidPassword != true) {
                             isValidPassword = false

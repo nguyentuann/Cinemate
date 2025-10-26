@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
@@ -25,8 +24,10 @@ import vn.tutorial.cinemate.navigation.LocalNavController
 fun CheckMailScreen(
     email: String,
 ) {
+
     val navController = LocalNavController.current
     val context = LocalNavController.current.context
+
     Scaffold(
         topBar = {
             AppBar(

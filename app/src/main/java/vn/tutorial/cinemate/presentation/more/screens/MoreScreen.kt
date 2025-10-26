@@ -66,7 +66,9 @@ fun MoreScreen(
                 style = MaterialTheme.typography.titleSmall
             )
 
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.padding(bottom = 120.dp)
+            ) {
                 items(listOptions) { option ->
                     MoreItem(
                         title = stringResource(option.titleRes),

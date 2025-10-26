@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName
 import vn.tutorial.cinemate.domain.model.UserModel
 
 data class DataWrapperSignUp(
-    @SerializedName("user") val user: UserDto
+    @SerializedName("user") val user: UserDto,
+    @SerializedName("access_token") val accessToken: String,
+    @SerializedName("refresh_token") val refreshToken: String
 )
 
 data class UserDto(

@@ -1,6 +1,5 @@
 package vn.tutorial.cinemate.common.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -9,18 +8,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RippleDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import vn.tutorial.cinemate.R
+
 @Composable
 fun LoadingAndError(
+    testTag: String = "api_message",
     isLoading: Boolean,
     error: String?,
     onErrorDismiss: () -> Unit
@@ -39,9 +41,15 @@ fun LoadingAndError(
         AlertDialog(
             onDismissRequest = { },
             confirmButton = {
-                TextButton(onClick = {
-                    onErrorDismiss()
-                }) {
+                TextButton(
+                    modifier = Modifier
+                        .semantics {
+                            contentDescription = "ok_error_button"
+                        },
+                    onClick = {
+                        onErrorDismiss()
+                    }
+                ) {
                     Text("OK")
                 }
             },
@@ -63,7 +71,12 @@ fun LoadingAndError(
                     Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        error,
+                        modifier = Modifier
+                            .testTag(testTag)
+                            .semantics {
+                                contentDescription = testTag
+                            },
+                        text = error,
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }

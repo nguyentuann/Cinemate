@@ -29,7 +29,7 @@ fun BottomBar(navController: NavHostController) {
     val items = listOf(
         BottomNavItem("Home", AppIcons.home(), "home"),
         BottomNavItem("Search", AppIcons.search(), "search"),
-        BottomNavItem("Coming Soon", AppIcons.comingSoon(), "coming_soon"),
+        BottomNavItem("Soon", AppIcons.comingSoon(), "coming_soon"),
         BottomNavItem("Notification", AppIcons.notification(), "notification"),
         BottomNavItem("More", AppIcons.more(), "more")
     )

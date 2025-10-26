@@ -10,6 +10,8 @@ import vn.tutorial.cinemate.common.components.CommonTextField
 fun EmailTextField(
     modifier: Modifier = Modifier,
     value: String,
+    testTag: String = "email_text_field",
+    errorTestTag: String = "email_error_message",
     onValueChange: (String) -> Unit,
     isValidEmail: Boolean?,
     readOnly: Boolean = false
@@ -18,6 +20,8 @@ fun EmailTextField(
     CommonTextField(
         modifier = modifier,
         value = value,
+        testTag = testTag,
+        errorTestTag = errorTestTag,
         onValueChange = onValueChange,
         placeholder = stringResource(R.string.email_placeholder),
         isError = (isValidEmail == false),

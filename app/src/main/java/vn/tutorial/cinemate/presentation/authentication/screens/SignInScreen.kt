@@ -19,7 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,6 +47,7 @@ fun SignInScreen(
     val state = viewModel.state.collectAsState().value
 
     var isValidEmail: Boolean? by remember { mutableStateOf(null) }
+    var isValidPassword: Boolean? by remember { mutableStateOf(null) }
 
     Scaffold(
         topBar = {
@@ -57,7 +61,8 @@ fun SignInScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(16.dp).padding(top = 32.dp)
+                .padding(16.dp)
+                .padding(top = 32.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -73,6 +78,7 @@ fun SignInScreen(
                 modifier = Modifier
                     .padding(top = 16.dp),
                 value = state.email,
+                testTag = "sign_in_email_text_field",
                 onValueChange = {
                     viewModel.updateEmail(it)
                     isValidEmail = Validator.isValidEmail(it)
@@ -84,9 +90,13 @@ fun SignInScreen(
                 modifier = Modifier
                     .padding(top = 16.dp),
                 value = state.password,
+                testTag = "sign_in_password_text_field",
                 onValueChange = {
                     viewModel.updatePassword(it)
+                    isValidPassword = it.isNotEmpty()
                 },
+                isValidPassword = isValidPassword,
+                errorMessage = stringResource(R.string.password_empty)
             )
 
             CommonButton(
@@ -94,8 +104,9 @@ fun SignInScreen(
                     .fillMaxWidth()
                     .padding(top = 32.dp),
                 title = stringResource(R.string.sign_in),
+                testTag = "sign_in_button",
                 onClick = {
-                    if (isValidEmail == true) {
+                    if (isValidEmail == true && isValidPassword == true) {
                         viewModel.signIn(
                             onSuccess = {
                                 navController.navigate(Route.Home.route) {
@@ -104,6 +115,13 @@ fun SignInScreen(
                                 }
                             }
                         )
+                    } else {
+                        if (isValidEmail != true) {
+                            isValidEmail = false
+                        }
+                        if (isValidPassword != true) {
+                            isValidPassword = false
+                        }
                     }
                 })
 
@@ -139,6 +157,7 @@ fun SignInScreen(
             )
         }
         LoadingAndError(
+            testTag = "sign_in_api_message",
             isLoading = state.isLoading,
             error = state.error,
             onErrorDismiss = {

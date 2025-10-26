@@ -31,8 +31,6 @@ class SettingsViewModel @Inject constructor(
         LogUtil(
             "Refresh: ${localStorage.getRefreshToken()}"
         )
-
-        localStorage.clearTokens()
     }
 
 

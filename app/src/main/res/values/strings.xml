@@ -27,6 +27,8 @@
     <string name="create_password">Create Password</string>
     <string name="change_password">Change Password</string>
 
+    <string name="password_empty">Password cannot be empty</string>
+
     <string name="profile">Profile</string>
     <string name="account_management">Account Management</string>
 

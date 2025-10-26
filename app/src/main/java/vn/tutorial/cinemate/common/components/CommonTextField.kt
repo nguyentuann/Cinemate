@@ -11,7 +11,13 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.semantics.text
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -19,8 +25,10 @@ import vn.tutorial.cinemate.common.styles.Styles
 
 @Composable
 fun CommonTextField(
-    modifier: Modifier = Modifier,
     value: String,
+    testTag: String,
+    errorTestTag: String,
+    modifier: Modifier = Modifier,
     isError: Boolean = false,
     errorMessage: String? = null,
     onValueChange: (String) -> Unit = {},
@@ -33,9 +41,12 @@ fun CommonTextField(
     Column(modifier = modifier) {
         OutlinedTextField(
             modifier = Modifier
+                .semantics {
+                    contentDescription = testTag
+                }
                 .background(MaterialTheme.colorScheme.surface)
-                .fillMaxWidth()
-                .height(56.dp),
+                .fillMaxWidth(),
+//                .height(56.dp),
             value = value,
             readOnly = readOnly,
             onValueChange = onValueChange,
@@ -50,7 +61,7 @@ fun CommonTextField(
                 Text(
                     placeholder,
                     style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center
+//                    textAlign = TextAlign.Start
                 )
             },
             textStyle = MaterialTheme.typography.bodyMedium,
@@ -64,7 +75,11 @@ fun CommonTextField(
                 text = errorMessage,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 8.dp, top = 4.dp)
+                modifier = Modifier
+                    .semantics {
+                        contentDescription = errorTestTag
+                    }
+                    .padding(start = 8.dp, top = 4.dp)
             )
         }
     }

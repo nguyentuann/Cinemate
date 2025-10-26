@@ -80,6 +80,25 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         CheckMailScreen(email)
     }
 
+//    composable(
+//        Route.VerifyToken.route,
+//        arguments = listOf(navArgument("token") { type = NavType.StringType }),
+////            deepLinks = listOf(
+////                navDeepLink {
+////                    uriPattern = "http://localhost:3000/register/confirm?token={token}"
+////                    action = Intent.ACTION_VIEW
+////                }
+////            )
+//    ) { backStackEntry ->
+//        val parentEntry = remember(navController) {
+//            navController.getBackStackEntry(Route.SignUpGraph.route)
+//        }
+//        val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
+//        val token = backStackEntry.arguments?.getString("token") ?: return@composable
+//        LogUtil("Deep link token: $token")
+//        VerifyTokenScreen(token, navController, viewModel)
+//    }
+
     // todo gom các màn forgot password thành 1 graph con
     navigation(
         startDestination = Route.ForgotPassword.route,
@@ -128,6 +147,7 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         startDestination = Route.SignUp.route,
         route = Route.SignUpGraph.route
     ) {
+
         composable(route = Route.SignUp.route) {
             val parentEntry = remember(navController) {
                 navController.getBackStackEntry(Route.SignUpGraph.route)
@@ -145,7 +165,7 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         }
 
         composable(
-            "${Route.VerifyToken.route}/{token}",
+            Route.VerifyToken.route,
             arguments = listOf(navArgument("token") { type = NavType.StringType }),
             deepLinks = listOf(
                 navDeepLink {

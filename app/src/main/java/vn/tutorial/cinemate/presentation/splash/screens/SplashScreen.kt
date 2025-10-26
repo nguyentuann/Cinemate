@@ -33,7 +33,9 @@ import vn.tutorial.cinemate.presentation.splash.components.ImagePager
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SplashScreen(navController: NavHostController) {
+
     val pagerState = rememberPagerState(pageCount = { listSplashImage.size })
+
 
     Scaffold { paddingValues ->
         Box(

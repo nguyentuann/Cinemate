@@ -20,6 +20,7 @@ import vn.tutorial.cinemate.common.components.AppBar
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SignInText
+import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.authentication.viewModel.SignUpViewModel
 
@@ -31,6 +32,7 @@ fun VerifyTokenScreen(
         navController.getBackStackEntry(Route.SignUpGraph.route)
     )
 ) {
+    val navController = LocalNavController.current
     val state = viewModel.state.collectAsState().value
     Scaffold(
         topBar = {

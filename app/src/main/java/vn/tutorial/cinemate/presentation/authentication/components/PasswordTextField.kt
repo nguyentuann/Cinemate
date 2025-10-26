@@ -1,7 +1,5 @@
 package vn.tutorial.cinemate.presentation.authentication.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -22,6 +20,8 @@ import vn.tutorial.cinemate.common.components.CommonTextField
 fun PasswordTextField(
     modifier: Modifier = Modifier,
     value: String,
+    testTag: String = "password_text_field",
+    errorTestTag: String = "password_error_message",
     onValueChange: (String) -> Unit,
     isValidPassword: Boolean? = null,
     errorMessage: String? = null,
@@ -32,11 +32,12 @@ fun PasswordTextField(
     CommonTextField(
         modifier = modifier,
         value = value,
+        testTag =  testTag,
+        errorTestTag = errorTestTag,
         onValueChange = onValueChange,
         placeholder = placeHolder,
         isError = (isValidPassword == false),
         errorMessage = errorMessage,
-
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             val image = if (passwordVisible) {

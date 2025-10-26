@@ -73,7 +73,7 @@ class SignUpViewModel @Inject constructor(
         )
     }
 
-    fun signUp() {
+    fun signUp(onSuccess: () -> Unit) {
         LogUtil(
             "" +
                     "call sign up with email: ${_state.value.email}, password: ${_state.value.password}, token: ${_state.value.token}"
@@ -94,7 +94,9 @@ class SignUpViewModel @Inject constructor(
                     isLoading = false,
                     user = user,
                     error = null
-                )
+                ).also {
+                    onSuccess()
+                }
             },
             onError = { errorMsg ->
                 _state.value.copy(
