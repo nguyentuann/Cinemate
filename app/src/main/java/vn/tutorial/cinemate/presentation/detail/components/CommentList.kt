@@ -18,15 +18,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import vn.tutorial.cinemate.common.icons.AppIcons
+import vn.tutorial.cinemate.domain.model.Comment
 import vn.tutorial.cinemate.ui.theme.yellow
 
-data class Comment(
-    val id: Int,
-    val author: String,
-    val rating: Int,
-    val content: String,
-    val timestamp: String
-)
+@Composable
+fun CommentList(
+    comments: List<Comment>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 56.dp)
+    ) {
+        items(comments) {
+            CommentItem(comment = it, modifier = modifier)
+        }
+    }
+
+}
 
 @Composable
 fun CommentItem(comment: Comment, modifier: Modifier = Modifier) {
@@ -42,7 +52,7 @@ fun CommentItem(comment: Comment, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                comment.author,
+                comment.userName,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
@@ -56,7 +66,7 @@ fun CommentItem(comment: Comment, modifier: Modifier = Modifier) {
         }
         Row {
             repeat(5) {
-                val tint = if (it < comment.rating) yellow else Color.Gray
+                val tint = if (it < comment.stars) yellow else Color.Gray
                 Icon(
                     AppIcons.star(),
                     contentDescription = null,
@@ -75,21 +85,5 @@ fun CommentItem(comment: Comment, modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun CommentList(
-    comments: List<Comment>,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 56.dp)
-    ) {
-        items(comments) {
-            CommentItem(comment = it, modifier = modifier)
-        }
-    }
-
-}
 
 

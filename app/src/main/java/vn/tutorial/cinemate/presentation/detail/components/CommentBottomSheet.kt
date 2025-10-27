@@ -24,8 +24,11 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -34,16 +37,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.icons.AppIcons
+import vn.tutorial.cinemate.presentation.detail.viewModels.CommentViewModel
 import vn.tutorial.cinemate.ui.theme.yellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommentBottomSheet(
-    comments: List<Comment>,
-    onDismiss: () -> Unit
+    filmId: String,
+    onDismiss: () -> Unit,
+    commentViewModel: CommentViewModel = hiltViewModel()
 ) {
+
+    LaunchedEffect(Unit) {
+        commentViewModel.getAllComments(filmId)
+    }
+
+    val state = commentViewModel.state.collectAsState().value
+
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
@@ -69,24 +82,28 @@ fun CommentBottomSheet(
             )
 
             HorizontalDivider()
-
-            // CommentList -> LazyColumn
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-                CommentList(comments) // LazyColumn cuộn độc lập
+                CommentList(state.comments) // LazyColumn cuộn độc lập
             }
-
+                Review(
+                    onSendReview = { rating, content ->
+                        commentViewModel.addComment(filmId, rating, content)
+                    }
+                )
         }
-        Review()
     }
 }
 
 @Composable
-private fun Review() {
-    var rating by remember { mutableIntStateOf(0) } // số sao user chọn
+private fun Review(
+    onSendReview: (Int, String) -> Unit
+) {
+    var rating by remember { mutableIntStateOf(0) }
+    var content by remember { mutableStateOf("") }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -116,11 +133,12 @@ private fun Review() {
         }
         Spacer(Modifier.height(16.dp))
 
-        // TextField nhập comment
         Row {
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = content,
+                onValueChange = {
+                    content = it
+                },
                 placeholder = {
                     Text(
                         stringResource(R.string.add_comment),
@@ -138,9 +156,11 @@ private fun Review() {
             )
 
             // Nút gửi
-            IconButton(onClick = {
-                // TODO: gửi rating + comment
-            }) {
+            IconButton(
+                onClick = {
+                    onSendReview(rating, content)
+                },
+                enabled = content.isNotEmpty() && rating > 0) {
                 Icon(
                     AppIcons.send(),
                     contentDescription = null,

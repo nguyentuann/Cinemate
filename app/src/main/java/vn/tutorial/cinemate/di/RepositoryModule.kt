@@ -5,9 +5,11 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import vn.tutorial.cinemate.data.repositoryImpl.AuthRepositoryImpl
+import vn.tutorial.cinemate.data.repositoryImpl.CommentRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.FilmRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.NotificationRepositoryImpl
 import vn.tutorial.cinemate.domain.repository.AuthRepository
+import vn.tutorial.cinemate.domain.repository.CommentRepository
 import vn.tutorial.cinemate.domain.repository.FilmRepository
 import vn.tutorial.cinemate.domain.repository.NotificationRepository
 
@@ -29,4 +31,9 @@ abstract class RepositoryModule {
     abstract fun bindNotificationRepository(
         impl: NotificationRepositoryImpl
     ): NotificationRepository
+
+    @Binds
+    abstract fun bindCommentRepository(
+        impl: CommentRepositoryImpl
+    ): CommentRepository
 }
