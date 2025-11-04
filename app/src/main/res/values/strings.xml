@@ -89,5 +89,7 @@
     <string name="other">Other</string>
     <string name="play">Play</string>
 
+    <string name="favorite">Favorite</string>
+
 
 </resources>

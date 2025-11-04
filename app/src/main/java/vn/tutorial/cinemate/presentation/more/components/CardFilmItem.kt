@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -48,10 +49,11 @@ import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 
 @Composable
-fun CardFilmItem(
-    film: MovieDetailModel,
+fun CardMovieItem(
+    movie: MovieDetailModel,
     modifier: Modifier = Modifier,
-    onDelete: (MovieDetailModel) -> Unit = { _ -> },
+    onDelete: (String) -> Unit = {},
+    onAddToFavorite: (String) -> Unit = {},
     isHistory: Boolean = false,
     isSearch: Boolean = false,
 ) {
@@ -77,18 +79,18 @@ fun CardFilmItem(
                     .width(200.dp)
                     .clip(Styles.ShapeStyles.mediumCorner)
                     .clickable {
-                        navController.navigate(Route.PlayVideo.createRoute(film.id))
+                        navController.navigate(Route.PlayVideo.createRoute(movie.id))
                     }
             ) {
                 // Poster
                 AsyncImage(
                     modifier = Modifier.fillMaxSize(),
-                    model = film.horizontalPoster,
+                    model = movie.horizontalPoster,
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    text = timeFormatter(film.durationMinutes!! * 60 * 1000L),
+                    text = timeFormatter(movie.durationMinutes!! * 60 * 1000L),
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -107,7 +109,7 @@ fun CardFilmItem(
                         .background(Color.White.copy(alpha = 0.7f))
                 ) {
                     val progress =
-                        film.watchDurationMinutes!!.toFloat() / film.durationMinutes.toFloat()
+                        movie.watchDurationMinutes!!.toFloat() / movie.durationMinutes.toFloat()
                     Box(
                         modifier = Modifier
                             .fillMaxHeight()
@@ -129,7 +131,7 @@ fun CardFilmItem(
                         .weight(1f)
                 ) {
                     Text(
-                        text = film.title,
+                        text = movie.title,
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.Bold
                         ),
@@ -137,12 +139,12 @@ fun CardFilmItem(
                     )
 
                     Text(
-                        text = film.description.toString(),
+                        text = movie.description.toString(),
                         style = MaterialTheme.typography.bodySmall,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
                     )
-                    RatingBar(rating = film.rating!!, starSize = 16.dp)
+                    RatingBar(rating = movie.rating!!, starSize = 16.dp)
 
                 }
 
@@ -165,7 +167,9 @@ fun CardFilmItem(
 
             if (showActions) {
                 ActionBottomSheet(
-                    filmId = film.id,
+                    movieId =  movie.id,
+                    onDelete = onDelete,
+                    onAddToFavorite = onAddToFavorite,
                     onDismiss = { showActions = false },
                     isHistory = isHistory
                 )
@@ -177,13 +181,15 @@ fun CardFilmItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ActionBottomSheet(
-    filmId: String,
+    movieId: String,
+    onDelete: (String) -> Unit,
+    onAddToFavorite: (String) -> Unit,
     onDismiss: () -> Unit,
     isHistory: Boolean = false,
 ) {
     ModalBottomSheet(
-        modifier = Modifier
-            .padding(12.dp),
+        modifier = Modifier.navigationBarsPadding()
+            .padding(horizontal = 12.dp),
         onDismissRequest = onDismiss,
         dragHandle = {
             BottomSheetDefaults.DragHandle(
@@ -204,9 +210,15 @@ private fun ActionBottomSheet(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ActionItem(AppIcons.delete(), stringResource(R.string.delete)) { }
+            ActionItem(AppIcons.delete(), stringResource(R.string.delete)) {
+                onDelete(movieId)
+                onDismiss()
+            }
             if (isHistory) {
-                ActionItem(AppIcons.add(), stringResource(R.string.add_to_favorite)) { }
+                ActionItem(AppIcons.add(), stringResource(R.string.add_to_favorite)) {
+                    onAddToFavorite(movieId)
+                    onDismiss()
+                }
             }
             ActionItem(AppIcons.share(), stringResource(R.string.share)) { }
         }

@@ -15,17 +15,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import vn.tutorial.cinemate.presentation.more.components.CardFilmItem
+import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.common.components.SearchBar
 import vn.tutorial.cinemate.mockdata.filmMock1
 import vn.tutorial.cinemate.mockdata.filmMock2
 import vn.tutorial.cinemate.mockdata.filmMock3
+import vn.tutorial.cinemate.presentation.more.components.CardMovieItem
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
+import vn.tutorial.cinemate.presentation.more.viewModels.FavoriteViewModel
 
 @Composable
 fun HistoryScreen(
     modifier: Modifier = Modifier,
     title: String = "History",
+    favoriteViewModel: FavoriteViewModel = hiltViewModel()
 ) {
 
     val todayFilms = remember { mutableStateListOf(filmMock1, filmMock2) }
@@ -68,10 +71,13 @@ fun HistoryScreen(
                     item {
                         Text(title, style = MaterialTheme.typography.titleSmall)
                     }
-                    items(filmsMutable) { film ->
-                        CardFilmItem(
-                            film = film,
-                            isHistory = true
+                    items(filmsMutable) { movie ->
+                        CardMovieItem(
+                            movie = movie,
+                            isHistory = true,
+                            onAddToFavorite = {
+                                favoriteViewModel.addFavorite(it)
+                            }
                         )
                     }
                 }

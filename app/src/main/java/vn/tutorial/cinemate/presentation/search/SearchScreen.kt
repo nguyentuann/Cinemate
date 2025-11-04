@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SearchBar
-import vn.tutorial.cinemate.presentation.more.components.CardFilmItem
+import vn.tutorial.cinemate.presentation.more.components.CardMovieItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +73,7 @@ fun SearchScreen(
                     )
                 }
                 items(films) { film ->
-                    CardFilmItem(film, isSearch = true)
+                    CardMovieItem(film, isSearch = true)
                 }
             } else if (trendingFilms.isNotEmpty() && state.isLoading == false) {
 
@@ -88,7 +88,7 @@ fun SearchScreen(
                     )
                 }
                 items(trendingFilms) { film ->
-                    CardFilmItem(film, isSearch = true)
+                    CardMovieItem(film, isSearch = true)
 
                 }
             }

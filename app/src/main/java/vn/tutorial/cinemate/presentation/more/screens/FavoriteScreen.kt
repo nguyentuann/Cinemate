@@ -3,27 +3,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import vn.tutorial.cinemate.mockdata.filmMock1
-import vn.tutorial.cinemate.mockdata.filmMock2
-import vn.tutorial.cinemate.mockdata.filmMock3
-import vn.tutorial.cinemate.presentation.more.components.CardFilmItem
+import androidx.hilt.navigation.compose.hiltViewModel
+import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.common.components.LoadingAndError
+import vn.tutorial.cinemate.presentation.more.components.CardMovieItem
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
+import vn.tutorial.cinemate.presentation.more.viewModels.FavoriteViewModel
 
 @Composable
 fun FavoriteScreen(
     modifier: Modifier = Modifier,
-    title: String = "Favorite",
+    viewModel: FavoriteViewModel = hiltViewModel()
+
 ) {
-    val films = remember { mutableStateListOf(filmMock1, filmMock2, filmMock3) }
+    val state = viewModel.state.collectAsState().value
 
     Scaffold(
         topBar = {
-            TopAppBarWithBack(title)
+            TopAppBarWithBack(stringResource(R.string.favorite))
         }
     ) {
         Column(
@@ -33,11 +36,29 @@ fun FavoriteScreen(
                     horizontal = 16.dp
                 )
         ) {
-            LazyColumn {
-                items(films) { film ->
-                    CardFilmItem(film)
+            if (state.movies.isNotEmpty()) {
+                LazyColumn {
+                    items(state.movies) { movie ->
+                        CardMovieItem(
+                            movie = movie,
+                            onDelete = { movieId ->
+                                viewModel.deleteFavorite(movieId)
+                            },
+                        )
+                    }
                 }
+            } else {
+                Text("No favorite movies found.")
             }
+
         }
+
+        LoadingAndError(
+            isLoading = state.isLoading,
+            error = state.error,
+            onErrorDismiss = {
+                viewModel.clearError()
+            }
+        )
     }
 }

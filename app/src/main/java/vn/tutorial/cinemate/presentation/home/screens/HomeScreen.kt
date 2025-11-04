@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.Refreshable
+import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.home.components.HeaderBar
 import vn.tutorial.cinemate.presentation.home.components.InfinityBanner
 import vn.tutorial.cinemate.presentation.home.components.MovieSection
@@ -27,9 +28,9 @@ import vn.tutorial.cinemate.presentation.home.viewModels.SectionType
 import vn.tutorial.cinemate.presentation.home.viewModels.SectionViewModel
 
 val headerItems = mapOf(
-    "TV Shows" to {},
-    "Movies" to {},
-    "My List" to {},
+    "Movies" to Route.Home.route,
+    "History" to Route.History.route,
+    "My List" to Route.Favorite.route,
 )
 
 @Composable
