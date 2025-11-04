@@ -53,8 +53,7 @@
     <string name="comment">Bình luận</string>
     <string name="add_comment">Thêm bình luận</string>
 
-    <string name="comment_rating">Bình luận và đánh giá</string>
-
+    <string name="reviews">Đánh giá</string>
     <string name="favorite_films">Phim yêu thích</string>
 
     <string name="first_name">Tên của bạn</string>

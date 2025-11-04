@@ -11,8 +11,18 @@ class LocalStorage @Inject constructor(
     companion object {
         private const val ACCESS_TOKEN = "access_token"
         private const val REFRESH_TOKEN = "refresh_token"
+        private const val USER_ID = "user_id"
+
         private const val THEME = "theme"
         private const val LANGUAGE = "language"
+    }
+
+    fun saveUserId(userId: String) {
+        prefs.edit { putString(USER_ID, userId) }
+    }
+
+    fun getUserId(): String? {
+        return prefs.getString(USER_ID, null)
     }
 
     fun saveAccessToken(token: String) {

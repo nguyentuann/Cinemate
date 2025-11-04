@@ -1,5 +1,7 @@
 package vn.tutorial.cinemate.presentation.detail.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,25 +36,31 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.icons.AppIcons
-import vn.tutorial.cinemate.presentation.detail.viewModels.CommentViewModel
+import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.domain.model.ReviewModel
+import vn.tutorial.cinemate.presentation.detail.viewModels.ReviewViewModel
 import vn.tutorial.cinemate.ui.theme.yellow
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommentBottomSheet(
-    filmId: String,
+    movieId: String,
     onDismiss: () -> Unit,
-    commentViewModel: CommentViewModel = hiltViewModel()
+    commentViewModel: ReviewViewModel = hiltViewModel()
 ) {
 
     LaunchedEffect(Unit) {
-        commentViewModel.getAllComments(filmId)
+        commentViewModel.getAllReviews(movieId)
+        commentViewModel.getReviewCount(movieId)
     }
 
     val state = commentViewModel.state.collectAsState().value
@@ -73,7 +81,7 @@ fun CommentBottomSheet(
                 .fillMaxWidth()
         ) {
             Text(
-                text = stringResource(R.string.comment_rating),
+                text = stringResource(R.string.reviews) + " (${state.commentCount})",
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier
                     .padding(16.dp)
@@ -87,14 +95,33 @@ fun CommentBottomSheet(
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-                CommentList(state.comments) // LazyColumn cuộn độc lập
+                ReviewList(state.comments) // LazyColumn cuộn độc lập
             }
-                Review(
-                    onSendReview = { rating, content ->
-                        commentViewModel.addComment(filmId, rating, content)
-                    }
-                )
+            Review(
+                onSendReview = { rating, content ->
+//                    commentViewModel.addReview(
+//                        ReviewModel(
+//                            movieId = movieId,
+//                            customerId = "current_user_id",
+//                            userName = "Current User",
+//                            userAvatar = "",
+//                            stars = rating,
+//                            content = content,
+//                        )
+//                    )
+                    LogUtil("Send review: rating=$rating, content=$content")
+
+                }
+            )
         }
+
+        LoadingAndError(
+            isLoading = state.loading,
+            error = state.error,
+            onErrorDismiss = {
+                commentViewModel.clearError()
+            }
+        )
     }
 }
 
@@ -104,13 +131,15 @@ private fun Review(
 ) {
     var rating by remember { mutableIntStateOf(0) }
     var content by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface)
-            .padding(8.dp).imePadding()
+            .padding(8.dp)
+            .imePadding()
     ) {
         // 5 ngôi sao
         Row(
@@ -126,7 +155,9 @@ private fun Review(
                         AppIcons.star(),
                         contentDescription = null,
                         tint = if (index <= rating) yellow else Color.Gray,
-                        modifier = Modifier.size(26.dp).weight(1f)
+                        modifier = Modifier
+                            .size(26.dp)
+                            .weight(1f)
                     )
                 }
             }
@@ -152,15 +183,21 @@ private fun Review(
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color.Gray.copy(alpha = 0.3f),
                     focusedBorderColor = Color.White.copy(alpha = 0.5f)
-                )
+                ),
+                textStyle = MaterialTheme.typography.bodyMedium
             )
 
             // Nút gửi
             IconButton(
                 onClick = {
                     onSendReview(rating, content)
+                    content = ""
+
+                    // Ẩn bàn phím
+                    keyboardController?.hide()
                 },
-                enabled = content.isNotEmpty() && rating > 0) {
+                enabled = content.isNotEmpty() && rating > 0
+            ) {
                 Icon(
                     AppIcons.send(),
                     contentDescription = null,

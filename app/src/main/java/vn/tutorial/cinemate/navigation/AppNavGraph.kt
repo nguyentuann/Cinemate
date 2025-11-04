@@ -187,6 +187,7 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.mainNavGraph(
     innerPadding: PaddingValues,
 ) {
@@ -207,7 +208,7 @@ fun NavGraphBuilder.mainNavGraph(
     ) { backStackEntry ->
         val filmId = backStackEntry.arguments?.getString("filmId") ?: return@composable
         DetailScreen(
-            filmId = filmId,
+            movieId = filmId,
         )
     }
 

@@ -14,6 +14,7 @@ import vn.tutorial.cinemate.common.icons.AppIcons
 @Composable
 fun InteractionBar(
     modifier: Modifier = Modifier,
+    filmId: String,
     onMyList: () -> Unit = {},
     onComment: () -> Unit = {},
     onShare: () -> Unit = {},

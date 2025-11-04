@@ -30,7 +30,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         refresh()
-        _state.value = _state.value.copy(isLoading = true)
     }
 
     fun refresh() {
@@ -42,10 +41,6 @@ class HomeViewModel @Inject constructor(
         _state.value = _state.value.copy(
             error = null
         )
-    }
-
-    fun getAllCategories() {
-        // todo call to get categories
     }
 
     fun getBannerFilms() {

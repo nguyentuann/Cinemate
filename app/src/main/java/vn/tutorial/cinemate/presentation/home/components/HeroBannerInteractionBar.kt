@@ -55,7 +55,9 @@ fun HeroBannerInteractionBar(
             modifier = Modifier.weight(3f),
             icon = AppIcons.add(),
             title = stringResource(R.string.my_list),
-            onClick = {}
+            onClick = {
+                //todo add to my list
+            }
         )
         Button(
             modifier = Modifier

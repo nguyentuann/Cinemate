@@ -2,11 +2,9 @@ package vn.tutorial.cinemate.data.repositoryImpl
 
 import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.data.remote.services.BaseService
-import vn.tutorial.cinemate.data.remote.services.FilmService
-import vn.tutorial.cinemate.domain.model.Comment
+import vn.tutorial.cinemate.data.remote.services.MovieService
 import vn.tutorial.cinemate.domain.model.FilmDetailModel
 import vn.tutorial.cinemate.domain.repository.FilmRepository
-import vn.tutorial.cinemate.mockdata.commentsData
 import vn.tutorial.cinemate.mockdata.filmMock1
 import vn.tutorial.cinemate.mockdata.filmMock2
 import vn.tutorial.cinemate.mockdata.filmMock3
@@ -15,7 +13,7 @@ import vn.tutorial.cinemate.mockdata.getFilmById
 import javax.inject.Inject
 
 class FilmRepositoryImpl @Inject constructor(
-    private val filmService: FilmService
+    private val filmService: MovieService
 ) : FilmRepository, BaseService() {
     override suspend fun searchFilms(query: String): Resource<List<FilmDetailModel>?> {
         val mockData = listOf(

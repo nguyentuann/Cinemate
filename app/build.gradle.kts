@@ -20,13 +20,13 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"http://192.168.1.17:8585/\"")
+        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8585/\"")
 
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.1.17:8585/\"")
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8585/\"")
             buildConfigField("Boolean", "TEST_TAGS_AS_RESOURCE_ID", "true")
         }
 

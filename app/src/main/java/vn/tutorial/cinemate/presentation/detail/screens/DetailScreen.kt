@@ -1,6 +1,8 @@
 package vn.tutorial.cinemate.presentation.detail.screens
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -43,13 +45,14 @@ import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
 import vn.tutorial.cinemate.presentation.detail.viewModels.DetailViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailScreen(
-    filmId: String,
+    movieId: String,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
-    LogUtil(filmId)
+    LogUtil(movieId)
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
     var showComments by remember { mutableStateOf(false) }
@@ -57,7 +60,7 @@ fun DetailScreen(
     val filmDetail = state.filmDetail
 
     LaunchedEffect(Unit) {
-        viewModel.getDetailFilm(filmId)
+        viewModel.getDetailFilm(movieId)
     }
 
     Scaffold {
@@ -110,6 +113,7 @@ fun DetailScreen(
                 HorizontalDivider()
 
                 InteractionBar(
+                    filmId = movieId,
                     onComment = {
                         showComments = true
                     }
@@ -117,7 +121,7 @@ fun DetailScreen(
 
                 if (showComments) {
                     CommentBottomSheet(
-                        filmId = filmId,
+                        movieId = movieId,
                         onDismiss = { showComments = false }
                     )
                 }

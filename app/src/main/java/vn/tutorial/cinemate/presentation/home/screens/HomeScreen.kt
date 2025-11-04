@@ -29,7 +29,6 @@ val headerItems = mapOf(
     "TV Shows" to {},
     "Movies" to {},
     "My List" to {},
-    "Categories" to {}
 )
 
 @Composable

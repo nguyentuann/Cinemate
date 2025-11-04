@@ -54,8 +54,11 @@ class AuthRepositoryImpl @Inject constructor(
         }.mapData { wrapper ->
             val accessToken = wrapper?.accessToken
             val refreshToken = wrapper?.refreshToken
+            val userId = wrapper?.user?.id
+
             localStorage.saveAccessToken(accessToken ?: "")
             localStorage.saveRefreshToken(refreshToken ?: "")
+            localStorage.saveUserId(userId ?: "")
 
             wrapper?.user?.toUserModel()
         }
@@ -104,8 +107,11 @@ class AuthRepositoryImpl @Inject constructor(
         }.mapData { wrapper ->
             val accessToken = wrapper?.accessToken
             val refreshToken = wrapper?.refreshToken
+            val userId = wrapper?.user?.id
+
             localStorage.saveAccessToken(accessToken ?: "")
             localStorage.saveRefreshToken(refreshToken ?: "")
+            localStorage.saveUserId(userId ?: "")
 
             wrapper?.user?.toUserModel()
         }

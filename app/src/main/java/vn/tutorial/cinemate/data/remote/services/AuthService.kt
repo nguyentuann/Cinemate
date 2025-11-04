@@ -6,6 +6,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import vn.tutorial.cinemate.core.constant.api_endpoint.AuthEndpoint
 import vn.tutorial.cinemate.data.remote.requests.authentication.ChangePasswordRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.RefreshTokenRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.ResetPasswordRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignInRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignOutRequest
@@ -16,6 +17,7 @@ import vn.tutorial.cinemate.data.remote.requests.authentication.VerifyTokenReque
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
 import vn.tutorial.cinemate.data.remote.responses.authentication.DataWrapperSignIn
 import vn.tutorial.cinemate.data.remote.responses.authentication.DataWrapperSignUp
+import vn.tutorial.cinemate.data.remote.responses.authentication.RefreshTokenResponse
 import vn.tutorial.cinemate.data.remote.responses.authentication.VerifyTokenResponse
 
 interface AuthService {
@@ -64,4 +66,11 @@ interface AuthService {
     suspend fun changePassword(
         @Body changePasswordRequest: ChangePasswordRequest
     ): Response<BaseResponse<String>>
+
+
+    @POST(AuthEndpoint.REFRESH_TOKEN)
+    suspend fun refreshToken(
+        @Body refreshToken: RefreshTokenRequest
+    ): Response<BaseResponse<RefreshTokenResponse>>
+
 }
