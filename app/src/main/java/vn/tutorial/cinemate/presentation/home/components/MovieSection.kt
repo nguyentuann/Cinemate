@@ -2,13 +2,16 @@ package vn.tutorial.cinemate.presentation.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,62 +23,74 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
+import vn.tutorial.cinemate.common.components.AsyncImageWithReplace
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.core.util.timeFormatter
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.R
 
 @Composable
-fun FilmSection(
+fun MovieSection(
     modifier: Modifier = Modifier,
     sectionTitle: String,
-    films: List<FilmDetailModel>,
+    movies: List<MovieDetailModel>,
+    onLoadMore: (() -> Unit)? = null // callback load more
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 16.dp)
+        modifier = modifier.padding(vertical = 4.dp, horizontal = 16.dp)
     ) {
         Text(
             text = sectionTitle,
-            style = MaterialTheme.typography.titleSmall
+            style = MaterialTheme.typography.titleSmall.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
         )
-        LazyRow {
-            items(films) { film ->
-                FilmPosterItem(
-                    film = film,
-                )
+
+        LazyRow(
+            contentPadding = PaddingValues(end = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            itemsIndexed(movies) { index, movie ->
+                MoviePosterItem(movie = movie)
+
+                // Khi scroll tới cuối, gọi load more
+                if (index == movies.lastIndex) {
+                    onLoadMore?.invoke()
+                }
             }
         }
     }
 }
 
+
 @Composable
-private fun FilmPosterItem(
+private fun MoviePosterItem(
     modifier: Modifier = Modifier,
-    film: FilmDetailModel,
+    movie: MovieDetailModel,
 ) {
     val navController = LocalNavController.current
     Box(
         modifier = modifier
-            .height(120.dp)
-            .padding(8.dp)
+            .height(120.dp).width(220.dp)
+            .padding(vertical = 8.dp)
             .clip(Styles.ShapeStyles.mediumCorner)
             .clickable {
-                navController.navigate(Route.Detail.createRoute(film.id))
+                navController.navigate(Route.Detail.createRoute(movie.id))
             }
     ) {
-        AsyncImage(
+        AsyncImageWithReplace(
             modifier = Modifier.fillMaxSize(),
-            model = film.horizontalPoster,
+            model = movie.horizontalPoster,
             contentDescription = null,
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Crop,
+            imgReplace = R.drawable.poster_error
         )
 
         Text(
-            text = "#${film.rank}",
+            text = "#${movie.rank}",
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
@@ -86,7 +101,7 @@ private fun FilmPosterItem(
         )
 
         Text(
-            text = film.year.toString(),
+            text = movie.year.toString(),
             color = Color.White,
             fontWeight = FontWeight.SemiBold,
             fontSize = 12.sp,
@@ -97,7 +112,7 @@ private fun FilmPosterItem(
         )
 
         Text(
-            text = timeFormatter(film.durationMinutes * 60_000L),
+            text = timeFormatter(movie.durationMinutes!! * 60_000L),
             color = Color.White,
             fontSize = 12.sp,
             modifier = Modifier

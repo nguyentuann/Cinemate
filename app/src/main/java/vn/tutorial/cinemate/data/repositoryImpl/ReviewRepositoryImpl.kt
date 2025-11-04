@@ -1,7 +1,7 @@
 package vn.tutorial.cinemate.data.repositoryImpl
 
 import vn.tutorial.cinemate.core.base_class.Resource
-import vn.tutorial.cinemate.data.remote.responses.film.toReviewModel
+import vn.tutorial.cinemate.data.remote.responses.movie.toReviewModel
 import vn.tutorial.cinemate.data.remote.services.BaseService
 import vn.tutorial.cinemate.data.remote.services.MovieService
 import vn.tutorial.cinemate.domain.model.ReviewModel

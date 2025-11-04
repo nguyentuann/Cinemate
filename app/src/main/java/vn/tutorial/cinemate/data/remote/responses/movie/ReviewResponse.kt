@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.data.remote.responses.film
+package vn.tutorial.cinemate.data.remote.responses.movie
 
 import com.google.gson.annotations.SerializedName
 import vn.tutorial.cinemate.domain.model.ReviewModel

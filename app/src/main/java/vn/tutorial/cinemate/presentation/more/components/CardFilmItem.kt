@@ -43,15 +43,15 @@ import vn.tutorial.cinemate.common.components.RatingBar
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.core.util.timeFormatter
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 
 @Composable
 fun CardFilmItem(
-    film: FilmDetailModel,
+    film: MovieDetailModel,
     modifier: Modifier = Modifier,
-    onDelete: (FilmDetailModel) -> Unit = { _ -> },
+    onDelete: (MovieDetailModel) -> Unit = { _ -> },
     isHistory: Boolean = false,
     isSearch: Boolean = false,
 ) {
@@ -88,7 +88,7 @@ fun CardFilmItem(
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    text = timeFormatter(film.durationMinutes * 60 * 1000L),
+                    text = timeFormatter(film.durationMinutes!! * 60 * 1000L),
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -107,7 +107,7 @@ fun CardFilmItem(
                         .background(Color.White.copy(alpha = 0.7f))
                 ) {
                     val progress =
-                        film.watchDurationMinutes.toFloat() / film.durationMinutes.toFloat()
+                        film.watchDurationMinutes!!.toFloat() / film.durationMinutes.toFloat()
                     Box(
                         modifier = Modifier
                             .fillMaxHeight()
@@ -142,7 +142,7 @@ fun CardFilmItem(
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
                     )
-                    RatingBar(rating = film.rating, starSize = 16.dp)
+                    RatingBar(rating = film.rating!!, starSize = 16.dp)
 
                 }
 

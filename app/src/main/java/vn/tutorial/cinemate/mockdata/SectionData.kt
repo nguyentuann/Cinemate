@@ -1,8 +1,8 @@
 package vn.tutorial.cinemate.mockdata
 
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
 
-val sectionData = mapOf<String, List<FilmDetailModel>>(
+val sectionData = mapOf<String, List<MovieDetailModel>>(
     "Popular on Cinemate" to listOf(
         filmMock1,
         filmMock2,

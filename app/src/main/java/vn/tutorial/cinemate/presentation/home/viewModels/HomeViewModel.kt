@@ -6,23 +6,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
 import vn.tutorial.cinemate.domain.model.CategoryModel
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
-import vn.tutorial.cinemate.domain.usecase.films.GetBannerFilmsUseCase
-import vn.tutorial.cinemate.domain.usecase.films.GetSectionFilmsUseCase
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
+import vn.tutorial.cinemate.domain.usecase.movies.GetBannerMoviesUseCase
 import javax.inject.Inject
 
 data class HomeUIState(
-    val category: List<CategoryModel> = emptyList(),
-    val heroBannerFilms: List<FilmDetailModel> = emptyList(),
-    val sectionFilms: Map<String, List<FilmDetailModel>> = emptyMap(),
+    val movies: List<MovieDetailModel> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getBannerFilmsUseCase: GetBannerFilmsUseCase,
-    private val getSectionFilmsUseCase: GetSectionFilmsUseCase
+    private val getBannerMoviesUseCase: GetBannerMoviesUseCase
+
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUIState())
@@ -33,8 +30,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun refresh() {
-        getBannerFilms()
-        getSectionFilms()
+        getBannerMovies()
     }
 
     fun clearError() {
@@ -43,45 +39,23 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun getBannerFilms() {
+    fun getBannerMovies() {
         executeUseCase(
             state = _state,
             block = {
-                getBannerFilmsUseCase.invoke(Unit)
+                getBannerMoviesUseCase(
+                    GetBannerMoviesUseCase.Params(
+                        page = 1,
+                        size = 10,
+                        sortBy = "year"
+                    )
+                )
             },
             onSuccess = {
                 _state.value.copy(
                     isLoading = false,
                     error = null,
-                    heroBannerFilms = it ?: emptyList()
-                )
-            },
-            onError = {
-                _state.value.copy(
-                    isLoading = false,
-                    error = it
-                )
-            },
-            onLoading = {
-                _state.value.copy(
-                    isLoading = true,
-                    error = null
-                )
-            }
-        )
-    }
-
-    fun getSectionFilms() {
-        executeUseCase(
-            state = _state,
-            block = {
-                getSectionFilmsUseCase.invoke(Unit)
-            },
-            onSuccess = {
-                _state.value.copy(
-                    isLoading = false,
-                    error = null,
-                    sectionFilms = it ?: emptyMap()
+                    movies = it ?: emptyList()
                 )
             },
             onError = {

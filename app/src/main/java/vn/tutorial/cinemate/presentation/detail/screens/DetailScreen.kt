@@ -38,12 +38,12 @@ import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
 import vn.tutorial.cinemate.presentation.detail.components.InteractionBar
 import vn.tutorial.cinemate.presentation.detail.components.TrailerPlayer
-import vn.tutorial.cinemate.presentation.home.components.FilmSection
 import vn.tutorial.cinemate.mockdata.sectionData
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
 import vn.tutorial.cinemate.presentation.detail.viewModels.DetailViewModel
+import vn.tutorial.cinemate.presentation.home.components.MovieSection
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -74,7 +74,7 @@ fun DetailScreen(
 
             // todo trailer
             filmDetail?.let {
-                TrailerPlayer(filmDetail.trailerUrl)
+                TrailerPlayer(filmDetail.trailerUrl!!)
             }
 
             Spacer(
@@ -134,10 +134,10 @@ fun DetailScreen(
 
             // recommend movies
             val moviesList = sectionData.map { (_, movies) -> movies }
-            FilmSection(
-                sectionTitle = "More Like This",
-                films = moviesList.flatten(),
-            )
+            MovieSection(
+               sectionTitle = "More Like This",
+               movies = moviesList.flatten(),
+           )
         }
     }
 }

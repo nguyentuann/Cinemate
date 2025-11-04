@@ -15,18 +15,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import kotlinx.coroutines.delay
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import kotlin.math.absoluteValue
 
 @Composable
 fun InfinityBanner(
-    films: List<FilmDetailModel>,
+    movies: List<MovieDetailModel>,
     modifier: Modifier = Modifier,
 ) {
-    var currentFilm = films[1]
+    var currentMovie = movies[1]
     Column {
         val totalPages = Int.MAX_VALUE
         val pagerState = rememberPagerState(
@@ -53,11 +54,11 @@ fun InfinityBanner(
             pageSpacing = 0.dp,
             modifier = modifier.fillMaxWidth()
         ) { pageIndex ->
-            val filmIndex = pageIndex % films.size
-            val film = films[filmIndex]
+            val filmIndex = pageIndex % movies.size
+            val film = movies[filmIndex]
 
-            val currentFilmIndex = pagerState.currentPage % films.size
-            currentFilm = films[currentFilmIndex]
+            val currentFilmIndex = pagerState.currentPage % movies.size
+            currentMovie = movies[currentFilmIndex]
 
             val pageOffset = (
                     (pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction
@@ -81,8 +82,9 @@ fun InfinityBanner(
                         modifier = Modifier
                             .padding(top = 16.dp)
                             .align(Alignment.CenterHorizontally),
-                        text = film.genres.joinToString(" • "),
+                        text = film.genres!!.joinToString(" • "),
                         style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center
                     )
                 }
 
@@ -90,6 +92,6 @@ fun InfinityBanner(
 
         }
 
-        HeroBannerInteractionBar(film = currentFilm)
+        HeroBannerInteractionBar(movie = currentMovie)
     }
 }

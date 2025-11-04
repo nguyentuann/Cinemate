@@ -1,9 +1,9 @@
 package vn.tutorial.cinemate.mockdata
 
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
 
 
-val filmMock1 = FilmDetailModel(
+val filmMock1 = MovieDetailModel(
     id = "1",
     title = "The Joker",
     releaseDate = "1994-09-23",
@@ -12,7 +12,7 @@ val filmMock1 = FilmDetailModel(
             "This path brings him face-to-face with his alter-ego: the Joker.\",",
     verticalPoster = "https://www.vintagemovieposters.co.uk/wp-content/uploads/2020/01/IMG_2891.jpeg",
     horizontalPoster = "https://pbs.twimg.com/media/D2jvOdmUgAALnnx.jpg",
-    genres = listOf("Drama", "Crime"),
+    genres = listOf("Drama"),
     trailerUrl = "https://tiktok-clone-taplamit.s3.ap-southeast-2.amazonaws.com/videos-hls/FF2_a_vyVj68aOyI4V1nZ/master.m3u8",
     age = 18,
     viewsCount = 2345678,
@@ -33,7 +33,7 @@ val filmMock1 = FilmDetailModel(
     updatedAt = "2020-01-01T12:00:00Z"
 )
 
-val filmMock2 = FilmDetailModel(
+val filmMock2 = MovieDetailModel(
     id = "2",
     title = "Spider Man",
     releaseDate = "1994-09-23",
@@ -42,7 +42,7 @@ val filmMock2 = FilmDetailModel(
             "This path brings him face-to-face with his alter-ego: the Joker.\",",
     verticalPoster = "https://i.pinimg.com/736x/78/a2/b7/78a2b784386264eefc3175b69e26077d.jpg",
     horizontalPoster = "https://m.media-amazon.com/images/I/71Gj6VGeiUS.jpg",
-    genres = listOf("Drama", "Crime"),
+    genres = listOf("Drama", "Crime", "Action"),
     trailerUrl = "https://tiktok-clone-taplamit.s3.ap-southeast-2.amazonaws.com/videos-hls/FF2_a_vyVj68aOyI4V1nZ/master.m3u8",
     age = 18,
     viewsCount = 2345678,
@@ -57,13 +57,13 @@ val filmMock2 = FilmDetailModel(
     commentsCount = 1234,
     filmUrl = "https://tiktok-clone-taplamit.s3.ap-southeast-2.amazonaws.com/videos-hls/FF2_a_vyVj68aOyI4V1nZ/master.m3u8",
     watchDurationMinutes = 50,
-    rank = 1,
+    rank = 2,
     tags = listOf("psychological", "thriller", "dc"),
     createdAt = "2019-10-01T12:00:00Z",
     updatedAt = "2020-01-01T12:00:00Z"
 )
 
-val filmMock3 = FilmDetailModel(
+val filmMock3 = MovieDetailModel(
     id = "3",
     title = "Iron Man",
     releaseDate = "1994-09-23",
@@ -72,7 +72,7 @@ val filmMock3 = FilmDetailModel(
             "This path brings him face-to-face with his alter-ego: the Joker.\",",
     verticalPoster = "https://parentingpatch.com/wp-content/uploads/2025/06/Iron-Man-2008-Vertical-Movie-Poster.jpeg",
     horizontalPoster = "https://baylorlariat.com/wp-content/uploads/2018/02/Iron-Man-Movie_Poster_2008.jpg",
-    genres = listOf("Drama", "Crime"),
+    genres = listOf("Crime","Action", "Adventure"),
     trailerUrl = "https://tiktok-clone-taplamit.s3.ap-southeast-2.amazonaws.com/videos-hls/FF2_a_vyVj68aOyI4V1nZ/master.m3u8",
     age = 18,
     viewsCount = 2345678,
@@ -87,14 +87,14 @@ val filmMock3 = FilmDetailModel(
     commentsCount = 1234,
     filmUrl = "https://tiktok-clone-taplamit.s3.ap-southeast-2.amazonaws.com/videos-hls/FF2_a_vyVj68aOyI4V1nZ/master.m3u8",
     watchDurationMinutes = 50,
-    rank = 1,
+    rank = 3,
     tags = listOf("psychological", "thriller", "dc"),
     createdAt = "2019-10-01T12:00:00Z",
     updatedAt = "2020-01-01T12:00:00Z"
 )
 
 
-val filmMock4 = FilmDetailModel(
+val filmMock4 = MovieDetailModel(
     id = "4",
     title = "Super Man",
     releaseDate = "1994-09-23",
@@ -103,7 +103,7 @@ val filmMock4 = FilmDetailModel(
             "This path brings him face-to-face with his alter-ego: the Joker.\",",
     verticalPoster = "https://img.vwassets.com/brightstarcinemas.com/vertical_cc670619-5033-4934-a808-258af171e6b8.jpg",
     horizontalPoster = "https://i.ebayimg.com/images/g/-xEAAOSwN-lnaXUB/s-l1200.jpg",
-    genres = listOf("Drama", "Crime"),
+    genres = listOf("Drama", "Crime", "Adventure"),
     trailerUrl = "https://tiktok-clone-taplamit.s3.ap-southeast-2.amazonaws.com/videos-hls/FF2_a_vyVj68aOyI4V1nZ/master.m3u8",
     age = 18,
     viewsCount = 2345678,
@@ -118,7 +118,7 @@ val filmMock4 = FilmDetailModel(
     commentsCount = 1234,
     filmUrl = "https://tiktok-clone-taplamit.s3.ap-southeast-2.amazonaws.com/videos-hls/FF2_a_vyVj68aOyI4V1nZ/master.m3u8",
     watchDurationMinutes = 50,
-    rank = 1,
+    rank = 4,
     tags = listOf("psychological", "thriller", "dc"),
     createdAt = "2019-10-01T12:00:00Z",
     updatedAt = "2020-01-01T12:00:00Z"
@@ -132,6 +132,6 @@ val listFilm = listOf(
     filmMock4
 )
 
-fun getFilmById(id: String): FilmDetailModel{
+fun getFilmById(id: String): MovieDetailModel{
     return listFilm.first { it.id == id }
 }

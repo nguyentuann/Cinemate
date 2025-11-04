@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,10 +19,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.Refreshable
-import vn.tutorial.cinemate.presentation.home.components.FilmSection
 import vn.tutorial.cinemate.presentation.home.components.HeaderBar
 import vn.tutorial.cinemate.presentation.home.components.InfinityBanner
+import vn.tutorial.cinemate.presentation.home.components.MovieSection
 import vn.tutorial.cinemate.presentation.home.viewModels.HomeViewModel
+import vn.tutorial.cinemate.presentation.home.viewModels.SectionType
+import vn.tutorial.cinemate.presentation.home.viewModels.SectionViewModel
 
 val headerItems = mapOf(
     "TV Shows" to {},
@@ -34,16 +35,19 @@ val headerItems = mapOf(
 @Composable
 fun HomeScreen(
     innerPadding: PaddingValues,
-    viewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    sectionViewModel: SectionViewModel = hiltViewModel(),
 ) {
     var isRefreshing by remember { mutableStateOf(false) }
-    val state = viewModel.state.collectAsState().value
+    val homeState = homeViewModel.state.collectAsState().value
+
+    val sectionState = sectionViewModel.sectionsState.collectAsState().value
 
     Refreshable(
         isRefreshing = isRefreshing,
         onRefresh = {
             isRefreshing = true
-            viewModel.refresh()
+            homeViewModel.refresh()
             delay(1000)
             isRefreshing = false
         },
@@ -57,29 +61,39 @@ fun HomeScreen(
                 item {
                     Spacer(modifier = Modifier.padding(top = 80.dp))
                 }
-                if (state.heroBannerFilms.isNotEmpty()) {
+                if (homeState.movies.isNotEmpty()) {
                     item {
                         InfinityBanner(
-                            state.heroBannerFilms
+                            homeState.movies
                         )
                     }
                 }
 
-                if (state.sectionFilms.isNotEmpty()) {
-                    items(state.sectionFilms.entries.toList()) { (title, films) ->
-                        FilmSection(
-                            sectionTitle = title,
-                            films = films,
-                        )
+                sectionState.entries.forEach { (sectionType, sectionUIState) ->
+                    if (sectionUIState.movies.isNotEmpty()) {
+                        item {
+                            MovieSection(
+                                sectionTitle = sectionType.name,
+                                movies = sectionUIState.movies,
+                                onLoadMore = {
+                                    val sortBy = when (sectionType) {
+                                        SectionType.NEW -> "year"
+                                        SectionType.TRENDING -> "rating"
+                                        SectionType.VIETNAM -> "vietnam"
+                                    }
+                                    sectionViewModel.getSectionMovies(sectionType, sortBy)
+                                }
+                            )
+                        }
                     }
                 }
             }
         }
         LoadingAndError(
-            isLoading = state.isLoading,
-            error = state.error,
+            isLoading = homeState.isLoading,
+            error = homeState.error,
             onErrorDismiss = {
-                viewModel.clearError()
+                homeViewModel.clearError()
             }
         )
     }

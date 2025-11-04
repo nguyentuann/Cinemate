@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,12 +19,11 @@ import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.common.components.ExpandableText
 import vn.tutorial.cinemate.common.components.RatingBar
 import vn.tutorial.cinemate.common.styles.Styles
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
-import vn.tutorial.cinemate.mockdata.filmMock1
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
 
 @Composable
 fun FilmInformation(
-    film: FilmDetailModel,
+    film: MovieDetailModel,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -48,7 +46,7 @@ fun FilmInformation(
                     .padding(4.dp)
             ) {
                 Text(
-                    film.genres.joinToString(", "), style = MaterialTheme.typography.bodySmall
+                    film.genres!!.joinToString(", "), style = MaterialTheme.typography.bodySmall
                 )
             }
 
@@ -79,12 +77,12 @@ fun FilmInformation(
                         )
                     }
 
-                    Text(film.quality, style = MaterialTheme.typography.bodySmall)
+                    Text(film.quality!!, style = MaterialTheme.typography.bodySmall)
                     Text("${film.durationMinutes} min", style = MaterialTheme.typography.bodySmall)
                 }
 
                 // todo rating
-                RatingBar(film.rating)
+                RatingBar(film.rating!!)
             }
 
             Box(
@@ -102,19 +100,19 @@ fun FilmInformation(
         }
 
         // todo description
-        ExpandableText(film.description)
+        ExpandableText(film.description!!)
 
         // todo actors
         Row {
             Text(
-                "Actors: ${film.actors.joinToString(", ")}",
+                "Actors: ${film.actors!!.joinToString(", ")}",
                 style = MaterialTheme.typography.bodyMedium
             )
         }
         // todo directors
         Row {
             Text(
-                "Directors: ${film.directors.joinToString(", ")}",
+                "Directors: ${film.directors!!.joinToString(", ")}",
                 style = MaterialTheme.typography.bodyMedium
             )
         }

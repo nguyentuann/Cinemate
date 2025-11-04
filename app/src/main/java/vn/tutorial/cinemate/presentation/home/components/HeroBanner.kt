@@ -7,12 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
 
 @Composable
 fun HeroBanner(
     modifier: Modifier = Modifier,
-    film: FilmDetailModel,
+    film: MovieDetailModel,
 ) {
     Box(modifier = modifier) {
         AsyncImage(

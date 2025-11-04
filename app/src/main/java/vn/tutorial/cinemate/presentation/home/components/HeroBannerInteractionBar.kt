@@ -32,17 +32,16 @@ import vn.tutorial.cinemate.common.components.InteractionButton
 import vn.tutorial.cinemate.common.components.RatingBar
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
-import vn.tutorial.cinemate.domain.model.FilmDetailModel
+import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 
 @Composable
 fun HeroBannerInteractionBar(
     modifier: Modifier = Modifier,
-    film: FilmDetailModel
+    movie: MovieDetailModel
 ) {
     val navController = LocalNavController.current
-    var showInfo = remember { mutableStateOf(false) }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -64,7 +63,7 @@ fun HeroBannerInteractionBar(
                 .fillMaxHeight()
                 .weight(4f),
             onClick = {
-                navController.navigate(Route.PlayVideo.createRoute(film.id))
+                navController.navigate(Route.PlayVideo.createRoute(movie.id))
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Gray,
@@ -85,54 +84,8 @@ fun HeroBannerInteractionBar(
             icon = AppIcons.info(),
             title = stringResource(R.string.movie_info),
             onClick = {
-                showInfo.value = true
+                navController.navigate(Route.Detail.createRoute(movie.id))
             }
         )
-
-        if (showInfo.value) {
-            ShowFilmInfo(film) {
-                showInfo.value = false
-            }
-        }
     }
-}
-
-@Composable
-private fun ShowFilmInfo(film: FilmDetailModel, onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = film.title,
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        },
-        text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text(
-                    text = film.description,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-                RatingBar(rating = film.rating, starSize = 28.dp)
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(
-                    "Close",
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-            }
-        },
-        shape = Styles.ShapeStyles.largeCorner,
-    )
 }
