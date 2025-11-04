@@ -7,9 +7,9 @@ import vn.tutorial.cinemate.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class GetDetailMovieUseCase @Inject constructor(
-    private val filmRepository: MovieRepository
+    private val movieRepository: MovieRepository
 ): BaseUseCase<String, Resource<MovieDetailModel?>>() {
     override suspend fun execute(param: String): Resource<MovieDetailModel?> {
-        return filmRepository.getDetailMovie(param)
+        return movieRepository.getDetailMovie(param)
     }
 }

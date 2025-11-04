@@ -44,7 +44,7 @@ class MovieRepositoryImpl @Inject constructor(
 //            it?.toMovieDetailModel()
 //        }
 
-        return Resource.Success(getFilmById("1"))
+        return Resource.Success(getFilmById(movieId))
     }
 
 }

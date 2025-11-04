@@ -91,7 +91,6 @@ fun InfinityBanner(
             }
 
         }
-
         HeroBannerInteractionBar(movie = currentMovie)
     }
 }

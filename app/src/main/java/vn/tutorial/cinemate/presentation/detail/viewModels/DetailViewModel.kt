@@ -17,7 +17,7 @@ data class DetailUiState(
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val getDetailFilmUseCase: GetDetailMovieUseCase
+    private val getDetailMovieUseCase: GetDetailMovieUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DetailUiState())
@@ -33,7 +33,7 @@ class DetailViewModel @Inject constructor(
         executeUseCase(
             state = _state,
             block = {
-                getDetailFilmUseCase(filmId)
+                getDetailMovieUseCase(filmId)
             },
             onSuccess = {
                 _state.value.copy(

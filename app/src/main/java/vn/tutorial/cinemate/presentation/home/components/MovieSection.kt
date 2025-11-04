@@ -74,7 +74,7 @@ private fun MoviePosterItem(
     val navController = LocalNavController.current
     Box(
         modifier = modifier
-            .height(120.dp).width(220.dp)
+            .height(140.dp).width(220.dp)
             .padding(vertical = 8.dp)
             .clip(Styles.ShapeStyles.mediumCorner)
             .clickable {
