@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.InteractionButton
 import vn.tutorial.cinemate.common.components.RatingBar
@@ -35,11 +36,13 @@ import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.more.viewModels.FavoriteViewModel
 
 @Composable
 fun HeroBannerInteractionBar(
     modifier: Modifier = Modifier,
-    movie: MovieDetailModel
+    movie: MovieDetailModel,
+    favoriteViewModel: FavoriteViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
     Row(
@@ -55,7 +58,7 @@ fun HeroBannerInteractionBar(
             icon = AppIcons.add(),
             title = stringResource(R.string.my_list),
             onClick = {
-                //todo add to my list
+                favoriteViewModel.addFavorite(movie.id)
             }
         )
         Button(
