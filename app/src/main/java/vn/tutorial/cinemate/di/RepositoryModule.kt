@@ -5,15 +5,17 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import vn.tutorial.cinemate.data.repositoryImpl.AuthRepositoryImpl
+import vn.tutorial.cinemate.data.repositoryImpl.CategoryRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.FavoriteRepositoryImpl
-import vn.tutorial.cinemate.data.repositoryImpl.ReviewRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.MovieRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.NotificationRepositoryImpl
+import vn.tutorial.cinemate.data.repositoryImpl.ReviewRepositoryImpl
 import vn.tutorial.cinemate.domain.repository.AuthRepository
+import vn.tutorial.cinemate.domain.repository.CategoryRepository
 import vn.tutorial.cinemate.domain.repository.FavoriteRepository
-import vn.tutorial.cinemate.domain.repository.ReviewRepository
 import vn.tutorial.cinemate.domain.repository.MovieRepository
 import vn.tutorial.cinemate.domain.repository.NotificationRepository
+import vn.tutorial.cinemate.domain.repository.ReviewRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -43,4 +45,9 @@ abstract class RepositoryModule {
     abstract fun bindFavoriteRepository(
         impl: FavoriteRepositoryImpl
     ): FavoriteRepository
+
+    @Binds
+    abstract fun bindCategoryRepository(
+        impl: CategoryRepositoryImpl
+    ): CategoryRepository
 }

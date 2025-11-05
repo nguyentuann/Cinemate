@@ -79,7 +79,7 @@ fun CardMovieItem(
                     .width(200.dp)
                     .clip(Styles.ShapeStyles.mediumCorner)
                     .clickable {
-                        navController.navigate(Route.PlayVideo.createRoute(movie.id))
+                        navController.navigate(Route.Detail.createRoute(movie.id))
                     }
             ) {
                 // Poster

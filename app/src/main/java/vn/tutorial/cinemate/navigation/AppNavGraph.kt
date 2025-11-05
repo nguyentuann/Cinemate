@@ -38,7 +38,7 @@ import vn.tutorial.cinemate.presentation.more.screens.SettingNotificationScreen
 import vn.tutorial.cinemate.presentation.more.screens.ThemeAndLanguageScreen
 import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
-import vn.tutorial.cinemate.presentation.search.SearchScreen
+import vn.tutorial.cinemate.presentation.search.screens.SearchScreen
 import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 import vn.tutorial.cinemate.presentation.splash.screens.StartedScreen
 

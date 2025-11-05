@@ -1,5 +1,6 @@
-package vn.tutorial.cinemate.presentation.search
+package vn.tutorial.cinemate.presentation.search.screens
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,20 +23,21 @@ import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SearchBar
 import vn.tutorial.cinemate.presentation.more.components.CardMovieItem
+import vn.tutorial.cinemate.presentation.search.components.CategoryBar
+import vn.tutorial.cinemate.presentation.search.viewModels.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = hiltViewModel()
+    searchViewModel: SearchViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.collectAsState().value
+    val state = searchViewModel.state.collectAsState().value
     val films = state.filmResults
-    val trendingFilms = state.trendingFilms
 
     DisposableEffect(Unit) {
         onDispose {
-            viewModel.clearResults()
+            searchViewModel.clearResults()
         }
     }
     Scaffold(
@@ -44,8 +46,8 @@ fun SearchScreen(
                 title = {
                     SearchBar(
                         value = state.query,
-                        onChange = { viewModel.updateQuery(it) },
-                        onSearch = { viewModel.search() }
+                        onChange = { searchViewModel.updateQuery(it) },
+                        onSearch = { searchViewModel.search() }
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -56,40 +58,35 @@ fun SearchScreen(
             )
         }
     ) {
-        LazyColumn(
-            modifier = modifier
-                .padding(it)
-                .padding(horizontal = 16.dp).padding(bottom = 80.dp)
+
+        Column(
+            Modifier.padding(horizontal = 16.dp).padding(it)
         ) {
-            if (films.isNotEmpty()) {
-                item {
-                    Text(
-                        stringResource(R.string.result),
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
+            CategoryBar(
+                onCategorySelected = { category ->
+                    searchViewModel.updateCategory(category.name)
                 }
-                items(films) { film ->
-                    CardMovieItem(film, isSearch = true)
-                }
-            } else if (trendingFilms.isNotEmpty() && state.isLoading == false) {
+            )
 
-                item {
-                    Text(
-                        stringResource(R.string.trending),
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                }
-                items(trendingFilms) { film ->
-                    CardMovieItem(film, isSearch = true)
 
+            LazyColumn(
+                modifier = modifier
+                    .padding(bottom = 80.dp)
+            ) {
+                if (films.isNotEmpty()) {
+                    item {
+                        Text(
+                            stringResource(R.string.result),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.Bold
+                            ),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                    }
+                    items(films) { film ->
+                        CardMovieItem(film, isSearch = true)
+                    }
                 }
             }
         }
@@ -98,7 +95,7 @@ fun SearchScreen(
             isLoading = state.isLoading,
             error = state.error
         ) {
-            viewModel.clearError()
+            searchViewModel.clearError()
         }
     }
 }

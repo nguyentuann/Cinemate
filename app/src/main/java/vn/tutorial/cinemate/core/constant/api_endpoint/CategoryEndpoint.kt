@@ -5,5 +5,7 @@ object CategoryEndpoint {
 
     const val GET_ALL_CATEGORIES = "${PREFIX}all"
 
+    const val GET_MOVIES_BY_CATEGORY = "${PREFIX}{categoryId}/movies"
+
 
 }

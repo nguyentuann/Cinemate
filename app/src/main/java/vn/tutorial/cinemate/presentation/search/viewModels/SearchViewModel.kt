@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.presentation.search
+package vn.tutorial.cinemate.presentation.search.viewModels
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
-import vn.tutorial.cinemate.domain.usecase.search.GetTrendingUseCase
+import vn.tutorial.cinemate.domain.usecase.search.GetMovieByCategoryUseCase
 import vn.tutorial.cinemate.domain.usecase.search.SearchUseCase
 import javax.inject.Inject
 
 data class SearchUiState(
     val query: String = "",
     val filmResults: List<MovieDetailModel> = emptyList(),
-    val trendingFilms: List<MovieDetailModel> = emptyList(),
+    val category: String = "",
     val isLoading: Boolean = false,
     val error: String? = null
 )
@@ -22,55 +22,29 @@ data class SearchUiState(
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchUseCase: SearchUseCase,
-    private val getTrendingUseCase: GetTrendingUseCase
+    private val getMovieByCategoryUseCase: GetMovieByCategoryUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(SearchUiState())
     val state: StateFlow<SearchUiState> = _state
-
-    init {
-        getTrendingFilms()
-    }
 
     fun updateQuery(query: String) {
         _state.value = _state.value.copy(query = query)
     }
 
     fun clearResults() {
-        _state.value = _state.value.copy(filmResults = emptyList())
+        _state.value = _state.value.copy(filmResults = emptyList(), query = "")
     }
 
     fun clearError() {
         _state.value = _state.value.copy(error = null)
     }
 
-    fun getTrendingFilms() {
-        LogUtil("Call getTrendingFilms")
-        executeUseCase(
-            state = _state,
-            block = {
-                getTrendingUseCase.invoke(Unit)
-            },
-            onSuccess = {
-                _state.value.copy(
-                    trendingFilms = it ?: emptyList(),
-                    isLoading = false,
-                    error = null
-                )
-            },
-            onError = { errorMsg ->
-                _state.value.copy(
-                    isLoading = false,
-                    error = errorMsg
-                )
-            },
-            onLoading = {
-                _state.value.copy(isLoading = true, error = null)
-            }
-        )
+    fun updateCategory(category: String) {
+        _state.value = _state.value.copy(category = category)
     }
 
     fun search() {
-        LogUtil("Call search with query: ${_state.value.query}")
+        LogUtil("Call search with query: ${_state.value.query} va category: ${_state.value.category}")
         executeUseCase(
             state = _state,
             block = {
