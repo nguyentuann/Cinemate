@@ -6,11 +6,6 @@ import vn.tutorial.cinemate.data.remote.services.BaseService
 import vn.tutorial.cinemate.data.remote.services.MovieService
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.domain.repository.MovieRepository
-import vn.tutorial.cinemate.mockdata.filmMock1
-import vn.tutorial.cinemate.mockdata.filmMock2
-import vn.tutorial.cinemate.mockdata.filmMock3
-import vn.tutorial.cinemate.mockdata.filmMock4
-import vn.tutorial.cinemate.mockdata.getFilmById
 import vn.tutorial.cinemate.mockdata.listFilm
 import javax.inject.Inject
 
@@ -26,25 +21,25 @@ class MovieRepositoryImpl @Inject constructor(
         size: Int,
         sortBy: String
     ): Resource<List<MovieDetailModel>?> {
-//        return safeApiCall {
-//            movieService.getMovies(page, size, sortBy)
-//        }.mapData { wrapper ->
-//            wrapper?.map { it ->
-//                it.toMovieDetailModel()
-//            }
-//        }
+        return safeApiCall {
+            movieService.getMovies(page, size, sortBy)
+        }.mapData { wrapper ->
+            wrapper?.map { it ->
+                it.toMovieDetailModel()
+            }
+        }
 
-        return Resource.Success(listFilm)
+//        return Resource.Success(listFilm)
     }
 
     override suspend fun getDetailMovie(movieId: String): Resource<MovieDetailModel?> {
-//        return safeApiCall {
-//            movieService.getMovieById(movieId)
-//        }.mapData { it ->
-//            it?.toMovieDetailModel()
-//        }
+        return safeApiCall {
+            movieService.getMovieById(movieId)
+        }.mapData { it ->
+            it?.toMovieDetailModel()
+        }
 
-        return Resource.Success(getFilmById(movieId))
+//        return Resource.Success(getFilmById(movieId))
     }
 
 }

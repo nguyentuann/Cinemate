@@ -9,7 +9,6 @@ import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.domain.usecase.movies.GetSectionMoviesUseCase
 import javax.inject.Inject
 
-
 data class SectionUIState(
     val movies: List<MovieDetailModel> = emptyList(),
     val page: Int = 1,
@@ -19,29 +18,27 @@ data class SectionUIState(
 )
 
 enum class SectionType {
-    NEW, TRENDING, VIETNAM
+    NEW, TRENDING, USA
 }
-
 
 @HiltViewModel
 class SectionViewModel @Inject constructor(
     private val getSectionMoviesUseCase: GetSectionMoviesUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _sectionsState = MutableStateFlow(
         mapOf(
             SectionType.NEW to SectionUIState(),
             SectionType.TRENDING to SectionUIState(),
-            SectionType.VIETNAM to SectionUIState()
+            SectionType.USA to SectionUIState()
         )
     )
 
     val sectionsState: StateFlow<Map<SectionType, SectionUIState>> = _sectionsState
 
-
     init {
         getSectionMovies(SectionType.NEW, "year")
-        getSectionMovies(SectionType.TRENDING, "view")
-        getSectionMovies(SectionType.VIETNAM, "vietnam")
+        getSectionMovies(SectionType.TRENDING, "year")
+        getSectionMovies(SectionType.USA, "year")
     }
 
     fun getSectionMovies(section: SectionType, sortBy: String) {
@@ -53,7 +50,7 @@ class SectionViewModel @Inject constructor(
                     GetSectionMoviesUseCase.Params(
                         section = section.name.lowercase(),
                         page = currentState.page,
-                        size = 10,
+                        size = 5,
                         sortBy = sortBy
                     )
                 )
@@ -61,7 +58,7 @@ class SectionViewModel @Inject constructor(
 
             onSuccess = { newMovies ->
                 val updatedMovies = currentState.movies + (newMovies ?: emptyList())
-                val hasMore = (newMovies?.size ?: 0) >= 10
+                val hasMore = (newMovies?.size ?: 0) >= 5
                 _sectionsState.value = _sectionsState.value.toMutableMap().apply {
                     this[section] = currentState.copy(
                         movies = updatedMovies,

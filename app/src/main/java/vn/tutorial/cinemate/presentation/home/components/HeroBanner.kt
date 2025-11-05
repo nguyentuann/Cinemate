@@ -13,11 +13,11 @@ import vn.tutorial.cinemate.R
 @Composable
 fun HeroBanner(
     modifier: Modifier = Modifier,
-    film: MovieDetailModel,
+    moviePoster: String,
 ) {
     Box(modifier = modifier) {
         AsyncImageWithReplace(
-            model = film.verticalPoster,
+            model = moviePoster,
             contentDescription = null,
             modifier = Modifier.height(400.dp),
             contentScale = ContentScale.Crop,

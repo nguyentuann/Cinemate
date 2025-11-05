@@ -79,8 +79,8 @@ fun HomeScreen(
                                 onLoadMore = {
                                     val sortBy = when (sectionType) {
                                         SectionType.NEW -> "year"
-                                        SectionType.TRENDING -> "rating"
-                                        SectionType.VIETNAM -> "vietnam"
+                                        SectionType.TRENDING -> "year"
+                                        SectionType.USA -> "year"
                                     }
                                     sectionViewModel.getSectionMovies(sectionType, sortBy)
                                 }

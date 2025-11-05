@@ -1,7 +1,5 @@
 package vn.tutorial.cinemate.presentation.home.components
 
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +9,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,7 +19,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import kotlinx.coroutines.delay
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import kotlin.math.absoluteValue
 
@@ -33,36 +29,20 @@ fun InfinityBanner(
 ) {
     var currentMovie by remember { mutableStateOf(movies[1]) }
     Column {
-        val totalPages = Int.MAX_VALUE
         val pagerState = rememberPagerState(
             initialPage = 1,
-            pageCount = { totalPages }
+            pageCount = { movies.size },
         )
 
-        LaunchedEffect(Unit) {
-            while (true) {
-                delay(4000)
-                pagerState.animateScrollToPage(
-                    pagerState.currentPage + 1,
-                    animationSpec = tween(
-                        durationMillis = 900,
-                        easing = LinearOutSlowInEasing
-                    )
-                )
 
-            }
-        }
         HorizontalPager(
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 80.dp),
             pageSpacing = 0.dp,
             modifier = modifier.fillMaxWidth()
         ) { pageIndex ->
-            val filmIndex = pageIndex % movies.size
-            val film = movies[filmIndex]
 
-            val currentFilmIndex = pagerState.currentPage % movies.size
-            currentMovie = movies[currentFilmIndex]
+            currentMovie = movies[pageIndex]
 
             val pageOffset = (
                     (pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction
@@ -78,7 +58,7 @@ fun InfinityBanner(
                         scaleX = scale
                         scaleY = scale
                     },
-                    film = film,
+                    moviePoster = currentMovie.verticalPoster,
                 )
 
                 if (pageOffset < 0.5f) {
@@ -86,7 +66,7 @@ fun InfinityBanner(
                         modifier = Modifier
                             .padding(top = 16.dp)
                             .align(Alignment.CenterHorizontally),
-                        text = film.genres!!.joinToString(" • "),
+                        text = currentMovie.title,
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center
                     )

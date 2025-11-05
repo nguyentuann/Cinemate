@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
                 getBannerMoviesUseCase(
                     GetBannerMoviesUseCase.Params(
                         page = 1,
-                        size = 10,
+                        size = 5,
                         sortBy = "year"
                     )
                 )

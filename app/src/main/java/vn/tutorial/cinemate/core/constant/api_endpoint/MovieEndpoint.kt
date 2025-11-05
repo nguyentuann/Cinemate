@@ -1,13 +1,13 @@
 package vn.tutorial.cinemate.core.constant.api_endpoint
 
 object MovieEndpoint {
-    private const val PREFIX = "api/v1/movies/"
+    private const val PREFIX = "api/movies/"
 
     const val GET_ALL_MOVIES = PREFIX
 
     const val GET_MOVIE_BY_ID = "${PREFIX}{movieId}"
 
-    const val GET_MOVIES = PREFIX
+    const val GET_MOVIES = "api/movies"
 
 
     const val GET_REVIEWS_OF_MOVIE = "${PREFIX}{movieId}/reviews"

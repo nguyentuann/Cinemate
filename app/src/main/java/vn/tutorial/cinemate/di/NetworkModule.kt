@@ -12,6 +12,7 @@ import vn.tutorial.cinemate.data.remote.interceptor.AuthInterceptor
 import vn.tutorial.cinemate.data.remote.services.AuthService
 import vn.tutorial.cinemate.data.remote.services.MovieService
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -32,25 +33,57 @@ object NetworkModule {
             .build()
     }
 
+//    @Singleton
+//    @Provides
+//    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+//        .baseUrl(BaseEndpoint.BASE_URL)
+//        .client(okHttpClient)
+//        .addConverterFactory(
+//            GsonConverterFactory.create()
+//        ).build()
+
     @Singleton
+    @AuthRetrofit
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(BaseEndpoint.BASE_URL)
+    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(BaseEndpoint.AUTH_BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(
             GsonConverterFactory.create()
         ).build()
 
     @Singleton
+    @MovieRetrofit
     @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService {
+    fun provideMovieRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(BaseEndpoint.MOVIE_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(
+            GsonConverterFactory.create()
+        ).build()
+
+
+
+    @Singleton
+    @Provides
+    fun provideAuthService(@AuthRetrofit retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideFilmService(retrofit: Retrofit): MovieService {
+    fun provideFilmService(@MovieRetrofit  retrofit: Retrofit): MovieService {
         return retrofit.create(MovieService::class.java)
     }
 }
+
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AuthRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MovieRetrofit
+
 
