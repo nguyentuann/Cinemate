@@ -81,8 +81,9 @@ fun VideoPlayer(
 
     LaunchedEffect(exoPlayer) {
         viewModel.setMedia(
-            "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
+            "http://10.0.0.2:9000/movies/movies/fbbbbcb2-f9f8-4c4d-9ec8-dddfc60ae1e5/master.m3u8"
         )
+        //http://10.0.0.2:9000/movies/movies/3af9b48b-6b50-42d2-a8e5-d7087d25360d/master.m3u8
     }
 
     // update progress

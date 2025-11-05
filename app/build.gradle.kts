@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -91,5 +92,8 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.firebase.messaging.ktx)
     implementation(platform(libs.firebase.bom))
+
+    implementation(libs.websocket)
+    implementation(libs.infobip.google.webrtc)
 
 }
