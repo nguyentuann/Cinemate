@@ -1,5 +1,7 @@
 package vn.tutorial.cinemate.navigation
 
+import android.net.Uri
+
 sealed class Route(val route: String) {
     //todo route splash
     object Started: Route("started")
@@ -33,8 +35,11 @@ sealed class Route(val route: String) {
         fun createRoute(filmId: String) = "detail/$filmId"
     }
 
-    object PlayVideo: Route("play_video/{filmId}") {
-        fun createRoute(filmId: String) = "play_video/$filmId"
+    object PlayVideo: Route("play_video/{masterURL}") {
+        fun createRoute(masterURL: String): String {
+            val encodedUrl = Uri.encode(masterURL)
+            return "play_video/$encodedUrl"
+        }
     }
 
     // todo route setting

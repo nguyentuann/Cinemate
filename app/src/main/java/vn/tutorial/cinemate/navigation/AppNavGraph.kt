@@ -3,6 +3,7 @@ package vn.tutorial.cinemate.navigation
 import FavoriteScreen
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -214,10 +215,10 @@ fun NavGraphBuilder.mainNavGraph(
 
     composable(
         Route.PlayVideo.route,
-        arguments = listOf(navArgument("filmId") { type = NavType.StringType })
+        arguments = listOf(navArgument("masterURL") { type = NavType.StringType })
     ) { backStackEntry ->
-        val filmId = backStackEntry.arguments?.getString("filmId") ?: return@composable
-        PlayVideoScreen(filmId)
+        val masterURL = Uri.decode(backStackEntry.arguments?.getString("masterURL"))?: return@composable
+        PlayVideoScreen(masterURL = masterURL)
     }
 }
 

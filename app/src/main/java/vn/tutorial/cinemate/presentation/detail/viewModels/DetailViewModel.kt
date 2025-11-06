@@ -12,7 +12,7 @@ import javax.inject.Inject
 data class DetailUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
-    val filmDetail: MovieDetailModel? = null
+    val movieDetail: MovieDetailModel? = null
 )
 
 @HiltViewModel
@@ -39,7 +39,7 @@ class DetailViewModel @Inject constructor(
                 _state.value.copy(
                     isLoading = false,
                     errorMessage = null,
-                    filmDetail = it
+                    movieDetail = it
                 )
             },
             onError = {

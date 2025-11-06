@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import vn.tutorial.cinemate.presentation.detail.components.VideoPlayer
 
 @Composable
-fun PlayVideoScreen(movieId: String) {
+fun PlayVideoScreen(masterURL: String) {
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
@@ -20,7 +20,7 @@ fun PlayVideoScreen(movieId: String) {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            VideoPlayer()
+            VideoPlayer(masterURL)
         }
     }
 }

@@ -13,9 +13,7 @@ data class MovieResponse(
     @SerializedName("status")
     val status: String? = null,
     @SerializedName("qualities")
-    val qualities: Qualities? = null,
-    @SerializedName("quality")
-    val quality: String? = null,
+    val qualities: Map<String, String>? = null,
     @SerializedName("verticalPoster")
     val verticalPoster: String,
     @SerializedName("horizontalPoster")
@@ -61,10 +59,7 @@ data class MovieResponse(
     val updatedAt: String? = null
 )
 
-data class Qualities(
-    @SerializedName("qualities")
-    val qualities: String? = null
-)
+
 
 // Extension to map response -> domain model
 fun MovieResponse.toMovieDetailModel(): MovieDetailModel {
@@ -82,7 +77,7 @@ fun MovieResponse.toMovieDetailModel(): MovieDetailModel {
         rating = rating,
         year = year,
         country = country,
-        quality = qualities?.qualities ?: quality,
+        qualities = qualities,
         durationMinutes = durationMinutes,
         actors = actors,
         directors = directors,

@@ -4,6 +4,7 @@ import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.data.remote.requests.authentication.ChangePasswordRequest
+import vn.tutorial.cinemate.data.remote.requests.authentication.RefreshTokenRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.ResetPasswordRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignInRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.SignOutRequest
@@ -36,7 +37,6 @@ class AuthRepositoryImpl @Inject constructor(
             authService.verifyEmail(VerifyEmailRequest(email = email))
         }
     }
-
 
     override suspend fun signUp(
         email: String,
@@ -130,16 +130,30 @@ class AuthRepositoryImpl @Inject constructor(
         newPassword: String,
         confirmPassword: String
     ): Resource<String?> {
-        authService.changePassword(
-            return safeApiCall {
-                authService.changePassword(
-                    ChangePasswordRequest(
-                        oldPassword = oldPassword,
-                        newPassword = newPassword,
-                        confirmPassword = confirmPassword
-                    )
+        return safeApiCall {
+            authService.changePassword(
+                ChangePasswordRequest(
+                    oldPassword = oldPassword,
+                    newPassword = newPassword,
+                    confirmPassword = confirmPassword
                 )
+            )
+        }
+    }
+
+    override suspend fun refreshToken(refreshToken: String): Resource<Unit?> {
+        LogUtil("call refresh token in repo with refresh token: $refreshToken")
+        return safeApiCall {
+            authService.refreshToken(
+                RefreshTokenRequest(
+                    refreshToken = refreshToken
+                )
+            )
+        }.mapData {
+            wrapper -> wrapper?.let {
+                val newAccessToken = it.accessToken
+                localStorage.saveAccessToken(newAccessToken)
             }
-        )
+        }
     }
 }

@@ -48,6 +48,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import vn.tutorial.cinemate.common.icons.AppIcons
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.presentation.detail.viewModels.PlayVideoViewModel
 
@@ -60,6 +61,7 @@ fun Context.findActivity(): Activity? = when (this) {
 @OptIn(UnstableApi::class, ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun VideoPlayer(
+    masterURL: String,
     viewModel: PlayVideoViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -80,9 +82,11 @@ fun VideoPlayer(
     var showQualityMenu by remember { mutableStateOf(false) }
 
     LaunchedEffect(exoPlayer) {
+        LogUtil(masterURL)
         viewModel.setMedia(
-            "http://10.0.0.2:9000/movies/movies/fbbbbcb2-f9f8-4c4d-9ec8-dddfc60ae1e5/master.m3u8"
+            "http://10.0.2.2:9000/movies/$masterURL"
         )
+        //"http://10.0.0.2:9000/movies/movies/fbbbbcb2-f9f8-4c4d-9ec8-dddfc60ae1e5/master.m3u8"
         //http://10.0.0.2:9000/movies/movies/3af9b48b-6b50-42d2-a8e5-d7087d25360d/master.m3u8
     }
 
@@ -217,7 +221,6 @@ fun VideoPlayer(
                             "Auto" to null,
                             "1080p" to 1080,
                             "720p" to 720,
-                            "480p" to 480,
                             "360p" to 360
                         ).forEach { (label, height) ->
                             DropdownMenuItem(

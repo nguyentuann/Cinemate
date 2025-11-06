@@ -31,17 +31,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.mockdata.sectionData
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
 import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
 import vn.tutorial.cinemate.presentation.detail.components.InteractionBar
 import vn.tutorial.cinemate.presentation.detail.components.TrailerPlayer
-import vn.tutorial.cinemate.mockdata.sectionData
-import vn.tutorial.cinemate.R
-import vn.tutorial.cinemate.core.util.LogUtil
-import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
 import vn.tutorial.cinemate.presentation.detail.viewModels.DetailViewModel
 import vn.tutorial.cinemate.presentation.home.components.MovieSection
 
@@ -57,7 +57,7 @@ fun DetailScreen(
     val scrollState = rememberScrollState()
     var showComments by remember { mutableStateOf(false) }
     val state = viewModel.state.collectAsState().value
-    val filmDetail = state.filmDetail
+    val movieDetail = state.movieDetail
 
     LaunchedEffect(Unit) {
         viewModel.getDetailFilm(movieId)
@@ -73,8 +73,8 @@ fun DetailScreen(
         ) {
 
             // todo trailer
-            filmDetail?.let {
-                TrailerPlayer(filmDetail.trailerUrl!!)
+            movieDetail?.let {
+                TrailerPlayer(movieDetail.trailerUrl!!)
             }
 
             Spacer(
@@ -90,7 +90,14 @@ fun DetailScreen(
                     modifier = Modifier
                         .fillMaxWidth(),
                     onClick = {
-                        navController.navigate(Route.PlayVideo.route)
+                        LogUtil(movieDetail.toString())
+                        navController.navigate(
+                            Route.PlayVideo.createRoute(
+                                movieDetail?.qualities?.get(
+                                    "master"
+                                )!!
+                            )
+                        )
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Gray,
@@ -106,8 +113,8 @@ fun DetailScreen(
                     Text(stringResource(R.string.play), style = MaterialTheme.typography.bodyLarge)
                 }
 
-                filmDetail?.let {
-                    FilmInformation(filmDetail)
+                movieDetail?.let {
+                    FilmInformation(movieDetail)
                 }
 
                 HorizontalDivider()
@@ -135,9 +142,9 @@ fun DetailScreen(
             // recommend movies
             val moviesList = sectionData.map { (_, movies) -> movies }
             MovieSection(
-               sectionTitle = "More Like This",
-               movies = moviesList.flatten(),
-           )
+                sectionTitle = "More Like This",
+                movies = moviesList.flatten(),
+            )
         }
     }
 }

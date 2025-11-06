@@ -19,11 +19,12 @@ import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.common.components.ExpandableText
 import vn.tutorial.cinemate.common.components.RatingBar
 import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.core.util.getQualityListAsString
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 
 @Composable
 fun FilmInformation(
-    film: MovieDetailModel,
+    movie: MovieDetailModel,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -36,18 +37,20 @@ fun FilmInformation(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = film.title, style = MaterialTheme.typography.titleSmall
+                text = movie.title, style = MaterialTheme.typography.titleSmall
             )
 
 
-            Box(
-                Modifier
-                    .background(Color.Gray, Styles.ShapeStyles.smallCorner) // có shape
-                    .padding(4.dp)
-            ) {
-                Text(
-                    film.genres!!.joinToString(", "), style = MaterialTheme.typography.bodySmall
-                )
+            if (movie.genres != null) {
+                Box(
+                    Modifier
+                        .background(Color.Gray, Styles.ShapeStyles.smallCorner) // có shape
+                        .padding(4.dp)
+                ) {
+                    Text(
+                        movie.genres.joinToString(", "), style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
 
         }
@@ -58,63 +61,80 @@ fun FilmInformation(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-//                Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(film.year.toString(), style = MaterialTheme.typography.bodySmall)
+                    Text(movie.year.toString(), style = MaterialTheme.typography.bodySmall)
                     Box(
                         Modifier
                             .background(Color.Gray, Styles.ShapeStyles.smallCorner)
                             .padding(4.dp)
                     ) {
                         Text(
-                            film.country + "/" + film.age,
+                            movie.country + "/" + movie.age,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
 
-                    Text(film.quality!!, style = MaterialTheme.typography.bodySmall)
-                    Text("${film.durationMinutes} min", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        getQualityListAsString(movie.qualities),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    if (movie.durationMinutes != null) {
+                        Text(
+                            "${movie.durationMinutes} min",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
                 }
 
                 // todo rating
-                RatingBar(film.rating!!)
+                if (movie.rating != null) {
+                    RatingBar(movie.rating)
+                }
             }
 
-            Box(
-                Modifier
-                    .background(Color.Red, Styles.ShapeStyles.mediumCorner)
-                    .size(48.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "#${film.rank}",
-                    style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center
-                )
+            if (movie.rating != null) {
+                Box(
+                    Modifier
+                        .background(Color.Red, Styles.ShapeStyles.mediumCorner)
+                        .size(48.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "#${movie.rank}",
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
 
         // todo description
-        ExpandableText(film.description!!)
+        if (movie.description != null) {
+            ExpandableText(movie.description)
+        }
 
         // todo actors
-        Row {
-            Text(
-                "Actors: ${film.actors!!.joinToString(", ")}",
-                style = MaterialTheme.typography.bodyMedium
-            )
+        if (!movie.actors.isNullOrEmpty()) {
+            Row {
+                Text(
+                    "Actors: ${movie.actors.joinToString(", ")}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
         // todo directors
-        Row {
-            Text(
-                "Directors: ${film.directors!!.joinToString(", ")}",
-                style = MaterialTheme.typography.bodyMedium
-            )
+        if (!movie.directors.isNullOrEmpty()) {
+            Row {
+                Text(
+                    "Directors: ${movie.directors.joinToString(", ")}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
     }
 }
