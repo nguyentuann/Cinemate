@@ -33,6 +33,10 @@ class LocalStorage @Inject constructor(
         return prefs.getString(ACCESS_TOKEN, null)
     }
 
+    fun deleteAccessToken() {
+        prefs.edit { remove(ACCESS_TOKEN) }
+    }
+
     fun saveRefreshToken(token: String) {
         prefs.edit { putString(REFRESH_TOKEN, token) }
     }

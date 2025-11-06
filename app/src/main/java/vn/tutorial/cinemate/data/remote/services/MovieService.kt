@@ -10,6 +10,7 @@ import retrofit2.http.Query
 import vn.tutorial.cinemate.core.constant.api_endpoint.CategoryEndpoint
 import vn.tutorial.cinemate.core.constant.api_endpoint.FavoriteEndpoint
 import vn.tutorial.cinemate.core.constant.api_endpoint.MovieEndpoint
+import vn.tutorial.cinemate.data.remote.requests.film.FavoriteRequest
 import vn.tutorial.cinemate.data.remote.requests.film.ReviewRequest
 import vn.tutorial.cinemate.data.remote.requests.film.SearchRequest
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
@@ -69,18 +70,5 @@ interface MovieService {
 
 
 
-    // todo about favorites
-    @GET(FavoriteEndpoint.GET_FAVORITES_OF_USER)
-    suspend fun getFavoriteMovies(): Response<BaseResponse<List<MovieResponse>>>
 
-    @POST(FavoriteEndpoint.ADD_FAVORITE)
-    suspend fun addFavoriteMovie(
-        @Path("movieId") movieId: String
-    ): Response<BaseResponse<Unit>>
-
-
-    @DELETE(FavoriteEndpoint.DELETE_FAVORITE)
-    suspend fun deleteFavoriteMovie(
-        @Path("movieId") movieId: String
-    ): Response<BaseResponse<Unit>>
 }

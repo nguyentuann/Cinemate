@@ -23,6 +23,7 @@ android {
 
         buildConfigField("String", "AUTH_BASE_URL", "\"http://10.0.2.2:8585/\"")
         buildConfigField("String", "MOVIE_BASE_URL", "\"http://10.0.2.2:8081/\"")
+        buildConfigField("String", "FAVORITE_BASE_URL", "\"http://10.0.2.2:8685/\"")
 
     }
 

@@ -1,9 +1,11 @@
 package vn.tutorial.cinemate.presentation.more.viewModels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import vn.tutorial.cinemate.core.base_class.executeUseCase
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
@@ -29,10 +31,6 @@ class FavoriteViewModel @Inject constructor(
 
     fun clearError() {
         _state.value = _state.value.copy(error = null)
-    }
-    init {
-        LogUtil("goi init favorite view model")
-        getFavoriteMovies()
     }
 
     fun getFavoriteMovies() {
@@ -64,16 +62,16 @@ class FavoriteViewModel @Inject constructor(
     }
 
     fun addFavorite(movieId: String) {
-//        viewModelScope.launch {
-//            addFavoriteUseCase(movieId)
-//        }
+        viewModelScope.launch {
+            addFavoriteUseCase(movieId)
+        }
         LogUtil("add with id $movieId")
     }
 
     fun deleteFavorite(movieId: String) {
-//        viewModelScope.launch {
-//            deleteFavoriteUseCase(movieId)
-//        }
+        viewModelScope.launch {
+            deleteFavoriteUseCase(movieId)
+        }
         LogUtil("delete with id $movieId")
     }
 }

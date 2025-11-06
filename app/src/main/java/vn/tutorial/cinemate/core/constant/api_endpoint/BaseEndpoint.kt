@@ -5,4 +5,5 @@ import vn.tutorial.cinemate.BuildConfig
 object BaseEndpoint {
     const val AUTH_BASE_URL = BuildConfig.AUTH_BASE_URL
     const val MOVIE_BASE_URL = BuildConfig.MOVIE_BASE_URL
+    const val FAVORITE_BASE_URL = BuildConfig.FAVORITE_BASE_URL
 }

@@ -10,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import vn.tutorial.cinemate.core.constant.api_endpoint.BaseEndpoint
 import vn.tutorial.cinemate.data.remote.interceptor.AuthInterceptor
 import vn.tutorial.cinemate.data.remote.services.AuthService
+import vn.tutorial.cinemate.data.remote.services.FavoriteService
 import vn.tutorial.cinemate.data.remote.services.MovieService
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
@@ -62,6 +63,16 @@ object NetworkModule {
             GsonConverterFactory.create()
         ).build()
 
+    @Singleton
+    @FavoriteRetrofit
+    @Provides
+    fun provideFavoriteRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(BaseEndpoint.FAVORITE_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(
+            GsonConverterFactory.create()
+        ).build()
+
 
 
     @Singleton
@@ -75,6 +86,12 @@ object NetworkModule {
     fun provideFilmService(@MovieRetrofit  retrofit: Retrofit): MovieService {
         return retrofit.create(MovieService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideFavoriteService(@FavoriteRetrofit  retrofit: Retrofit): FavoriteService {
+        return retrofit.create(FavoriteService::class.java)
+    }
 }
 
 
@@ -85,5 +102,9 @@ annotation class AuthRetrofit
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class MovieRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class FavoriteRetrofit
 
 

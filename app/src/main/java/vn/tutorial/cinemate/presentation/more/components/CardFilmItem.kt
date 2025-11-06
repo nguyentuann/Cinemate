@@ -89,33 +89,37 @@ fun CardMovieItem(
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
-                Text(
-                    text = timeFormatter(movie.durationMinutes!! * 60 * 1000L),
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .background(
-                            MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
-                            Styles.ShapeStyles.smallCorner
-                        )
-                        .padding(horizontal = 6.dp, vertical = 6.dp)
-                )
+                if (movie.durationMinutes != null) {
+                    Text(
+                        text = timeFormatter(movie.durationMinutes * 60 * 1000L),
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .background(
+                                MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                                Styles.ShapeStyles.smallCorner
+                            )
+                            .padding(horizontal = 6.dp, vertical = 6.dp)
+                    )
+                }
                 // Thanh progress (đặt dưới cùng)
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .fillMaxWidth()
-                        .height(4.dp)
-                        .background(Color.White.copy(alpha = 0.7f))
-                ) {
-                    val progress =
-                        movie.watchDurationMinutes!!.toFloat() / movie.durationMinutes.toFloat()
+                if (movie.watchDurationMinutes != null && movie.durationMinutes != null) {
                     Box(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth(progress.coerceIn(0f, 1f))
-                            .background(Color.Red)
-                    )
+                            .align(Alignment.BottomStart)
+                            .fillMaxWidth()
+                            .height(4.dp)
+                            .background(Color.White.copy(alpha = 0.7f))
+                    ) {
+                        val progress =
+                            movie.watchDurationMinutes.toFloat() / movie.durationMinutes.toFloat()
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .fillMaxWidth(progress.coerceIn(0f, 1f))
+                                .background(Color.Red)
+                        )
+                    }
                 }
             }
 
@@ -144,7 +148,9 @@ fun CardMovieItem(
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
                     )
-                    RatingBar(rating = movie.rating!!, starSize = 16.dp)
+                    if (movie.rating != null) {
+                        RatingBar(rating = movie.rating, starSize = 16.dp)
+                    }
 
                 }
 

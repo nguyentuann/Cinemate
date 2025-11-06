@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import vn.tutorial.cinemate.core.base_class.Resource
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.domain.usecase.authentication.RefreshTokenUseCase
 import javax.inject.Inject
@@ -35,10 +36,14 @@ class StartedViewModel @Inject constructor(
         viewModelScope.launch {
             val refreshToken = localStorage.getRefreshToken()
             if (!refreshToken.isNullOrEmpty() && isJwtValid(refreshToken)) {
+                localStorage.deleteAccessToken()
+                LogUtil("call refresh token")
                 val rp = refreshTokenUseCase.invoke(refreshToken)
                 if (rp is Resource.Success) {
+                    LogUtil("refresh token success")
                     _state.value = SplashState.GoToHome
                 } else if (rp is Resource.Error) {
+                    LogUtil("refresh token failed: ${rp.message}")
                     _state.value = SplashState.GoToAuth
                 }
             } else {
