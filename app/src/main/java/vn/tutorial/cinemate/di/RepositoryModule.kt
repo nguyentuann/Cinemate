@@ -9,12 +9,14 @@ import vn.tutorial.cinemate.data.repositoryImpl.CategoryRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.FavoriteRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.MovieRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.NotificationRepositoryImpl
+import vn.tutorial.cinemate.data.repositoryImpl.ProfileRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.ReviewRepositoryImpl
 import vn.tutorial.cinemate.domain.repository.AuthRepository
 import vn.tutorial.cinemate.domain.repository.CategoryRepository
 import vn.tutorial.cinemate.domain.repository.FavoriteRepository
 import vn.tutorial.cinemate.domain.repository.MovieRepository
 import vn.tutorial.cinemate.domain.repository.NotificationRepository
+import vn.tutorial.cinemate.domain.repository.ProfileRepository
 import vn.tutorial.cinemate.domain.repository.ReviewRepository
 
 @Module
@@ -50,4 +52,9 @@ abstract class RepositoryModule {
     abstract fun bindCategoryRepository(
         impl: CategoryRepositoryImpl
     ): CategoryRepository
+
+    @Binds
+    abstract fun bindProfileRepository(
+        impl: ProfileRepositoryImpl
+    ): ProfileRepository
 }

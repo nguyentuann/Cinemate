@@ -12,6 +12,7 @@ import vn.tutorial.cinemate.data.remote.interceptor.AuthInterceptor
 import vn.tutorial.cinemate.data.remote.services.AuthService
 import vn.tutorial.cinemate.data.remote.services.FavoriteService
 import vn.tutorial.cinemate.data.remote.services.MovieService
+import vn.tutorial.cinemate.data.remote.services.ProfileService
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -91,6 +92,12 @@ object NetworkModule {
     @Provides
     fun provideFavoriteService(@FavoriteRetrofit  retrofit: Retrofit): FavoriteService {
         return retrofit.create(FavoriteService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideProfileService(@FavoriteRetrofit  retrofit: Retrofit): ProfileService {
+        return retrofit.create(ProfileService::class.java)
     }
 }
 

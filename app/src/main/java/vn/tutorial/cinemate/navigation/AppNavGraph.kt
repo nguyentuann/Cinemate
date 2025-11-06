@@ -34,7 +34,7 @@ import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
 import vn.tutorial.cinemate.presentation.more.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.more.screens.HistoryScreen
 import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
-import vn.tutorial.cinemate.presentation.more.screens.PersonalInformationScreen
+import vn.tutorial.cinemate.presentation.more.screens.ProfileScreen
 import vn.tutorial.cinemate.presentation.more.screens.SettingNotificationScreen
 import vn.tutorial.cinemate.presentation.more.screens.ThemeAndLanguageScreen
 import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
@@ -80,25 +80,6 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
         val email = backStackEntry.arguments?.getString("email") ?: return@composable
         CheckMailScreen(email)
     }
-
-//    composable(
-//        Route.VerifyToken.route,
-//        arguments = listOf(navArgument("token") { type = NavType.StringType }),
-////            deepLinks = listOf(
-////                navDeepLink {
-////                    uriPattern = "http://localhost:3000/register/confirm?token={token}"
-////                    action = Intent.ACTION_VIEW
-////                }
-////            )
-//    ) { backStackEntry ->
-//        val parentEntry = remember(navController) {
-//            navController.getBackStackEntry(Route.SignUpGraph.route)
-//        }
-//        val viewModel: SignUpViewModel = hiltViewModel(parentEntry)
-//        val token = backStackEntry.arguments?.getString("token") ?: return@composable
-//        LogUtil("Deep link token: $token")
-//        VerifyTokenScreen(token, navController, viewModel)
-//    }
 
     // todo gom các màn forgot password thành 1 graph con
     navigation(
@@ -239,7 +220,7 @@ fun NavGraphBuilder.personalNavGraph(
     }
 
     composable(Route.Profile.route) {
-        PersonalInformationScreen()
+        ProfileScreen()
     }
 
     composable(Route.SettingNotification.route) {
