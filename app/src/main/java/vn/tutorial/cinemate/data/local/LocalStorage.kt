@@ -12,6 +12,8 @@ class LocalStorage @Inject constructor(
         private const val ACCESS_TOKEN = "access_token"
         private const val REFRESH_TOKEN = "refresh_token"
         private const val USER_ID = "user_id"
+        private const val USER_NAME = "user_name"
+        private const val USER_AVATAR = "user_avatar"
 
         private const val THEME = "theme"
         private const val LANGUAGE = "language"
@@ -23,6 +25,22 @@ class LocalStorage @Inject constructor(
 
     fun getUserId(): String? {
         return prefs.getString(USER_ID, null)
+    }
+
+    fun saveUserName(userName: String) {
+        prefs.edit { putString(USER_NAME, userName) }
+    }
+
+    fun getUserName(): String? {
+        return prefs.getString(USER_NAME, "Anonymous User")
+    }
+
+    fun saveUserAvatar(avatarUrl: String) {
+        prefs.edit { putString(USER_AVATAR, avatarUrl) }
+    }
+
+    fun getUserAvatar(): String? {
+        return prefs.getString(USER_AVATAR, "Anonymous Avatar")
     }
 
     fun saveAccessToken(token: String) {

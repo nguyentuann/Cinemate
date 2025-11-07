@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.common.components.ConfirmationDialog
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.data.listOptions
 import vn.tutorial.cinemate.common.styles.Styles
@@ -112,11 +113,13 @@ fun MoreScreen(
                 }
             }
             if (showDialog.value) {
-                ShowSignOutDialog(
+                ConfirmationDialog(
+                    title = stringResource(R.string.sign_out),
+                    message =  stringResource(R.string.sign_out_confirm),
                     onDismiss = {
                         showDialog.value = false
                     },
-                    onLogOut = {
+                    onConfirm = {
                         showDialog.value = false
                         viewModel.signOut(
                             onSuccess = {
@@ -137,45 +140,4 @@ fun MoreScreen(
             }
         )
     }
-}
-
-@Composable
-private fun ShowSignOutDialog(
-    onDismiss: () -> Unit = {},
-    onLogOut: () -> Unit = {}
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(R.string.sign_out),
-                style = MaterialTheme.typography.headlineSmall
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(R.string.sign_out_confirm),
-                style = MaterialTheme.typography.bodyMedium
-            )
-        },
-        confirmButton = {
-            Text(
-                "OK",
-                Modifier
-                    .clickable(
-                        onClick = onLogOut
-                    )
-                    .padding(horizontal = 16.dp)
-            )
-
-        },
-        dismissButton = {
-            Text(
-                stringResource(R.string.cancel),
-                Modifier.clickable(
-                    onClick = onDismiss
-                )
-            )
-        }
-    )
 }

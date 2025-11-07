@@ -86,4 +86,5 @@
     <string name="other">Khác</string>
     <string name="play">Phát</string>
     <string name="favorite">Yêu thích</string>
+    <string name="confirm_delete">Bạn có chắc muốn xóa không?</string>
 </resources>

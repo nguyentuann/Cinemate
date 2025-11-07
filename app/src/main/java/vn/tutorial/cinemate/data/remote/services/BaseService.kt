@@ -33,7 +33,7 @@ abstract class BaseService {
             }
         } catch (e: Exception) {
             LogUtil("vao catch: ${e.message}")
-            Resource.Error(e.message ?: "Unexpected error")
+            Resource.Error(e.message ?: "Please try again later")
         }
     }
 

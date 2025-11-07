@@ -52,6 +52,13 @@ interface MovieService {
         @Path("movieId") movieId: String
     ): Response<BaseResponse<Int>>
 
+    @DELETE(MovieEndpoint.DELETE_REVIEW)
+    suspend fun deleteReview(
+        @Path("movieId") movieId: String,
+        @Path("reviewId") reviewId: String,
+        @Query("userId") userId: String
+    ): Response<BaseResponse<Unit>>
+
 
 
     // todo about movies

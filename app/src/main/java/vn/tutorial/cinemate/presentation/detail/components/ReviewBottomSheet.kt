@@ -69,6 +69,7 @@ fun CommentBottomSheet(
         skipPartiallyExpanded = true
     )
 
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
@@ -81,7 +82,7 @@ fun CommentBottomSheet(
                 .fillMaxWidth()
         ) {
             Text(
-                text = stringResource(R.string.reviews) + " (${state.commentCount})",
+                text = stringResource(R.string.reviews) + " (${state.reviewCount})",
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier
                     .padding(16.dp)
@@ -95,20 +96,23 @@ fun CommentBottomSheet(
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-                ReviewList(state.comments) // LazyColumn cuộn độc lập
+                ReviewList(state.reviews, onClick = { movieId, reviewId, customerId ->
+                    commentViewModel.deleteComment(movieId, reviewId, customerId)
+                }
+                ) // LazyColumn cuộn độc lập
             }
             Review(
                 onSendReview = { rating, content ->
-//                    commentViewModel.addReview(
-//                        ReviewModel(
-//                            movieId = movieId,
-//                            customerId = "current_user_id",
-//                            userName = "Current User",
-//                            userAvatar = "",
-//                            stars = rating,
-//                            content = content,
-//                        )
-//                    )
+                    commentViewModel.addReview(
+                        ReviewModel(
+                            movieId = movieId,
+                            customerId = "current_user_id",
+                            userName = "user_name",
+                            userAvatar = "user_avatar",
+                            stars = rating,
+                            content = content,
+                        )
+                    )
                     LogUtil("Send review: rating=$rating, content=$content")
 
                 }

@@ -25,7 +25,7 @@ fun formatIsoDate(
         } else {
             zonedDateTime
         }
-        val formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy")
+        val formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy")
         finalTime.format(formatter)
     } catch (e: Exception) {
         isoString

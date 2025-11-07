@@ -7,12 +7,10 @@ import vn.tutorial.cinemate.domain.repository.ReviewRepository
 import javax.inject.Inject
 
 class AddReviewUseCase @Inject constructor(
-    private val commentRepository: ReviewRepository
-): BaseUseCase<ReviewModel, Resource<ReviewModel?>>() {
+    private val reviewRepository: ReviewRepository
+) : BaseUseCase<ReviewModel, Resource<ReviewModel?>>() {
 
     override suspend fun execute(param: ReviewModel): Resource<ReviewModel?> {
-        return commentRepository.addComment(
-            param
-        )
+        return reviewRepository.addReview(param)
     }
 }

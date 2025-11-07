@@ -10,8 +10,8 @@ data class ReviewResponse(
     @SerializedName("movieId")
     val movieId: String,
 
-    @SerializedName("userId")
-    val userId: String,
+    @SerializedName("customerId")
+    val customerId: String,
 
     @SerializedName("content")
     val content: String,
@@ -39,7 +39,7 @@ fun ReviewResponse.toReviewModel() = ReviewModel(
     stars = stars,
     userName = userName,
     userAvatar = userAvatar,
-    customerId = userId,
+    customerId = customerId,
     createAt = createdAt,
     updateAt = updatedAt
 )

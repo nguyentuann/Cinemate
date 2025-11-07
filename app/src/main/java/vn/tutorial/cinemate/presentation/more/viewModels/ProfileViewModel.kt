@@ -57,7 +57,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun getProfile() {
-        val oldProfile = _state.value.profile
         executeUseCase(
             state = _state,
             block = {
@@ -95,6 +94,8 @@ class ProfileViewModel @Inject constructor(
             onSuccess = {
                 _state.value.copy(
                     profile = it ?: _state.value.profile,
+                    isLoading = false,
+                    error = null
                 )
             },
             onError = { error ->

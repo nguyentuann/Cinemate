@@ -5,15 +5,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.ReviewModel
 import vn.tutorial.cinemate.domain.usecase.reviews.AddReviewUseCase
+import vn.tutorial.cinemate.domain.usecase.reviews.DeleteReviewUseCase
 import vn.tutorial.cinemate.domain.usecase.reviews.GetAllReviewsUseCase
 import vn.tutorial.cinemate.domain.usecase.reviews.GetReviewCountUseCase
 import javax.inject.Inject
 
 data class ReviewUIState(
-    var comments: List<ReviewModel> = emptyList(),
-    var commentCount: Int = 0,
+    var reviews: List<ReviewModel> = emptyList(),
+    var reviewCount: Int = 0,
     val error: String? = null,
     val loading: Boolean = false
 )
@@ -22,7 +24,8 @@ data class ReviewUIState(
 class ReviewViewModel @Inject constructor(
     private val getAllReviewsUseCase: GetAllReviewsUseCase,
     private val addReviewUseCase: AddReviewUseCase,
-    private val getReviewCountUseCase: GetReviewCountUseCase
+    private val getReviewCountUseCase: GetReviewCountUseCase,
+    private val deleteReviewUseCase: DeleteReviewUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(ReviewUIState())
     val state: StateFlow<ReviewUIState> = _state
@@ -42,14 +45,14 @@ class ReviewViewModel @Inject constructor(
             },
             onSuccess = {
                 _state.value.copy(
-                    commentCount = it ?: 0,
+                    reviewCount = it ?: 0,
                     error = null,
                     loading = false
                 )
             },
             onError = {
                 _state.value.copy(
-                    commentCount = 0,
+                    reviewCount = 0,
                     error = it,
                     loading = false
                 )
@@ -71,14 +74,14 @@ class ReviewViewModel @Inject constructor(
             },
             onSuccess = {
                 _state.value.copy(
-                    comments = it ?: emptyList(),
+                    reviews = it ?: emptyList(),
                     error = null,
                     loading = false
                 )
             },
             onError = {
                 _state.value.copy(
-                    comments = emptyList(),
+                    reviews = emptyList(),
                     error = it,
                     loading = false
                 )
@@ -100,7 +103,8 @@ class ReviewViewModel @Inject constructor(
             },
             onSuccess = {
                 _state.value.copy(
-                    comments = _state.value.comments + it!!,
+                    reviews = _state.value.reviews + it!!,
+                    reviewCount = _state.value.reviewCount + 1,
                     error = null,
                     loading = false
                 )
@@ -120,11 +124,41 @@ class ReviewViewModel @Inject constructor(
         )
     }
 
-    fun updateComment(filmId: String, comment: ReviewModel) {
 
-    }
-
-    fun deleteComment(filmId: String, commentId: Int) {
-
+    fun deleteComment(movieId: String, reviewId: String, customerId: String) {
+        executeUseCase(
+            state = _state,
+            block = {
+                deleteReviewUseCase(
+                    DeleteReviewUseCase.Params(
+                        reviewId = reviewId,
+                        movieId = movieId,
+                        userId = customerId
+                    )
+                )
+            },
+            onSuccess = {
+                _state.value.copy(
+                    reviews = _state.value.reviews.filterNot { review ->
+                        review.id == reviewId
+                    },
+                    reviewCount = _state.value.reviewCount - 1,
+                    error = null,
+                    loading = false
+                )
+            },
+            onError = {
+                _state.value.copy(
+                    error = it,
+                    loading = false
+                )
+            },
+            onLoading = {
+                state.value.copy(
+                    loading = true,
+                    error = null
+                )
+            }
+        )
     }
 }

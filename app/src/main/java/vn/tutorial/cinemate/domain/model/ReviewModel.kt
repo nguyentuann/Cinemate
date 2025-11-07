@@ -5,7 +5,8 @@ import vn.tutorial.cinemate.data.remote.requests.film.ReviewRequest
 data class ReviewModel(
     val id: String? = null,
     val movieId: String,
-    val customerId: String,
+    val customerId: String?,
+    val isUser: Boolean = false,
     val userName: String,
     val userAvatar: String,
     val stars: Int,

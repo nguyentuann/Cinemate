@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import coil.compose.AsyncImage
 
 @Composable
 fun AsyncImageWithReplace(
@@ -13,7 +14,7 @@ fun AsyncImageWithReplace(
     contentScale: ContentScale,
     imgReplace: Int
 ) {
-    coil.compose.AsyncImage(
+    AsyncImage(
         model = model,
         contentDescription = contentDescription,
         modifier = modifier,
