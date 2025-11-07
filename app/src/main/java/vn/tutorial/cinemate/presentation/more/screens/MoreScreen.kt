@@ -11,15 +11,19 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,6 +37,7 @@ import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.more.components.MoreItem
 import vn.tutorial.cinemate.presentation.more.viewModels.SignOutViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreScreen(
     modifier: Modifier = Modifier,
@@ -42,29 +47,47 @@ fun MoreScreen(
 
     val navController = LocalNavController.current
     val showDialog = remember { mutableStateOf(false) }
-    Scaffold {
+
+    Scaffold (
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.information),
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                },
+
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                    actionIconContentColor = MaterialTheme.colorScheme.onBackground
+                )
+            )
+        }
+    ){
         Column(
             modifier = modifier
                 .fillMaxSize()
                 .padding(it)
                 .padding(horizontal = 16.dp)
         ) {
-            LazyRow {
-                items(5) {
-                    Image(
-                        modifier = Modifier
-                            .padding(end = 8.dp, bottom = 16.dp)
-                            .clip(Styles.ShapeStyles.mediumCorner),
-                        painter = painterResource(id = R.drawable.avatar),
-                        contentDescription = null,
-                    )
-                }
-            }
-            Text(
-                modifier = Modifier.padding(bottom = 16.dp),
-                text = stringResource(R.string.information),
-                style = MaterialTheme.typography.titleSmall
-            )
+//            LazyRow {
+//                items(5) {
+//                    Image(
+//                        modifier = Modifier
+//                            .padding(end = 8.dp, bottom = 16.dp)
+//                            .clip(Styles.ShapeStyles.mediumCorner),
+//                        painter = painterResource(id = R.drawable.avatar),
+//                        contentDescription = null,
+//                    )
+//                }
+//            }
+//            Text(
+//                modifier = Modifier.padding(bottom = 16.dp),
+//                text = stringResource(R.string.information),
+//                style = MaterialTheme.typography.titleSmall
+//            )
 
             LazyColumn(
                 modifier = Modifier.padding(bottom = 80.dp)

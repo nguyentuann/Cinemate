@@ -27,6 +27,7 @@ import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.SignInText
 import vn.tutorial.cinemate.common.data.listSplashImage
+import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.splash.components.ImagePager
 
@@ -59,9 +60,9 @@ fun SplashScreen(navController: NavHostController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(R.drawable.logo),
+                    AppIcons.logo(),
                     contentDescription = null,
-                    modifier = Modifier.size(100.dp)
+                    modifier = Modifier.size(120.dp)
                 )
                 SignInText(navController = navController, isSplash = true)
             }

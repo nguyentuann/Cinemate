@@ -46,12 +46,12 @@ val listOptions = listOf(
     ProfileOption(
         R.string.children_mode,
         Icons.Default.Face,
-        route =  ""
+        route =  Route.Home.route
     ),
     ProfileOption(
         R.string.package_management,
         Icons.Default.ShoppingCart,
-        route =  ""
+        route =  Route.Home.route
     ),
     ProfileOption(
         R.string.notification_management,
@@ -66,6 +66,6 @@ val listOptions = listOf(
     ProfileOption(
         R.string.help_reply,
         Icons.Default.Phone,
-        route =  ""
+        route =  Route.Home.route
     ),
 )

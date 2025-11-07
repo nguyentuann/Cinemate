@@ -188,7 +188,7 @@ fun ProfileScreen(
                 value = profile.dateOfBirth ?: "",
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Date of birth") },
+                label = { Text("Date of birth", style = MaterialTheme.typography.bodyMedium) },
                 trailingIcon = {
                     IconButton(onClick = {
                         showDialog = true

@@ -76,7 +76,7 @@ object AppIcons {
     fun comingSoon(): Painter = painterResource(R.drawable.ic_coming_soon)
 
     @Composable
-    fun logo(): Painter = painterResource(R.drawable.logo)
+    fun logo(): Painter = painterResource(R.drawable.new_logo)
 
     @Composable
     fun send(): Painter = painterResource(R.drawable.ic_send)

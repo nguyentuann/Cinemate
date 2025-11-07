@@ -28,7 +28,7 @@ fun MoreItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp)
+                .padding(vertical = 20.dp)
                 .clickable(
                     onClick = onClick
                 ),

@@ -35,7 +35,7 @@ fun AppBar(
                 AppIcons.logo(),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(120.dp)
             )
         },
         navigationIcon = {
