@@ -49,5 +49,7 @@ sealed class Route(val route: String) {
     object Profile: Route("profile")
     object SettingNotification: Route("setting_notification")
     object ChangePassword: Route("change_password")
+    object Subscription: Route("subscription")
+    object ChildrenMode: Route("children_mode")
 
 }

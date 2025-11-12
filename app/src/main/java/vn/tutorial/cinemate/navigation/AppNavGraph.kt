@@ -32,10 +32,12 @@ import vn.tutorial.cinemate.presentation.detail.screens.DetailScreen
 import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
 import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
 import vn.tutorial.cinemate.presentation.more.screens.ChangePasswordScreen
+import vn.tutorial.cinemate.presentation.more.screens.ChildrenModeScreen
 import vn.tutorial.cinemate.presentation.more.screens.HistoryScreen
 import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
 import vn.tutorial.cinemate.presentation.more.screens.ProfileScreen
 import vn.tutorial.cinemate.presentation.more.screens.SettingNotificationScreen
+import vn.tutorial.cinemate.presentation.more.screens.SubscriptionScreen
 import vn.tutorial.cinemate.presentation.more.screens.ThemeAndLanguageScreen
 import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
 import vn.tutorial.cinemate.presentation.notification.NotificationScreen
@@ -198,7 +200,8 @@ fun NavGraphBuilder.mainNavGraph(
         Route.PlayVideo.route,
         arguments = listOf(navArgument("masterURL") { type = NavType.StringType })
     ) { backStackEntry ->
-        val masterURL = Uri.decode(backStackEntry.arguments?.getString("masterURL"))?: return@composable
+        val masterURL =
+            Uri.decode(backStackEntry.arguments?.getString("masterURL")) ?: return@composable
         PlayVideoScreen(masterURL = masterURL)
     }
 }
@@ -229,6 +232,14 @@ fun NavGraphBuilder.personalNavGraph(
 
     composable(Route.ChangePassword.route) {
         ChangePasswordScreen()
+    }
+
+    composable(Route.Subscription.route) {
+        SubscriptionScreen()
+    }
+
+    composable(Route.ChildrenMode.route) {
+        ChildrenModeScreen()
     }
 }
 

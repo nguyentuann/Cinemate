@@ -93,5 +93,14 @@
 
     <string name="confirm_delete">Are you sure want to delete this?</string>
 
+    <string name="continue_text">Continue</string>
+    <string name="choose_your_plan">Select your subscription plan</string>
+    <string name="monthly_price">Monthly price</string>
+    <string name="image_quality">Image quality</string>
+    <string name="sound">Sound: </string>
+    <string name="devices">Number of devices</string>
+    <string name="download">Download</string>
+    <string name="device_support">Supported devices</string>
+
 
 </resources>

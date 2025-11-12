@@ -87,4 +87,12 @@
     <string name="play">Phát</string>
     <string name="favorite">Yêu thích</string>
     <string name="confirm_delete">Bạn có chắc muốn xóa không?</string>
+    <string name="continue_text">Tiếp tục</string>
+    <string name="choose_your_plan">Chọn gói dịch vụ của bạn</string>
+    <string name="monthly_price">Giá hàng tháng</string>
+    <string name="image_quality">Chất lượng hình ảnh</string>
+    <string name="sound">Âm thanh</string>
+    <string name="devices">Số thiết bị</string>
+    <string name="download">Tải xuống</string>
+    <string name="device_support">Thiết bị được hỗ trợ</string>
 </resources>
