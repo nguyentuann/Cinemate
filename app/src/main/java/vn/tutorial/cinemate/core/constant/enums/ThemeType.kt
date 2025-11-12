@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.domain.model
+package vn.tutorial.cinemate.core.constant.enums
 
 enum class ThemeType {
     SYSTEM_DEFAULT,

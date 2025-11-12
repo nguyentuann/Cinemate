@@ -5,8 +5,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
-import vn.tutorial.cinemate.core.constant.enum.AgeLimit
-import vn.tutorial.cinemate.core.constant.enum.TimeLimit
+import vn.tutorial.cinemate.core.constant.enums.AgeLimit
+import vn.tutorial.cinemate.core.constant.enums.TimeLimit
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.usecase.subscription.GetChildrenModeUseCase
 import javax.inject.Inject

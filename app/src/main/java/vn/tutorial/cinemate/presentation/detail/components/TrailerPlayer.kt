@@ -19,6 +19,8 @@ import androidx.media3.ui.PlayerView
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.media3.common.util.UnstableApi
+import vn.tutorial.cinemate.core.constant.api_endpoint.PlayMovieEndpoint
+import vn.tutorial.cinemate.core.util.LogUtil
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -32,8 +34,9 @@ fun TrailerPlayer(
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
             val mediaItem = MediaItem.fromUri(
-                "http://10.0.2.2:9000/movies/$url"
+                "${PlayMovieEndpoint.PLAY_MOVIE}/$url"
             )
+            LogUtil("Trailer:  ${PlayMovieEndpoint.PLAY_MOVIE}/$url")
             setMediaItem(mediaItem)
             prepare()
             playWhenReady = true

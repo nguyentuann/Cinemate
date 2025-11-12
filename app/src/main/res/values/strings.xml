@@ -101,6 +101,8 @@
     <string name="devices">Number of devices</string>
     <string name="download">Download</string>
     <string name="device_support">Supported devices</string>
+    
+    <string name="no_movie">No movies found.</string>
 
 
 </resources>

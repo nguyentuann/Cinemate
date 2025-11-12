@@ -95,4 +95,5 @@
     <string name="devices">Số thiết bị</string>
     <string name="download">Tải xuống</string>
     <string name="device_support">Thiết bị được hỗ trợ</string>
+    <string name="no_movie">Không có phim nào tìm thấy</string>
 </resources>

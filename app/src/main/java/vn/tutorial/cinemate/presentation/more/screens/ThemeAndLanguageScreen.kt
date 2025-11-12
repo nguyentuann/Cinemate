@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.icons.AppIcons
-import vn.tutorial.cinemate.domain.model.ThemeType
+import vn.tutorial.cinemate.core.constant.enums.ThemeType
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
 

@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.core.constant.enum
+package vn.tutorial.cinemate.core.constant.enums
 
 enum class AgeLimit(val age: Int, val displayText: String) {
     AGE_3(3, "3+"),

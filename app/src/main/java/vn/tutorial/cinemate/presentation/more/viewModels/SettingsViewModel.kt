@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
-import vn.tutorial.cinemate.domain.model.ThemeType
+import vn.tutorial.cinemate.core.constant.enums.ThemeType
 import java.util.Locale
 import javax.inject.Inject
 

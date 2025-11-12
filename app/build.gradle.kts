@@ -21,15 +21,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "AUTH_BASE_URL", "\"http://10.0.2.2:8585/\"")
-        buildConfigField("String", "MOVIE_BASE_URL", "\"http://10.0.2.2:8081/\"")
-        buildConfigField("String", "FAVORITE_BASE_URL", "\"http://10.0.2.2:8685/\"")
+        buildConfigField("String", "AUTH_BASE_URL", "\"http://192.168.1.7:8585/\"")
+        buildConfigField("String", "MOVIE_BASE_URL", "\"http://192.168.1.7:8081/\"")
+        buildConfigField("String", "FAVORITE_BASE_URL", "\"http://192.168.1.7:8685/\"")
+        buildConfigField("String", "BASE_URL", "\"http://192.168.1.7:9000/\"")
 
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8585/\"")
             buildConfigField("Boolean", "TEST_TAGS_AS_RESOURCE_ID", "true")
         }
 

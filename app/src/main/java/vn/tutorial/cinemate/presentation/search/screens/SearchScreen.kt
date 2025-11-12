@@ -1,6 +1,9 @@
 package vn.tutorial.cinemate.presentation.search.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,10 +16,12 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
@@ -33,7 +38,7 @@ fun SearchScreen(
     searchViewModel: SearchViewModel = hiltViewModel()
 ) {
     val state = searchViewModel.state.collectAsState().value
-    val films = state.filmResults
+    val movies = state.movieResults
 
     DisposableEffect(Unit) {
         onDispose {
@@ -60,20 +65,22 @@ fun SearchScreen(
     ) {
 
         Column(
-            Modifier.padding(horizontal = 16.dp).padding(it)
+            Modifier
+                .padding(horizontal = 16.dp)
+                .padding(it)
+                .fillMaxSize()
         ) {
             CategoryBar(
                 onCategorySelected = { category ->
-                    searchViewModel.updateCategory(category.name)
+                    searchViewModel.updateCategory(category.id)
+                    searchViewModel.getMoviesByCategory()
                 }
             )
-
-
-            LazyColumn(
-                modifier = modifier
-                    .padding(bottom = 80.dp)
-            ) {
-                if (films.isNotEmpty()) {
+            if (movies?.isNotEmpty() == true) {
+                LazyColumn(
+                    modifier = modifier
+                        .padding(bottom = 80.dp)
+                ) {
                     item {
                         Text(
                             stringResource(R.string.result),
@@ -84,18 +91,29 @@ fun SearchScreen(
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
                     }
-                    items(films) { film ->
-                        CardMovieItem(film, isSearch = true)
+                    items(movies) { movie ->
+                        CardMovieItem(movie, isSearch = true)
                     }
+                }
+            } else if (movies?.isEmpty() == true) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.no_movie),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                 }
             }
         }
+    }
 
-        LoadingAndError(
-            isLoading = state.isLoading,
-            error = state.error
-        ) {
-            searchViewModel.clearError()
-        }
+    LoadingAndError(
+        isLoading = state.isLoading,
+        error = state.error
+    ) {
+        searchViewModel.clearError()
     }
 }

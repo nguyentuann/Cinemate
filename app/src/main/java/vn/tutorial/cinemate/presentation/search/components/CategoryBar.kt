@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.domain.model.CategoryModel
 import vn.tutorial.cinemate.presentation.search.viewModels.CategoryViewModel
 
@@ -86,7 +87,7 @@ fun CategoryItem(
         color = if (isSelected) MaterialTheme.colorScheme.primary
         else MaterialTheme.colorScheme.surfaceVariant,
         contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
-        shape = RoundedCornerShape(20.dp),
+        shape = Styles.ShapeStyles.mediumCorner,
         modifier = Modifier
             .clickable { onClick() }
     ) {

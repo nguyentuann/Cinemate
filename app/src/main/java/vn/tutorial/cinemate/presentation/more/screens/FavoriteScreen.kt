@@ -57,7 +57,7 @@ fun FavoriteScreen(
             } else {
                 Text(
                     modifier = Modifier.fillMaxSize(),
-                    text = "No favorite movies found.",
+                    text = stringResource(R.string.no_movie),
                     textAlign = TextAlign.Center
                 )
             }

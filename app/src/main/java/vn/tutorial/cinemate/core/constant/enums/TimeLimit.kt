@@ -1,4 +1,4 @@
-package vn.tutorial.cinemate.core.constant.enum
+package vn.tutorial.cinemate.core.constant.enums
 
 enum class TimeLimit(val time: Int, val displayText: String) {
     TIME_30(30, "30 minutes"),

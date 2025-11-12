@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import vn.tutorial.cinemate.core.constant.enum.AgeLimit
+import vn.tutorial.cinemate.core.constant.enums.AgeLimit
 
 @Composable
 fun AgeLimitSelector(selected: AgeLimit, onSelect: (AgeLimit) -> Unit) {

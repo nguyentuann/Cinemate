@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import vn.tutorial.cinemate.domain.model.ThemeType
+import vn.tutorial.cinemate.core.constant.enums.ThemeType
 
 @Immutable
 data class ExtendedColorScheme(

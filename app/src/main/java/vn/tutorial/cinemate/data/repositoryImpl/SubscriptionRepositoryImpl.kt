@@ -1,8 +1,8 @@
 package vn.tutorial.cinemate.data.repositoryImpl
 
 import vn.tutorial.cinemate.core.base_class.Resource
-import vn.tutorial.cinemate.core.constant.enum.AgeLimit
-import vn.tutorial.cinemate.core.constant.enum.TimeLimit
+import vn.tutorial.cinemate.core.constant.enums.AgeLimit
+import vn.tutorial.cinemate.core.constant.enums.TimeLimit
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.remote.services.BaseService
 import vn.tutorial.cinemate.domain.model.ChildrenModeModel
