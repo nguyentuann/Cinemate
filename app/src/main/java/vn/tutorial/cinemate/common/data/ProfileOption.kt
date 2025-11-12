@@ -62,10 +62,5 @@ val listOptions = listOf(
         R.string.theme_language,
         Icons.Default.Settings,
         Route.ThemeAndLanguage.route
-    ),
-    ProfileOption(
-        R.string.help_reply,
-        Icons.Default.Phone,
-        route =  Route.Home.route
-    ),
+    )
 )

@@ -1,16 +1,15 @@
 package vn.tutorial.cinemate.presentation.more.screens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -22,9 +21,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,11 +30,12 @@ import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.ConfirmationDialog
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.data.listOptions
-import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.more.components.MoreItem
 import vn.tutorial.cinemate.presentation.more.viewModels.SignOutViewModel
+import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +48,8 @@ fun MoreScreen(
     val navController = LocalNavController.current
     val showDialog = remember { mutableStateOf(false) }
 
-    Scaffold (
+    val context = LocalContext.current
+    Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -66,7 +66,7 @@ fun MoreScreen(
                 )
             )
         }
-    ){
+    ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -102,6 +102,28 @@ fun MoreScreen(
                         }
                     )
                 }
+
+                item {
+                    MoreItem(
+                        title = stringResource(R.string.help_reply),
+                        icon = Icons.Default.Email,
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                data = "mailto:giabao7112004@gmail.com".toUri()
+                                putExtra(Intent.EXTRA_SUBJECT, "Contribute for app")
+                            }
+
+                            try {
+                                context.startActivity(intent)
+
+                            } catch (e: Exception) {
+                                LogUtil(e.toString())
+                            }
+
+                        }
+                    )
+                }
+
                 item {
                     MoreItem(
                         title = stringResource(R.string.sign_out),
@@ -115,7 +137,7 @@ fun MoreScreen(
             if (showDialog.value) {
                 ConfirmationDialog(
                     title = stringResource(R.string.sign_out),
-                    message =  stringResource(R.string.sign_out_confirm),
+                    message = stringResource(R.string.sign_out_confirm),
                     onDismiss = {
                         showDialog.value = false
                     },
