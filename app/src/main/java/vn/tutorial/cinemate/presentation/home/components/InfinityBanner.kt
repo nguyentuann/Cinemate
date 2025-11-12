@@ -58,7 +58,7 @@ fun InfinityBanner(
                         scaleX = scale
                         scaleY = scale
                     },
-                    moviePoster = currentMovie.verticalPoster,
+                    moviePoster = currentMovie.verticalPoster ?: "",
                 )
 
                 if (pageOffset < 0.5f) {

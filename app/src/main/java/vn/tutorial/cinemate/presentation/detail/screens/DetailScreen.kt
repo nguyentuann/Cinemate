@@ -60,7 +60,7 @@ fun DetailScreen(
     val movieDetail = state.movieDetail
 
     LaunchedEffect(Unit) {
-        viewModel.getDetailFilm(movieId)
+        viewModel.getDetailMovie(movieId)
     }
 
     Scaffold {

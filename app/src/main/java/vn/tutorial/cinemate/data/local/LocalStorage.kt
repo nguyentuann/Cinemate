@@ -9,14 +9,25 @@ class LocalStorage @Inject constructor(
     private val prefs: SharedPreferences
 ) {
     companion object {
+        private const val FIREBASE_TOKEN = "firebase_token"
+
         private const val ACCESS_TOKEN = "access_token"
         private const val REFRESH_TOKEN = "refresh_token"
+
         private const val USER_ID = "user_id"
         private const val USER_NAME = "user_name"
         private const val USER_AVATAR = "user_avatar"
 
         private const val THEME = "theme"
         private const val LANGUAGE = "language"
+    }
+
+    fun saveFirebaseToken(token: String) {
+        prefs.edit { putString(FIREBASE_TOKEN, token) }
+    }
+
+    fun getFirebaseToken(): String? {
+        return prefs.getString(FIREBASE_TOKEN, null)
     }
 
     fun saveUserId(userId: String) {

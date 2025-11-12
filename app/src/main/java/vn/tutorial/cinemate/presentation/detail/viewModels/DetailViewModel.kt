@@ -29,18 +29,20 @@ class DetailViewModel @Inject constructor(
         )
     }
 
-    fun getDetailFilm(filmId: String) {
+    fun getDetailMovie(movieId: String, onSuccess: () -> Unit = {}) {
         executeUseCase(
             state = _state,
             block = {
-                getDetailMovieUseCase(filmId)
+                getDetailMovieUseCase(movieId)
             },
             onSuccess = {
                 _state.value.copy(
                     isLoading = false,
                     errorMessage = null,
                     movieDetail = it
-                )
+                ).also {
+                    onSuccess()
+                }
             },
             onError = {
                 _state.value.copy(

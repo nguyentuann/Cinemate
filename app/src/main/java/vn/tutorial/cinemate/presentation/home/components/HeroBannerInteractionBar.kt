@@ -27,15 +27,20 @@ import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.detail.viewModels.DetailViewModel
 import vn.tutorial.cinemate.presentation.more.viewModels.FavoriteViewModel
+import androidx.compose.runtime.collectAsState
 
 @Composable
 fun HeroBannerInteractionBar(
     modifier: Modifier = Modifier,
     movie: MovieDetailModel,
-    favoriteViewModel: FavoriteViewModel = hiltViewModel()
+    favoriteViewModel: FavoriteViewModel = hiltViewModel(),
+    detailViewModel: DetailViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
+    val url  = detailViewModel.state.collectAsState().value.movieDetail?.qualities?.get("master")
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -58,7 +63,11 @@ fun HeroBannerInteractionBar(
                 .weight(4f),
             onClick = {
                 LogUtil(movie.qualities.toString())
-//                navController.navigate(Route.PlayVideo.createRoute(movie.qualities?.get("master")!!))
+                detailViewModel.getDetailMovie(movie.id) {
+                    if (url != null) {
+                        navController.navigate(Route.PlayVideo.createRoute(url))
+                    }
+                }
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Gray,

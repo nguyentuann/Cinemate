@@ -62,7 +62,8 @@ fun LoadingAndError(
                         stringResource(R.string.error),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.error
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             },

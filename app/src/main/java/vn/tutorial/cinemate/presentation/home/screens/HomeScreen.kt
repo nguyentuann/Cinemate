@@ -77,12 +77,14 @@ fun HomeScreen(
                                 sectionTitle = sectionType.name,
                                 movies = sectionUIState.movies,
                                 onLoadMore = {
-                                    val sortBy = when (sectionType) {
-                                        SectionType.NEW -> "year"
-                                        SectionType.TRENDING -> "year"
-                                        SectionType.USA -> "year"
+                                    if (!sectionUIState.isLoading && sectionUIState.hasMore) {
+                                        val sortBy = when (sectionType) {
+                                            SectionType.NEW -> "year"
+                                            SectionType.TRENDING -> "year"
+                                            SectionType.USA -> "year"
+                                        }
+                                        sectionViewModel.getSectionMovies(sectionType, sortBy)
                                     }
-                                    sectionViewModel.getSectionMovies(sectionType, sortBy)
                                 }
                             )
                         }

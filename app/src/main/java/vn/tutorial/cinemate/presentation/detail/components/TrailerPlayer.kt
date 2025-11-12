@@ -31,7 +31,9 @@ fun TrailerPlayer(
     // ExoPlayer instance
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
-            val mediaItem = MediaItem.fromUri(url)
+            val mediaItem = MediaItem.fromUri(
+                "http://10.0.2.2:9000/movies/$url"
+            )
             setMediaItem(mediaItem)
             prepare()
             playWhenReady = true

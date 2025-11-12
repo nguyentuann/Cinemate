@@ -15,9 +15,9 @@ data class MovieResponse(
     @SerializedName("qualities")
     val qualities: Map<String, String>? = null,
     @SerializedName("verticalPoster")
-    val verticalPoster: String,
+    val verticalPoster: String?=null,
     @SerializedName("horizontalPoster")
-    val horizontalPoster: String,
+    val horizontalPoster: String?=null,
     @SerializedName("releaseDate")
     val releaseDate: String? = null,
     @SerializedName("trailerUrl")

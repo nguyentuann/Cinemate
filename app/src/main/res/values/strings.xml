@@ -62,7 +62,7 @@
     <string name="account_info">Create information</string>
     <string name="not_empty">This field is not empty</string>
     <string name="verify_otp">Verification OTP</string>
-    <string name="error">An error has occurred</string>
+    <string name="error">Something went wrong</string>
     <string name="search_placeholder">Type something to search …</string>
     <string name="delete">Delete</string>
     <string name="add_to_favorite">Add to favorite</string>

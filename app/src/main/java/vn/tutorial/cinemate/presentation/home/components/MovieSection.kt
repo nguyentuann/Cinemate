@@ -55,9 +55,8 @@ fun MovieSection(
         ) {
             itemsIndexed(movies) { index, movie ->
                 MoviePosterItem(movie = movie)
-
                 // Khi scroll tới cuối, gọi load more
-                if (index == movies.lastIndex) {
+                if (movies.isNotEmpty() && index == movies.lastIndex) {
                     onLoadMore?.invoke()
                 }
             }
@@ -83,7 +82,7 @@ private fun MoviePosterItem(
     ) {
         AsyncImageWithReplace(
             modifier = Modifier.fillMaxSize(),
-            model = movie.horizontalPoster,
+            model = movie.horizontalPoster?:"",
             contentDescription = null,
             contentScale = ContentScale.Crop,
             imgReplace = R.drawable.poster_error
