@@ -5,9 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import vn.tutorial.cinemate.core.base_class.executeUseCase
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.ProfileModel
 import vn.tutorial.cinemate.domain.usecase.profile.GetProfileUseCase
+import vn.tutorial.cinemate.domain.usecase.profile.UpdateAvatarUseCase
 import vn.tutorial.cinemate.domain.usecase.profile.UpdateProfileUseCase
+import java.io.File
 import javax.inject.Inject
 
 data class ProfileUiState(
@@ -19,7 +22,8 @@ data class ProfileUiState(
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getProfileUseCase: GetProfileUseCase,
-    private val updateProfileUseCase: UpdateProfileUseCase
+    private val updateProfileUseCase: UpdateProfileUseCase,
+    private val updateAvatarUseCase: UpdateAvatarUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(ProfileUiState())
     val state: MutableStateFlow<ProfileUiState> = _state
@@ -42,6 +46,36 @@ class ProfileViewModel @Inject constructor(
         _state.update {
             it.copy(profile = it.profile.copy(lastName = lastName))
         }
+    }
+
+    fun updateAvatar(file: File) {
+        executeUseCase(
+            state = _state,
+            block = {
+                updateAvatarUseCase.invoke(file)
+            },
+            onSuccess = { avatarUrl ->
+                val newState = _state.value.copy(
+                    isLoading = false,
+                    profile = _state.value.profile.copy(avatarUrl = avatarUrl)
+                )
+                _state.value = newState
+                saveProfile()
+                newState
+            },
+            onError = { error ->
+                _state.value.copy(
+                    isLoading = false,
+                    error = error
+                )
+            },
+            onLoading = {
+                _state.value.copy(
+                    isLoading = true,
+                    error = null
+                )
+            }
+        )
     }
 
     fun updateDateOfBirth(date: String) {
@@ -84,6 +118,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun saveProfile() {
+        LogUtil("trong save profile: "+ _state.value.profile.toString())
         executeUseCase(
             state = _state,
             block = {

@@ -35,7 +35,6 @@ import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.core.util.LogUtil
-import vn.tutorial.cinemate.mockdata.sectionData
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
@@ -50,7 +49,7 @@ import vn.tutorial.cinemate.presentation.home.components.MovieSection
 @Composable
 fun DetailScreen(
     movieId: String,
-    viewModel: DetailViewModel = hiltViewModel()
+    viewModel: DetailViewModel = hiltViewModel(),
 ) {
     LogUtil(movieId)
     val navController = LocalNavController.current
@@ -58,9 +57,11 @@ fun DetailScreen(
     var showComments by remember { mutableStateOf(false) }
     val state = viewModel.state.collectAsState().value
     val movieDetail = state.movieDetail
+    val recommendMovies = state.recommendMovies
 
     LaunchedEffect(Unit) {
         viewModel.getDetailMovie(movieId)
+        viewModel.getRecommendMovies()
     }
 
     Scaffold {
@@ -140,10 +141,14 @@ fun DetailScreen(
             }
 
             // recommend movies
-            val moviesList = sectionData.map { (_, movies) -> movies }
             MovieSection(
                 sectionTitle = "More Like This",
-                movies = moviesList.flatten(),
+                movies = recommendMovies,
+                onLoadMore = {
+                    if (!state.isLoading && state.hasMore) {
+                        viewModel.getRecommendMovies()
+                    }
+                }
             )
         }
     }

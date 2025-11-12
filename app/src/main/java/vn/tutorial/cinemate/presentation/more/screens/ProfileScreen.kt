@@ -2,9 +2,7 @@ package vn.tutorial.cinemate.presentation.more.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -41,17 +37,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
-import vn.tutorial.cinemate.common.components.AsyncImageWithReplace
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.LoadingAndError
+import vn.tutorial.cinemate.presentation.more.components.AvatarPicker
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 import vn.tutorial.cinemate.presentation.more.viewModels.ProfileViewModel
 import java.time.Instant
@@ -73,53 +66,10 @@ fun ProfileScreen(
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+
     if (profile.dateOfBirth != null) {
         val parsedDate = LocalDate.parse(profile.dateOfBirth, formatter).plusDays(1)
         selectedDate = parsedDate
-    }
-
-    if (showDialog) {
-        val pickerState = rememberDatePickerState(
-            initialSelectedDateMillis = selectedDate.atStartOfDay(ZoneId.systemDefault())
-                .toInstant().toEpochMilli()
-        )
-
-        DatePickerDialog(
-            onDismissRequest = { showDialog = false },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        pickerState.selectedDateMillis?.let { millis ->
-                            val date = Instant.ofEpochMilli(millis)
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate()
-                            selectedDate = date
-                            viewModel.updateDateOfBirth(
-                                "%04d-%02d-%02d".format(date.year, date.monthValue, date.dayOfMonth)
-                            )
-                        }
-                        showDialog = false
-                    }
-                ) {
-                    Text("OK")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDialog = false }) {
-                    Text("Cancel")
-                }
-            }
-        ) {
-            CompositionLocalProvider(
-                LocalTextStyle provides MaterialTheme.typography.bodySmall.copy(
-                    fontSize = 12.sp
-                )
-            ) {
-                DatePicker(
-                    state = pickerState,
-                )
-            }
-        }
     }
 
 
@@ -137,20 +87,8 @@ fun ProfileScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Avatar
-            Box(
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-                    .background(Color.LightGray)
-                    .clickable {},
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImageWithReplace(
-                    model = profile.avatarUrl ?: "",
-                    contentDescription = "Avatar",
-                    contentScale = ContentScale.Crop,
-                    imgReplace = R.drawable.avatar
-                )
+            AvatarPicker(profile.avatarUrl) { file ->
+                viewModel.updateAvatar(file)
             }
 
             Spacer(Modifier.height(24.dp))
@@ -257,6 +195,49 @@ fun ProfileScreen(
         )
     }
 
+    if (showDialog) {
+        val pickerState = rememberDatePickerState(
+            initialSelectedDateMillis = selectedDate.atStartOfDay(ZoneId.systemDefault())
+                .toInstant().toEpochMilli()
+        )
+
+        DatePickerDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        pickerState.selectedDateMillis?.let { millis ->
+                            val date = Instant.ofEpochMilli(millis)
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate()
+                            selectedDate = date
+                            viewModel.updateDateOfBirth(
+                                "%04d-%02d-%02d".format(date.year, date.monthValue, date.dayOfMonth)
+                            )
+                        }
+                        showDialog = false
+                    }
+                ) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            CompositionLocalProvider(
+                LocalTextStyle provides MaterialTheme.typography.bodySmall.copy(
+                    fontSize = 12.sp
+                )
+            ) {
+                DatePicker(
+                    state = pickerState,
+                )
+            }
+        }
+    }
 }
 
 
