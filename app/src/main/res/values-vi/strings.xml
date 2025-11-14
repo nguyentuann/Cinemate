@@ -1,5 +1,101 @@
 <resources>
     <string name="app_name">Cinemate</string>
     <string name="welcome_message">Chào mừng đến với Cinemate!</string>
-    <string name="login">Đăng nhập</string>
+
+
+    <string name="sign_in">Đăng nhập</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="email_placeholder">Địa chỉ email</string>
+    <string name="password_placeholder">Mật khẩu</string>
+    <string name="password_confirm_placeholder">Xác nhận mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="register_account">Chưa có tài khoản? Đăng ký ngay !!!</string>
+    <string name="term">Đồng ý với các điều khoản sử dụng</string>
+    <string name="get_started">Bắt đầu</string>
+    <string name="have_account">Đã có tài khoản? Đăng nhập</string>
+    <string name="complete_register">Hoàn tất đăng ký để bắt đầu xem</string>
+    <string name="almost_done">Sắp xong rồi, chúng tôi vừa gửi email tới %s</string>
+    <string name="few_steps">Chỉ còn vài bước nữa để xem những bộ phim yêu thích của bạn</string>
+    <string name="forward_email">Tiếp tục đến email</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="verify_email">Xác minh email</string>
+    <string name="update_password">Cập nhật mật khẩu</string>
+    <string name="instruct_update_password">Chúng tôi sẽ gửi email với hướng dẫn để đặt lại mật khẩu của bạn</string>
+
+
+    <string name="create_password_info">Hãy tạo mật khẩu để bảo vệ tài khoản của bạn</string>
+    <string name="success_verify_email">Tuyệt vời, bạn đã xác thực email thành công</string>
+    <string name="create_password">Tạo mật khẩu</string>
+    <string name="change_password">Thay đổi mật khẩu</string>
+    <string name="password_empty">Mật khẩu không được để trống</string>
+    <string name="profile">Cá nhân</string>
+    <string name="account_management">Quản lý tài khoản</string>
+
+    <string name="information">Thông tin cá nhân</string>
+    <string name="theme_language">Chủ đề và ngôn ngữ</string>
+    <string name="watching_history">Lịch sử xem</string>
+    <string name="my_list">Yêu thích</string>
+    <string name="children_mode">Chế độ trẻ em</string>
+    <string name="package_management">Quản lý gói dịch vụ</string>
+    <string name="notification_management">Quản lý thông báo</string>
+    <string name="help_reply">Trợ giúp và phàn hồi</string>
+    <string name="sign_out">Đăng xuất</string>
+
+
+    <string name="invalid_email">Email không hợp lệ</string>
+    <string name="invalid_password">Mật khẩu phải có ít nhất 8 ký tự, chứa chữ in hoa, số và ký tự đặc biệt </string>
+    <string name="not_match_password">Mật khẩu không trùng nhau</string>
+
+    <string name="new_password_placeholder">Mật khẩu mới</string>
+    <string name="movie_info">Thông tin</string>
+    <string name="share">Chia sẻ</string>
+    <string name="rate">Đánh giá</string>
+    <string name="comment">Bình luận</string>
+    <string name="add_comment">Thêm bình luận</string>
+
+    <string name="reviews">Đánh giá</string>
+    <string name="favorite_films">Phim yêu thích</string>
+
+    <string name="first_name">Tên của bạn</string>
+    <string name="last_name">Họ của bạn</string>
+    <string name="account_info">Tạo thông tin</string>
+    <string name="not_empty">Trường này không được để trống</string>
+    <string name="verify_otp">Xác minh OTP</string>
+    <string name="error">Đã xảy ra lỗi</string>
+    <string name="search_placeholder">Nhập để tìm kiếm …</string>
+    <string name="delete">Xóa</string>
+    <string name="add_to_favorite">Thêm vào yêu thích</string>
+
+    <string name="dark_theme">Chủ đề tối</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="select_language">Chọn ngôn ngữ</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="vietnamese">Tiếng Việt</string>
+
+    <string name="sign_out_confirm">Bạn có chắc chắn muốn đăng xuất không?</string>
+    <string name="cancel">Hủy</string>
+    <string name="result">Kết quả</string>
+
+    <string name="receive_notifications">Nhận thông báo</string>
+    <string name="deny_notifications">Từ chối thông báo</string>
+    <string name="deny_notifications_desc">Bạn đã từ chối quyền nhận thông báo. Vui lòng bật lại quyền này trong cài đặt hệ thống để nhận thông báo mới</string>
+    <string name="access_notifications">Cho phép Cinemate gửi cho bạn thông báo</string>
+    <string name="open_settings">Mở cài đặt</string>
+    <string name="notification">Thông báo</string>
+    <string name="important">Quan trọng</string>
+    <string name="other">Khác</string>
+    <string name="play">Phát</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="confirm_delete">Bạn có chắc muốn xóa không?</string>
+    <string name="continue_text">Tiếp tục</string>
+    <string name="choose_your_plan">Chọn gói dịch vụ của bạn</string>
+    <string name="monthly_price">Giá hàng tháng</string>
+    <string name="image_quality">Chất lượng hình ảnh</string>
+    <string name="sound">Âm thanh</string>
+    <string name="devices">Số thiết bị</string>
+    <string name="download">Tải xuống</string>
+    <string name="device_support">Thiết bị được hỗ trợ</string>
+    <string name="no_movie">Không có phim nào tìm thấy</string>
+    <string name="added">Đã thêm thành công</string>
+    <string name="deleted">Đã xóa thành công</string>
 </resources>

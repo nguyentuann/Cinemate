@@ -1,5 +1,111 @@
 <resources>
     <string name="app_name">Cinemate</string>
     <string name="welcome_message">Welcome to Cinemate!</string>
-    <string name="login">Login</string>
+    <string name="default_notification_channel_id" translatable="false">cinemate_channel</string>
+
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email_placeholder">Email Address</string>
+    <string name="password_placeholder">Password</string>
+    <string name="password_confirm_placeholder">Confirm Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="register_account">Don\'t Have An Account? Register Now !!!</string>
+    <string name="term">Agree to the terms of use</string>
+    <string name="get_started">Get Started</string>
+    <string name="have_account">Already Have Account? Sign In</string>
+    <string name="complete_register">Complete registration to start watching</string>
+    <string name="almost_done">Almost done, we just sent an email to %s</string>
+    <string name="few_steps">Just a few steps away from watching your favorite movies</string>
+    <string name="forward_email">Continue to email</string>
+    <string name="confirm">Confirm</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="update_password">Update Password</string>
+    <string name="instruct_update_password">We will send an email with instructions to reset your password</string>
+    <string name="create_password_info">Please create a password to protect your account</string>
+
+    <string name="success_verify_email">Great, you have successfully verified your email.</string>
+    <string name="create_password">Create Password</string>
+    <string name="change_password">Change Password</string>
+
+    <string name="password_empty">Password cannot be empty</string>
+
+    <string name="profile">Profile</string>
+    <string name="account_management">Account Management</string>
+
+    <string name="information">Personal information</string>
+    <string name="theme_language">Theme and Language</string>
+    <string name="watching_history">Watching history</string>
+    <string name="my_list">My list</string>
+    <string name="children_mode">Children Mode</string>
+    <string name="package_management">"Service package management "</string>
+    <string name="notification_management">Notification management</string>
+    <string name="help_reply">Help and reply</string>
+    <string name="sign_out">Sign out</string>
+
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_password">Password must be at least 8 characters, contain uppercase letters, numbers and special characters</string>
+    <string name="not_match_password">Password does not match</string>
+    <string name="new_password_placeholder">New Password</string>
+
+    <string name="movie_info">Info</string>
+    <string name="share">Share</string>
+    <string name="rate">Rate</string>
+    <string name="comment">Comments</string>
+    <string name="add_comment">Add comment</string>
+
+    <string name="reviews">Reviews</string>
+
+    <string name="favorite_films">Favorite Films</string>
+
+    <string name="first_name">Your first name</string>
+    <string name="last_name">Your last name</string>
+    <string name="account_info">Create information</string>
+    <string name="not_empty">This field is not empty</string>
+    <string name="verify_otp">Verification OTP</string>
+    <string name="error">Something went wrong</string>
+    <string name="search_placeholder">Type something to search …</string>
+    <string name="delete">Delete</string>
+    <string name="add_to_favorite">Add to favorite</string>
+
+    <string name="dark_theme">Dark theme</string>
+    <string name="language">Language</string>
+    <string name="select_language">Select Language</string>
+    <string name="english">English</string>
+    <string name="vietnamese">Vietnamese</string>
+
+    <string name="sign_out_confirm">Are you sure you want to sign out?</string>
+    <string name="cancel">Cancel</string>
+    <string name="result">Results</string>
+    <string name="trending" translatable="false">Trending</string>
+
+    <string name="receive_notifications">Receive Notifications</string>
+    <string name="deny_notifications">Notifications denied</string>
+    <string name="deny_notifications_desc">You have declined notification permission. Please re-enable it in your system settings to receive new notifications</string>
+    <string name="access_notifications">Allow Cinemate to send you notifications</string>
+    <string name="open_settings">Open settings</string>
+
+    <string name="notification">Notifications</string>
+    <string name="important">Important</string>
+    <string name="other">Other</string>
+    <string name="play">Play</string>
+
+    <string name="favorite">Favorite</string>
+
+    <string name="confirm_delete">Are you sure want to delete this?</string>
+
+    <string name="continue_text">Continue</string>
+    <string name="choose_your_plan">Select your subscription plan</string>
+    <string name="monthly_price">Monthly price</string>
+    <string name="image_quality">Image quality</string>
+    <string name="sound">Sound: </string>
+    <string name="devices">Number of devices</string>
+    <string name="download">Download</string>
+    <string name="device_support">Supported devices</string>
+    
+    <string name="no_movie">No movies found.</string>
+
+    <string name="added">Added successfully</string>
+    <string name="deleted">Deleted successfully</string>
+
+
 </resources>
