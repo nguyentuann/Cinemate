@@ -5,20 +5,20 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.media3.common.util.UnstableApi
 import vn.tutorial.cinemate.core.constant.api_endpoint.PlayMovieEndpoint
 import vn.tutorial.cinemate.core.util.LogUtil
 
@@ -33,10 +33,10 @@ fun TrailerPlayer(
     // ExoPlayer instance
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
-            val mediaItem = MediaItem.fromUri(
-                "${PlayMovieEndpoint.PLAY_MOVIE}/$url"
-            )
-            LogUtil("Trailer:  ${PlayMovieEndpoint.PLAY_MOVIE}/$url")
+
+            val fullUri = "${PlayMovieEndpoint.PLAY_TRAILER}$url"
+            LogUtil(fullUri)
+            val mediaItem = MediaItem.fromUri(fullUri)
             setMediaItem(mediaItem)
             prepare()
             playWhenReady = true
@@ -45,7 +45,7 @@ fun TrailerPlayer(
     }
 
     // State để lưu tỷ lệ video
-    var videoRatio by remember { mutableStateOf(16 / 9f) }
+    var videoRatio by remember { mutableFloatStateOf(16 / 9f) }
 
     // Lắng nghe thay đổi kích thước video
     DisposableEffect(exoPlayer) {

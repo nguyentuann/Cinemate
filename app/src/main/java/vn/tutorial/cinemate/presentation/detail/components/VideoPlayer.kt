@@ -48,6 +48,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import vn.tutorial.cinemate.common.icons.AppIcons
+import vn.tutorial.cinemate.core.constant.api_endpoint.BaseEndpoint
 import vn.tutorial.cinemate.core.constant.api_endpoint.PlayMovieEndpoint
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.LocalNavController
@@ -62,7 +63,7 @@ fun Context.findActivity(): Activity? = when (this) {
 @OptIn(UnstableApi::class, ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun VideoPlayer(
-    masterURL: String,
+    movieId: String,
     viewModel: PlayVideoViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -82,13 +83,14 @@ fun VideoPlayer(
 
     var showQualityMenu by remember { mutableStateOf(false) }
 
+    val videoId = "9d4309fd-1196-47d7-b891-6419ca195ca8"
+    LogUtil("VideoPlayer MovieId: $movieId")
+
     LaunchedEffect(exoPlayer) {
-        LogUtil("${PlayMovieEndpoint.PLAY_MOVIE}/$masterURL")
+        LogUtil("${PlayMovieEndpoint.PLAY_MOVIE}${videoId}/master.m3u8")
         viewModel.setMedia(
-            "${PlayMovieEndpoint.PLAY_MOVIE}/$masterURL"
+            "${PlayMovieEndpoint.PLAY_MOVIE}${videoId}/master.m3u8"
         )
-        //"http://10.0.2.2:9000/movies/fbbbbcb2-f9f8-4c4d-9ec8-dddfc60ae1e5/master.m3u8"
-        //http://10.0.2.2:9000/movies/movies/3af9b48b-6b50-42d2-a8e5-d7087d25360d/master.m3u8
     }
 
     // update progress

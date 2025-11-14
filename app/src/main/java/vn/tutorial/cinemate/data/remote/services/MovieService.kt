@@ -74,8 +74,4 @@ interface MovieService {
     suspend fun getMovieById(
         @Path("movieId") movieId: String
     ): Response<BaseResponse<MovieResponse>>
-
-
-
-
 }

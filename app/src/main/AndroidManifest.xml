@@ -22,7 +22,6 @@
         android:theme="@style/Theme.Cinemate"
         android:usesCleartextTraffic="true"
         tools:targetApi="33"
-
         >
         <activity
             android:name=".MainActivity"

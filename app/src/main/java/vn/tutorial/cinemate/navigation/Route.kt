@@ -35,10 +35,16 @@ sealed class Route(val route: String) {
         fun createRoute(filmId: String) = "detail/$filmId"
     }
 
-    object PlayVideo: Route("play_video/{masterURL}") {
-        fun createRoute(masterURL: String): String {
-            val encodedUrl = Uri.encode(masterURL)
-            return "play_video/$encodedUrl"
+//    object PlayVideo: Route("play_video/{masterURL}") {
+//        fun createRoute(masterURL: String): String {
+//            val encodedUrl = Uri.encode(masterURL)
+//            return "play_video/$encodedUrl"
+//        }
+//    }
+
+    object PlayVideo: Route("play_video/{movieId}") {
+        fun createRoute(movieId: String): String {
+            return "play_video/$movieId"
         }
     }
 

@@ -13,7 +13,7 @@ data class MovieResponse(
     @SerializedName("status")
     val status: String? = null,
     @SerializedName("qualities")
-    val qualities: Map<String, String>? = null,
+    val qualities: List<String>? = null,
     @SerializedName("verticalPoster")
     val verticalPoster: String?=null,
     @SerializedName("horizontalPoster")

@@ -1,7 +1,7 @@
 package vn.tutorial.cinemate.core.constant.api_endpoint
 
 object ProfileEndpoint {
-    private const val PREFIX = "api/customers"
+    private const val PREFIX = "customers"
 
     const val GET_PROFILE = "$PREFIX/profile"
 

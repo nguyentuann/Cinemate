@@ -33,6 +33,8 @@ import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.AsyncImageWithReplace
 import vn.tutorial.cinemate.common.components.ConfirmationDialog
 import vn.tutorial.cinemate.common.icons.AppIcons
+import vn.tutorial.cinemate.core.constant.api_endpoint.BaseEndpoint
+import vn.tutorial.cinemate.core.helper.getFullAvatarUrl
 import vn.tutorial.cinemate.core.util.formatIsoDate
 import vn.tutorial.cinemate.domain.model.ReviewModel
 import vn.tutorial.cinemate.ui.theme.yellow
@@ -76,7 +78,7 @@ fun ReviewItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImageWithReplace(
-                model = review.userAvatar,
+                model = getFullAvatarUrl(review.userAvatar),
                 contentDescription = "Avatar",
                 contentScale = ContentScale.Crop,
                 imgReplace = R.drawable.avatar,

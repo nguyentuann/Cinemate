@@ -28,7 +28,7 @@ class ProfileRepositoryImpl @Inject constructor(
             val userName = it?.firstName
             val userAvatar = it?.avatarUrl
 
-            val newURL = userAvatar?.replace("http://localhost:9000/", BaseEndpoint.BASE_URL)
+            val newURL = userAvatar?.replace("http://localhost:9000/", "")
 
 
             localStorage.saveUserName(userName ?: "Anonymous User")
@@ -45,7 +45,7 @@ class ProfileRepositoryImpl @Inject constructor(
             val userName = it?.firstName
             val userAvatar = it?.avatarUrl
 
-            val newURL = userAvatar?.replace("http://localhost:9000/", BaseEndpoint.BASE_URL)
+            val newURL = userAvatar?.replace("http://localhost:9000/", "")
 
             localStorage.saveUserName(userName ?: "Anonymous User")
             localStorage.saveUserAvatar(newURL ?: "")
@@ -62,7 +62,7 @@ class ProfileRepositoryImpl @Inject constructor(
 
             profileService.updateAvatar(body)
         }.mapData {
-            val newURL = it?.imageUrl?.replace("http://localhost:9000/", BaseEndpoint.BASE_URL)
+            val newURL = it?.imageUrl?.replace("http://localhost:9000/", "")
             localStorage.saveUserAvatar(newURL ?: "")
             newURL
         }

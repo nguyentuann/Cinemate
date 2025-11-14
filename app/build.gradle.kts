@@ -21,10 +21,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "AUTH_BASE_URL", "\"http://192.168.1.7:8585/\"")
-        buildConfigField("String", "MOVIE_BASE_URL", "\"http://192.168.1.7:8081/\"")
-        buildConfigField("String", "FAVORITE_BASE_URL", "\"http://192.168.1.7:8685/\"")
-        buildConfigField("String", "BASE_URL", "\"http://192.168.1.7:9000/\"")
+        buildConfigField("String", "BASE_URL", "\"http://192.168.5.90:8080/api/v1/\"")
+        buildConfigField("String", "AVT_URL", "\"http://192.168.5.90:9000/\"")
 
     }
 

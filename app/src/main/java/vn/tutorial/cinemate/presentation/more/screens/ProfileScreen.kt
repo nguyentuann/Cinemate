@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -37,6 +38,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,6 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.LoadingAndError
+import vn.tutorial.cinemate.core.helper.getFullAvatarUrl
 import vn.tutorial.cinemate.presentation.more.components.AvatarPicker
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 import vn.tutorial.cinemate.presentation.more.viewModels.ProfileViewModel
@@ -72,6 +76,8 @@ fun ProfileScreen(
         selectedDate = parsedDate
     }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     Scaffold(
         topBar = {
@@ -81,13 +87,14 @@ fun ProfileScreen(
         Column(
             modifier = modifier
                 .padding(paddingValues)
+                .imePadding()
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Avatar
-            AvatarPicker(profile.avatarUrl) { file ->
+            AvatarPicker(getFullAvatarUrl(profile.avatarUrl ?: "")) { file ->
                 viewModel.updateAvatar(file)
             }
 
@@ -183,6 +190,8 @@ fun ProfileScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     viewModel.saveProfile()
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
                 }
             )
         }

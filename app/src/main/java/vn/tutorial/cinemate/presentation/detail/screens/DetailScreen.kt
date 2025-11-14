@@ -3,7 +3,9 @@ package vn.tutorial.cinemate.presentation.detail.screens
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -74,9 +77,20 @@ fun DetailScreen(
         ) {
 
             // todo trailer
-            movieDetail?.let {
-                TrailerPlayer(movieDetail.trailerUrl!!)
+            if (movieDetail?.trailerUrl != null) {
+                TrailerPlayer(movieDetail.trailerUrl)
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .background(Color.DarkGray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("No trailer available", color = Color.White)
+                }
             }
+
 
             Spacer(
                 modifier = Modifier.height(16.dp)
@@ -94,9 +108,7 @@ fun DetailScreen(
                         LogUtil(movieDetail.toString())
                         navController.navigate(
                             Route.PlayVideo.createRoute(
-                                movieDetail?.qualities?.get(
-                                    "master"
-                                )!!
+                                movieId
                             )
                         )
                     },

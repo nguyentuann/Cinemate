@@ -1,13 +1,16 @@
 package vn.tutorial.cinemate.presentation.authentication.viewModel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import vn.tutorial.cinemate.core.base_class.executeUseCase
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.UserModel
 import vn.tutorial.cinemate.domain.usecase.authentication.SignInUseCase
+import vn.tutorial.cinemate.domain.usecase.profile.GetProfileUseCase
 import javax.inject.Inject
 
 data class SignInUiState(
@@ -20,7 +23,8 @@ data class SignInUiState(
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val signInUseCase: SignInUseCase
+    private val signInUseCase: SignInUseCase,
+    private val getProfileUseCase: GetProfileUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(SignInUiState())
     val state: StateFlow<SignInUiState> = _state
@@ -54,7 +58,12 @@ class SignInViewModel @Inject constructor(
                     isLoading = false,
                     user = user,
                     error = null
-                ).also { onSuccess() }
+                ).also {
+                    onSuccess()
+                    viewModelScope.launch {
+                        getProfileUseCase.invoke(Unit)
+                    }
+                }
             },
             onError = { error ->
                 LogUtil("Vao that bai")

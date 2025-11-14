@@ -198,12 +198,13 @@ fun NavGraphBuilder.mainNavGraph(
 
     composable(
         Route.PlayVideo.route,
-        arguments = listOf(navArgument("masterURL") { type = NavType.StringType })
+        arguments = listOf(navArgument("movieId") { type = NavType.StringType })
     ) { backStackEntry ->
-        val masterURL =
-            Uri.decode(backStackEntry.arguments?.getString("masterURL")) ?: return@composable
-        PlayVideoScreen(masterURL = masterURL)
+        val movieId = backStackEntry.arguments?.getString("movieId") ?: return@composable
+        PlayVideoScreen(movieId = movieId)
     }
+
+
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

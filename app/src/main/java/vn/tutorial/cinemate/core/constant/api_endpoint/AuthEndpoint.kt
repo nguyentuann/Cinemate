@@ -1,7 +1,7 @@
 package vn.tutorial.cinemate.core.constant.api_endpoint
 
 object AuthEndpoint {
-    private const val PREFIX = "api/v1/auth/"
+    private const val PREFIX = "auth/"
 
     // todo Authentication
     const val VERIFY_EMAIL = "${PREFIX}verify-email"

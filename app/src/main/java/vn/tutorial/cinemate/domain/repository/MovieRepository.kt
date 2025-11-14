@@ -9,5 +9,4 @@ interface MovieRepository {
     suspend fun getMovies(page: Int, size: Int, sortBy: String): Resource<List<MovieDetailModel>?>
 
     suspend fun getDetailMovie(movieId: String): Resource<MovieDetailModel?>
-
 }

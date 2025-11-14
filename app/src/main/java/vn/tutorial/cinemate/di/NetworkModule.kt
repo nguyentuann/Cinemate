@@ -35,72 +35,69 @@ object NetworkModule {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(BaseEndpoint.BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(
+            GsonConverterFactory.create()
+        ).build()
+
 //    @Singleton
+//    @AuthRetrofit
 //    @Provides
-//    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-//        .baseUrl(BaseEndpoint.BASE_URL)
+//    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+//        .baseUrl(BaseEndpoint.AUTH_BASE_URL)
+//        .client(okHttpClient)
+//        .addConverterFactory(
+//            GsonConverterFactory.create()
+//        ).build()
+//
+//    @Singleton
+//    @MovieRetrofit
+//    @Provides
+//    fun provideMovieRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+//        .baseUrl(BaseEndpoint.AVT_URL)
+//        .client(okHttpClient)
+//        .addConverterFactory(
+//            GsonConverterFactory.create()
+//        ).build()
+//
+//    @Singleton
+//    @FavoriteRetrofit
+//    @Provides
+//    fun provideFavoriteRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+//        .baseUrl(BaseEndpoint.FAVORITE_BASE_URL)
 //        .client(okHttpClient)
 //        .addConverterFactory(
 //            GsonConverterFactory.create()
 //        ).build()
 
     @Singleton
-    @AuthRetrofit
     @Provides
-    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(BaseEndpoint.AUTH_BASE_URL)
-        .client(okHttpClient)
-        .addConverterFactory(
-            GsonConverterFactory.create()
-        ).build()
-
-    @Singleton
-    @MovieRetrofit
-    @Provides
-    fun provideMovieRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(BaseEndpoint.MOVIE_BASE_URL)
-        .client(okHttpClient)
-        .addConverterFactory(
-            GsonConverterFactory.create()
-        ).build()
-
-    @Singleton
-    @FavoriteRetrofit
-    @Provides
-    fun provideFavoriteRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(BaseEndpoint.FAVORITE_BASE_URL)
-        .client(okHttpClient)
-        .addConverterFactory(
-            GsonConverterFactory.create()
-        ).build()
-
-
-
-    @Singleton
-    @Provides
-    fun provideAuthService(@AuthRetrofit retrofit: Retrofit): AuthService {
+    fun provideAuthService(retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideFilmService(@MovieRetrofit  retrofit: Retrofit): MovieService {
+    fun provideMovieService( retrofit: Retrofit): MovieService {
         return retrofit.create(MovieService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideFavoriteService(@FavoriteRetrofit  retrofit: Retrofit): FavoriteService {
+    fun provideFavoriteService(retrofit: Retrofit): FavoriteService {
         return retrofit.create(FavoriteService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideProfileService(@FavoriteRetrofit  retrofit: Retrofit): ProfileService {
+    fun provideProfileService(retrofit: Retrofit): ProfileService {
         return retrofit.create(ProfileService::class.java)
     }
 }
-
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

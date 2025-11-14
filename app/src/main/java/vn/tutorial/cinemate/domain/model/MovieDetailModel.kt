@@ -14,7 +14,7 @@ data class MovieDetailModel(
     val rating: Double? = null,
     val year: Int? = null,
     val country: String? = null,
-    val qualities: Map<String, String>? = null,
+    val qualities: List<String>? = null,
     val durationMinutes: Int? = null,
     val actors: List<String>? = null,
     val directors: List<String>? = null,
