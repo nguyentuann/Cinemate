@@ -12,10 +12,12 @@ class SearchUseCase @Inject constructor(
     BaseUseCase<SearchUseCase.Params, Resource<List<MovieDetailModel>?>>() {
 
     data class Params(
-        val query: String
+        val query: String,
+        val page: Int,
+        val size: Int,
     )
 
     override suspend fun execute(param: Params): Resource<List<MovieDetailModel>?> {
-        return filmRepository.searchFilms(param.query)
+        return filmRepository.searchFilms(param.query, param.page, param.size)
     }
 }

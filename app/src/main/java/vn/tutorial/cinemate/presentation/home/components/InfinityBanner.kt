@@ -53,6 +53,7 @@ fun InfinityBanner(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 HeroBanner(
                     modifier = Modifier.graphicsLayer {
                         scaleX = scale
@@ -60,7 +61,6 @@ fun InfinityBanner(
                     },
                     moviePoster = currentMovie.verticalPoster ?: "",
                 )
-
                 if (pageOffset < 0.5f) {
                     Text(
                         modifier = Modifier

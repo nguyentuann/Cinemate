@@ -27,18 +27,24 @@ fun InteractionBar(
         InteractionButton(
             icon =  AppIcons.add(),
             title = stringResource(R.string.my_list),
-            onClick = onMyList
+            onClick = {
+                onMyList()
+            }
         )
         InteractionButton(
             icon = AppIcons.comment(),
             title = stringResource(R.string.comment),
-            onClick = onComment
+            onClick = {
+                onComment()
+            }
         )
 
         InteractionButton(
             icon = AppIcons.share(),
             title = stringResource(R.string.share),
-            onClick = onShare
+            onClick = {
+                onShare()
+            }
         )
     }
 }

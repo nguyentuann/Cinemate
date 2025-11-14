@@ -14,9 +14,13 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.SearchBar
+import vn.tutorial.cinemate.common.components.showToast
 import vn.tutorial.cinemate.mockdata.filmMock1
 import vn.tutorial.cinemate.mockdata.filmMock2
 import vn.tutorial.cinemate.mockdata.filmMock3
@@ -31,6 +35,8 @@ fun HistoryScreen(
     favoriteViewModel: FavoriteViewModel = hiltViewModel()
 ) {
 
+    val context = LocalContext.current
+
     val todayFilms = remember { mutableStateListOf(filmMock1, filmMock2) }
     val yesterdayFilms = remember { mutableStateListOf(filmMock1) }
     val lastWeekFilms = remember { mutableStateListOf(filmMock1, filmMock2, filmMock3) }
@@ -41,6 +47,7 @@ fun HistoryScreen(
         "Last Week" to lastWeekFilms,
     )
 
+    val toastMessage = stringResource(R.string.added)
     var query = remember { mutableStateOf("") }
 
     Scaffold(
@@ -76,7 +83,9 @@ fun HistoryScreen(
                             movie = movie,
                             isHistory = true,
                             onAddToFavorite = {
-                                favoriteViewModel.addFavorite(it)
+                                favoriteViewModel.addFavorite(it) {
+                                    context.showToast(toastMessage)
+                                }
                             }
                         )
                     }

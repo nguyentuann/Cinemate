@@ -104,5 +104,8 @@
     
     <string name="no_movie">No movies found.</string>
 
+    <string name="added">Added successfully</string>
+    <string name="deleted">Deleted successfully</string>
+
 
 </resources>

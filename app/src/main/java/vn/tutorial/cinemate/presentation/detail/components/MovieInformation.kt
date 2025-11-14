@@ -23,7 +23,7 @@ import vn.tutorial.cinemate.core.util.getQualityListAsString
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 
 @Composable
-fun FilmInformation(
+fun MovieInformation(
     movie: MovieDetailModel,
     modifier: Modifier = Modifier,
 ) {
@@ -67,49 +67,39 @@ fun FilmInformation(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(movie.year.toString(), style = MaterialTheme.typography.bodySmall)
-                    Box(
-                        Modifier
-                            .background(Color.Gray, Styles.ShapeStyles.smallCorner)
-                            .padding(4.dp)
-                    ) {
-                        Text(
-                            movie.country + "/" + movie.age,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-
-                    Text(
+                    MetadataMovie(movie.year.toString())
+                    MetadataMovie(movie.country + "/" + movie.age + "+")
+                    MetadataMovie(
                         getQualityListAsString(movie.qualities),
-                        style = MaterialTheme.typography.bodySmall
                     )
-                    if (movie.durationMinutes != null) {
-                        Text(
-                            "${movie.durationMinutes} min",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
                 }
 
-                // todo rating
-                if (movie.rating != null) {
-                    RatingBar(movie.rating)
+                if (movie.durationMinutes != null) {
+                    Text(
+                        "${movie.durationMinutes} min",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
 
+            // todo rating
             if (movie.rating != null) {
-                Box(
-                    Modifier
-                        .background(Color.Red, Styles.ShapeStyles.mediumCorner)
-                        .size(48.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "#${movie.rank}",
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                RatingBar(movie.rating)
+            }
+        }
+
+        if (movie.rating != null) {
+            Box(
+                Modifier
+                    .background(Color.Red, Styles.ShapeStyles.mediumCorner)
+                    .size(48.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "#${movie.rank}",
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center
+                )
             }
         }
 
@@ -136,5 +126,16 @@ fun FilmInformation(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun MetadataMovie(content: String) {
+    Box(
+        Modifier
+            .background(Color.Gray, Styles.ShapeStyles.smallCorner)
+            .padding(6.dp)
+    ) {
+        Text(content, style = MaterialTheme.typography.bodySmall)
     }
 }

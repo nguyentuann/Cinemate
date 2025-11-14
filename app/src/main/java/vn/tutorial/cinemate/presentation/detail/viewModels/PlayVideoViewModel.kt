@@ -37,7 +37,8 @@ class PlayVideoViewModel @Inject constructor(
 
     val exoPlayer: ExoPlayer by lazy {
         ExoPlayer.Builder(context)
-            .setTrackSelector(trackSelector)
+            .setTrackSelector(trackSelector).setSeekForwardIncrementMs(10000)
+            .setSeekBackIncrementMs(10000)
             .build().apply {
                 playWhenReady = false
             }

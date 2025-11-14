@@ -76,25 +76,3 @@ fun CategoryBar(
         }
     }
 }
-
-@Composable
-fun CategoryItem(
-    category: CategoryModel,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Surface(
-        color = if (isSelected) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.surfaceVariant,
-        contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
-        shape = Styles.ShapeStyles.mediumCorner,
-        modifier = Modifier
-            .clickable { onClick() }
-    ) {
-        Text(
-            text = category.name,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-    }
-}

@@ -7,14 +7,21 @@ import vn.tutorial.cinemate.data.remote.services.BaseService
 import vn.tutorial.cinemate.data.remote.services.MovieService
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.domain.repository.MovieRepository
-import vn.tutorial.cinemate.mockdata.listFilm
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val movieService: MovieService
 ) : MovieRepository, BaseService() {
-    override suspend fun searchFilms(query: String): Resource<List<MovieDetailModel>?> {
-        return Resource.Success(listFilm)
+    override suspend fun searchFilms(query: String, page: Int, size: Int): Resource<List<MovieDetailModel>?> {
+
+        return safeApiCall {
+            movieService.searchFilms(query, page, size)
+        }.mapData { wrapper ->
+            wrapper?.map { it ->
+                it.toMovieDetailModel()
+            }
+        }
+
     }
 
     override suspend fun getMovies(
@@ -29,8 +36,6 @@ class MovieRepositoryImpl @Inject constructor(
                 it.toMovieDetailModel()
             }
         }
-
-//        return Resource.Success(listFilm)
     }
 
     override suspend fun getDetailMovie(movieId: String): Resource<MovieDetailModel?> {
@@ -40,8 +45,6 @@ class MovieRepositoryImpl @Inject constructor(
             LogUtil(it.toString())
             it?.toMovieDetailModel()
         }
-
-//        return Resource.Success(getFilmById(movieId))
     }
 
 }

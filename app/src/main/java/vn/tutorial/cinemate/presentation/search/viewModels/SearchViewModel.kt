@@ -2,7 +2,6 @@ package vn.tutorial.cinemate.presentation.search.viewModels
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
@@ -11,13 +10,17 @@ import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.domain.usecase.search.GetMovieByCategoryUseCase
 import vn.tutorial.cinemate.domain.usecase.search.SearchUseCase
 import javax.inject.Inject
+import kotlin.collections.plus
 
 data class SearchUiState(
     val query: String = "",
     val movieResults: List<MovieDetailModel>? = null,
+    val movieByCategoryResults: List<MovieDetailModel>? = null,
     val categoryId: String = "",
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val page: Int = 1,
+    val hasMore: Boolean = true,
 )
 
 @HiltViewModel
@@ -41,11 +44,28 @@ class SearchViewModel @Inject constructor(
     }
 
     fun updateCategory(categoryId: String) {
-        _state.value = _state.value.copy(categoryId = categoryId)
+        _state.value = _state.value.copy(
+            categoryId = categoryId,
+            movieResults = emptyList(),
+            movieByCategoryResults = emptyList(),
+            page = 1,
+            hasMore = true
+        )
     }
 
+
+    fun startNewSearch() {
+        _state.value = _state.value.copy(
+            movieResults = emptyList(),
+            movieByCategoryResults = emptyList(),
+            page = 1,
+            hasMore = true
+        )
+    }
+
+
+
     fun getMoviesByCategory() {
-        LogUtil("Call getMoviesByCategory with category: ${_state.value.categoryId}")
         executeUseCase(
             state = _state,
             block = {
@@ -53,7 +73,8 @@ class SearchViewModel @Inject constructor(
             },
             onSuccess = {
                 _state.value.copy(
-                    movieResults = it ?: emptyList(),
+                    movieByCategoryResults = it ?: emptyList(),
+                    movieResults = emptyList(),
                     isLoading = false,
                     error = null
                 )
@@ -71,21 +92,36 @@ class SearchViewModel @Inject constructor(
     }
 
     fun search() {
-        LogUtil("Call search with query: ${_state.value.query} va category: ${_state.value.categoryId}")
+
+        LogUtil("call search")
+        if (state.value.query.isBlank()) {
+            return
+        }
+
         executeUseCase(
             state = _state,
             block = {
                 searchUseCase(
                     SearchUseCase.Params(
-                        query = _state.value.query
+                        query = _state.value.query,
+                        page = _state.value.page,
+                        size = 5,
                     )
                 )
             },
             onSuccess = {
+                val currentMovies = _state.value.movieResults.orEmpty()
+                val newMovies = it.orEmpty()
+                val updatedMovies = currentMovies + newMovies
+                val hasMore = (it?.size ?: 0) >= 5
+
                 _state.value.copy(
-                    movieResults = it ?: emptyList(),
+                    movieResults = updatedMovies,
+                    movieByCategoryResults = emptyList(),
                     isLoading = false,
-                    error = null
+                    error = null,
+                    page = _state.value.page + 1,
+                    hasMore = hasMore
                 )
             },
             onError = { errorMsg ->

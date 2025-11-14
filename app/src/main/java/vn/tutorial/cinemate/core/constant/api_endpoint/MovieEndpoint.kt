@@ -24,4 +24,6 @@ object MovieEndpoint {
 
     const val GET_ACTORS_OF_MOVIE = "${PREFIX}{movieId}/actors"
 
+    const val SEARCH_FILMS = "${PREFIX}search"
+
 }

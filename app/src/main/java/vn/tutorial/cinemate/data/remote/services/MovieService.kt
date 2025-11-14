@@ -8,9 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import vn.tutorial.cinemate.core.constant.api_endpoint.CategoryEndpoint
-import vn.tutorial.cinemate.core.constant.api_endpoint.FavoriteEndpoint
 import vn.tutorial.cinemate.core.constant.api_endpoint.MovieEndpoint
-import vn.tutorial.cinemate.data.remote.requests.film.FavoriteRequest
 import vn.tutorial.cinemate.data.remote.requests.film.ReviewRequest
 import vn.tutorial.cinemate.data.remote.requests.film.SearchRequest
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
@@ -21,8 +19,11 @@ import vn.tutorial.cinemate.data.remote.responses.movie.ReviewResponse
 interface MovieService {
     // todo about search films
 
+    @GET(MovieEndpoint.SEARCH_FILMS)
     suspend fun searchFilms(
-        @Body query: SearchRequest
+        @Query("keyword") query: String,
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 5,
     ): Response<BaseResponse<List<MovieResponse>>>
 
     @GET(CategoryEndpoint.GET_ALL_CATEGORIES)
@@ -32,8 +33,6 @@ interface MovieService {
     suspend fun getMoviesByCategory(
         @Path("categoryId") categoryId: String
     ): Response<BaseResponse<List<MovieResponse>>>
-
-
 
     // todo about reviews
     @GET(MovieEndpoint.GET_REVIEWS_OF_MOVIE)
@@ -58,8 +57,6 @@ interface MovieService {
         @Path("reviewId") reviewId: String,
         @Query("userId") userId: String
     ): Response<BaseResponse<Unit>>
-
-
 
     // todo about movies
     @GET(MovieEndpoint.GET_MOVIES)

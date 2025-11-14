@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.presentation.detail.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,21 +32,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.common.components.showToast
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.detail.components.CommentBottomSheet
-import vn.tutorial.cinemate.presentation.detail.components.FilmInformation
 import vn.tutorial.cinemate.presentation.detail.components.InteractionBar
+import vn.tutorial.cinemate.presentation.detail.components.MovieInformation
 import vn.tutorial.cinemate.presentation.detail.components.TrailerPlayer
 import vn.tutorial.cinemate.presentation.detail.viewModels.DetailViewModel
 import vn.tutorial.cinemate.presentation.home.components.MovieSection
+import vn.tutorial.cinemate.presentation.more.viewModels.FavoriteViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -53,15 +57,19 @@ import vn.tutorial.cinemate.presentation.home.components.MovieSection
 fun DetailScreen(
     movieId: String,
     viewModel: DetailViewModel = hiltViewModel(),
+    favoriteViewModel: FavoriteViewModel = hiltViewModel()
 ) {
     LogUtil(movieId)
     val navController = LocalNavController.current
+    val context = LocalContext.current
+
     val scrollState = rememberScrollState()
     var showComments by remember { mutableStateOf(false) }
     val state = viewModel.state.collectAsState().value
     val movieDetail = state.movieDetail
     val recommendMovies = state.recommendMovies
 
+    val toastMessage = stringResource(R.string.added)
     LaunchedEffect(Unit) {
         viewModel.getDetailMovie(movieId)
         viewModel.getRecommendMovies()
@@ -127,7 +135,7 @@ fun DetailScreen(
                 }
 
                 movieDetail?.let {
-                    FilmInformation(movieDetail)
+                    MovieInformation(movieDetail)
                 }
 
                 HorizontalDivider()
@@ -136,6 +144,11 @@ fun DetailScreen(
                     filmId = movieId,
                     onComment = {
                         showComments = true
+                    },
+                    onMyList = {
+                        favoriteViewModel.addFavorite(movieId) {
+                            context.showToast(toastMessage)
+                        }
                     }
                 )
 

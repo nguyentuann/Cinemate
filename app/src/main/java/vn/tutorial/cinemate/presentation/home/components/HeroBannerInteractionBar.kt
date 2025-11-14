@@ -1,5 +1,6 @@
 package vn.tutorial.cinemate.presentation.home.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,11 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.InteractionButton
+import vn.tutorial.cinemate.common.components.showToast
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.core.util.LogUtil
@@ -38,6 +41,8 @@ fun HeroBannerInteractionBar(
     detailViewModel: DetailViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
+    val context = LocalContext.current
+    val toastMessage = stringResource(R.string.added)
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -51,7 +56,9 @@ fun HeroBannerInteractionBar(
             icon = AppIcons.add(),
             title = stringResource(R.string.my_list),
             onClick = {
-                favoriteViewModel.addFavorite(movie.id)
+                favoriteViewModel.addFavorite(movie.id) {
+                    context.showToast(toastMessage)
+                }
             }
         )
         Button(

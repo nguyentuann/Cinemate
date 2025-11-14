@@ -1,7 +1,7 @@
 package vn.tutorial.cinemate.core.constant.api_endpoint
 
 object FavoriteEndpoint {
-    private const val PREFIX = "api/customers/favorites"
+    private const val PREFIX = "customers/favorites"
 
     const val GET_FAVORITES_OF_USER = PREFIX
 
