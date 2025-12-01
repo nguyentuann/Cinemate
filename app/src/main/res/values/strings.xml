@@ -107,5 +107,7 @@
     <string name="added">Added successfully</string>
     <string name="deleted">Deleted successfully</string>
 
+    <string name="more_like_this">More Like This</string>
+
 
 </resources>

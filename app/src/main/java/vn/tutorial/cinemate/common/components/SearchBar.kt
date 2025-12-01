@@ -12,7 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -27,7 +30,7 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     value: String,
     onChange: (String) -> Unit = { _ -> },
-    onSearch: () -> Unit = {}
+    onSearch: () -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     OutlinedTextField(
@@ -60,7 +63,9 @@ fun SearchBar(
         textStyle = MaterialTheme.typography.bodyMedium,
         modifier = modifier
             .fillMaxWidth()
-            .height(50.dp),
+            .height(50.dp).semantics {
+                contentDescription = "search_bar"
+            },
         shape = Styles.ShapeStyles.infiniteCorner,
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Search

@@ -15,7 +15,7 @@ import vn.tutorial.cinemate.core.util.LogUtil
 import javax.inject.Inject
 
 data class VideoPlayerState(
-    var isPlaying: Boolean = false,
+    var isPlaying: Boolean = true,
     var speed: Float = 1f,
     var position: Long = 0L,
     var duration: Long = 0L,
@@ -40,7 +40,7 @@ class PlayVideoViewModel @Inject constructor(
             .setTrackSelector(trackSelector).setSeekForwardIncrementMs(10000)
             .setSeekBackIncrementMs(10000)
             .build().apply {
-                playWhenReady = false
+                playWhenReady = true
             }
     }
 

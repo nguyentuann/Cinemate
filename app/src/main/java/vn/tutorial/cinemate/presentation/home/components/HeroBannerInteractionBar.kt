@@ -1,6 +1,5 @@
 package vn.tutorial.cinemate.presentation.home.components
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
@@ -61,8 +62,11 @@ fun HeroBannerInteractionBar(
                 }
             }
         )
+
         Button(
-            modifier = Modifier
+            modifier = Modifier.semantics(mergeDescendants = true) {
+                contentDescription = "home_play_button"
+            }
                 .fillMaxHeight()
                 .weight(4f),
             onClick = {

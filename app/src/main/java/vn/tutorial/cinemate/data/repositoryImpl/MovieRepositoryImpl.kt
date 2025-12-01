@@ -27,10 +27,11 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getMovies(
         page: Int,
         size: Int,
-        sortBy: String
+        sortBy: String,
+        sortDirection: String
     ): Resource<List<MovieDetailModel>?> {
         return safeApiCall {
-            movieService.getMovies(page, size, sortBy)
+            movieService.getMovies(page, size, sortBy, sortDirection)
         }.mapData { wrapper ->
             wrapper?.map { it ->
                 it.toMovieDetailModel()
@@ -46,5 +47,4 @@ class MovieRepositoryImpl @Inject constructor(
             it?.toMovieDetailModel()
         }
     }
-
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.common.components.ExpandableText
 import vn.tutorial.cinemate.common.components.RatingBar
 import vn.tutorial.cinemate.common.styles.Styles
-import vn.tutorial.cinemate.core.util.getQualityListAsString
+import vn.tutorial.cinemate.core.util.getHighestQuality
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 
 @Composable
@@ -39,7 +39,6 @@ fun MovieInformation(
             Text(
                 text = movie.title, style = MaterialTheme.typography.titleSmall
             )
-
 
             if (movie.genres != null) {
                 Box(
@@ -70,7 +69,7 @@ fun MovieInformation(
                     MetadataMovie(movie.year.toString())
                     MetadataMovie(movie.country + "/" + movie.age + "+")
                     MetadataMovie(
-                        getQualityListAsString(movie.qualities),
+                        getHighestQuality(movie.qualities),
                     )
                 }
 
@@ -82,25 +81,25 @@ fun MovieInformation(
                 }
             }
 
-            // todo rating
-            if (movie.rating != null) {
-                RatingBar(movie.rating)
+            if (movie.rank != null) {
+                Box(
+                    Modifier
+                        .background(Color.Red, Styles.ShapeStyles.mediumCorner)
+                        .size(48.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "#${movie.rank}",
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
 
+        // todo rating
         if (movie.rating != null) {
-            Box(
-                Modifier
-                    .background(Color.Red, Styles.ShapeStyles.mediumCorner)
-                    .size(48.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "#${movie.rank}",
-                    style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center
-                )
-            }
+            RatingBar(movie.rating)
         }
 
         // todo description

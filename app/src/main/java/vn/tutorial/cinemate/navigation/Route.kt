@@ -48,6 +48,7 @@ sealed class Route(val route: String) {
         }
     }
 
+    object StreamingPlayer: Route("streaming_player")
     // todo route setting
     object Favorite: Route("favorite")
     object History: Route("history")

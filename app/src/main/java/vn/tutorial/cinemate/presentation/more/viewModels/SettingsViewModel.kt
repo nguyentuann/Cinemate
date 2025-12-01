@@ -24,13 +24,8 @@ class SettingsViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        LogUtil(
-            "Access: ${localStorage.getAccessToken()}"
-        )
-
-        LogUtil(
-            "Refresh: ${localStorage.getRefreshToken()}"
-        )
+//        LogUtil("Access: ${localStorage.getAccessToken()}")
+//        LogUtil("Refresh: ${localStorage.getRefreshToken()}")
     }
 
 

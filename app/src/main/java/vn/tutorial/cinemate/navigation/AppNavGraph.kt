@@ -44,6 +44,7 @@ import vn.tutorial.cinemate.presentation.notification.NotificationScreen
 import vn.tutorial.cinemate.presentation.search.screens.SearchScreen
 import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 import vn.tutorial.cinemate.presentation.splash.screens.StartedScreen
+import vn.tutorial.cinemate.presentation.streaming.ui.screens.StreamingPlayerScreen
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
@@ -202,6 +203,12 @@ fun NavGraphBuilder.mainNavGraph(
     ) { backStackEntry ->
         val movieId = backStackEntry.arguments?.getString("movieId") ?: return@composable
         PlayVideoScreen(movieId = movieId)
+    }
+
+    composable (
+        Route.StreamingPlayer.route,
+    ) {
+        StreamingPlayerScreen()
     }
 
 

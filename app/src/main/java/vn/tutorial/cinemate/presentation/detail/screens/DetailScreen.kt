@@ -2,7 +2,6 @@ package vn.tutorial.cinemate.presentation.detail.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
@@ -100,9 +101,7 @@ fun DetailScreen(
             }
 
 
-            Spacer(
-                modifier = Modifier.height(16.dp)
-            )
+            Spacer( modifier = Modifier.height(16.dp))
 
             Column(
                 Modifier.padding(horizontal = 16.dp),
@@ -111,7 +110,9 @@ fun DetailScreen(
 
                 Button(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth().semantics {
+                            contentDescription = "detail_play_button"
+                        },
                     onClick = {
                         LogUtil(movieDetail.toString())
                         navController.navigate(
@@ -167,7 +168,7 @@ fun DetailScreen(
 
             // recommend movies
             MovieSection(
-                sectionTitle = "More Like This",
+                sectionTitle = stringResource(R.string.more_like_this),
                 movies = recommendMovies,
                 onLoadMore = {
                     if (!state.isLoading && state.hasMore) {

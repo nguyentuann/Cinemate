@@ -55,12 +55,14 @@ fun ChangePasswordScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            var oldPasswordValid: Boolean? by remember { mutableStateOf(null) }
+
             var isValidNewPassword: Boolean? by remember { mutableStateOf(null) }
-            var isValidConfirmPassword: Boolean? by remember { mutableStateOf(null) }
+            var newPasswordError by remember { mutableStateOf<String?>(null) }
             var isMatch: Boolean? by remember { mutableStateOf(null) }
 
             Text(
-                text = stringResource(R.string.update_password),
+                text = stringResource(R.string.change_password),
                 style = MaterialTheme.typography.titleLarge,
             )
 
@@ -69,8 +71,12 @@ fun ChangePasswordScreen(
                 value = state.oldPassword,
                 onValueChange = {
                     viewModel.updateOldPasswordField(it)
-
+                    oldPasswordValid = !it.isBlank()
                 },
+                isValidPassword = oldPasswordValid,
+                errorMessage = if (oldPasswordValid == false) stringResource(R.string.password_empty) else null,
+                testTag = "old_password_text_field",
+                errorTestTag = "old_password_error_text"
             )
 
             PasswordTextField(
@@ -78,11 +84,14 @@ fun ChangePasswordScreen(
                 value = state.newPassword,
                 onValueChange = {
                     viewModel.updateNewPasswordField(it)
-                    isValidNewPassword = Validator.isValidPassword(it)
+                    newPasswordError = Validator.validatePassword(it)
+                    isValidNewPassword = newPasswordError == null
                 },
                 isValidPassword = isValidNewPassword,
-                errorMessage = if (isValidNewPassword == false) stringResource(R.string.invalid_password) else null,
-                placeHolder = stringResource(R.string.new_password_placeholder)
+                errorMessage = newPasswordError ?: stringResource(R.string.password_empty),
+                placeHolder = stringResource(R.string.new_password_placeholder),
+                testTag = "new_password_text_field",
+                errorTestTag = "new_password_error_text"
             )
 
             PasswordTextField(
@@ -90,29 +99,42 @@ fun ChangePasswordScreen(
                 value = state.confirmPassword,
                 onValueChange = {
                     viewModel.updateConfirmPasswordField(it)
-                    isValidConfirmPassword = Validator.isValidPassword(it)
                     isMatch = it == state.newPassword
                 },
-                isValidPassword = isValidConfirmPassword,
-                errorMessage = if (isValidConfirmPassword == false) stringResource(R.string.not_match_password) else null,
-                placeHolder = stringResource(R.string.password_confirm_placeholder)
+                isValidPassword = isMatch,
+                errorMessage = if (isMatch == false) stringResource(R.string.not_match_password) else null,
+                placeHolder = stringResource(R.string.password_confirm_placeholder),
+                testTag = "confirm_password_text_field",
+                errorTestTag = "confirm_password_error_text"
             )
 
             CommonButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
-                title = stringResource(R.string.update_password),
+                title = stringResource(R.string.change_password),
                 onClick = {
-                    if (isValidNewPassword==true && isValidConfirmPassword==true && isMatch == true) {
-                        viewModel.updatePassword{
+                    if (isValidNewPassword == true && isMatch == true && oldPasswordValid == true) {
+                        viewModel.updatePassword {
                             navController.popBackStack()
                         }
+                    } else {
+                        if (state.newPassword.isBlank()) {
+                            isValidNewPassword = false
+                        }
+                        if (state.oldPassword.isBlank()) {
+                            oldPasswordValid = false
+                        }
+                        if (isMatch!= true) {
+                            isMatch = false
+                        }
                     }
-                }
+                },
+                testTag = "update_password_button"
             )
         }
         LoadingAndError(
+            testTag = "api_change_password_error",
             isLoading = state.isLoading,
             error = state.error,
             onErrorDismiss = {

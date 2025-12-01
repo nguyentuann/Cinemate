@@ -98,4 +98,5 @@
     <string name="no_movie">Không có phim nào tìm thấy</string>
     <string name="added">Đã thêm thành công</string>
     <string name="deleted">Đã xóa thành công</string>
+    <string name="more_like_this">Tương tụ</string>
 </resources>

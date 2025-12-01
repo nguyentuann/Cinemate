@@ -10,6 +10,6 @@ class GetTrendingUseCase @Inject constructor(
     private val filmRepository: MovieRepository
 ) : BaseUseCase<Unit, Resource<List<MovieDetailModel>?>>() {
     override suspend fun execute(param: Unit): Resource<List<MovieDetailModel>?> {
-        return filmRepository.getMovies(1,1,"")
+        return filmRepository.getMovies(1,1,"", "")
     }
 }

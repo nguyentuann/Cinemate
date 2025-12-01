@@ -61,6 +61,7 @@ fun CreatePasswordScreen(
         ) {
 
             var isValidPassword: Boolean? by remember { mutableStateOf(null) }
+            var passwordError by remember { mutableStateOf<String?>(null) }
             var isMatch: Boolean? by remember { mutableStateOf(null) }
 
             Text(
@@ -81,10 +82,11 @@ fun CreatePasswordScreen(
                 value = state.password,
                 onValueChange = {
                     viewModel.updatePassword(it)
-                    isValidPassword = Validator.isValidPassword(it)
+                    passwordError = Validator.validatePassword(it)
+                    isValidPassword = passwordError == null
                 },
                 isValidPassword = isValidPassword,
-                errorMessage = if (isValidPassword == false) stringResource(R.string.invalid_password) else null
+                errorMessage = passwordError ?: stringResource(R.string.not_empty),
             )
 
             PasswordTextField(
@@ -94,6 +96,7 @@ fun CreatePasswordScreen(
                     viewModel.updatePasswordConfirm(it)
                     isMatch = it == state.password
                 },
+                placeHolder = stringResource(R.string.password_confirm_placeholder),
                 isValidPassword = isMatch,
                 errorMessage = if (isMatch == false) stringResource(R.string.not_match_password) else null
             )

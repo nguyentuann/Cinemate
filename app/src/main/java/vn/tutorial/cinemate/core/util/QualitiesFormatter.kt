@@ -1,11 +1,10 @@
 package vn.tutorial.cinemate.core.util
 
-fun getQualityListAsString(qualities: List<String>?): String {
+fun getHighestQuality(qualities: List<String>?): String {
     if (qualities.isNullOrEmpty()) return ""
 
-    val filteredAndSorted = qualities
+    return qualities
         .filter { it.lowercase() != "master" } // loại bỏ "master"
-        .sortedBy { it.filter { ch -> ch.isDigit() }.toIntOrNull() ?: 0 }
-
-    return filteredAndSorted.joinToString(" - ")
+        .maxByOrNull { it.filter { ch -> ch.isDigit() }.toIntOrNull() ?: 0 } // lấy chất lượng cao nhất
+        ?: ""
 }

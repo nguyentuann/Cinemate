@@ -14,10 +14,16 @@ class GetSectionMoviesUseCase @Inject constructor(
         val section: String,
         val page: Int,
         val size: Int,
-        val sortBy: String
+        val sortBy: String,
+        val sortDirection: String = "desc"
     )
 
     override suspend fun execute(param: Params): Resource<List<MovieDetailModel>?> {
-        return movieRepository.getMovies(param.page, param.size, param.sortBy)
+        return movieRepository.getMovies(
+            param.page,
+            param.size,
+            param.sortBy,
+            param.sortDirection
+        )
     }
 }

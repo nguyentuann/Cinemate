@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -50,6 +52,9 @@ fun BottomBar(navController: NavHostController) {
             )
 
             NavigationBarItem(
+                modifier = Modifier.semantics {
+                    contentDescription = item.label
+                },
                 selected = currentRoute == item.route,
                 onClick = {
                     if (currentRoute != item.route) {

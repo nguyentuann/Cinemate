@@ -35,6 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowCompat
@@ -48,7 +50,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import vn.tutorial.cinemate.common.icons.AppIcons
-import vn.tutorial.cinemate.core.constant.api_endpoint.BaseEndpoint
 import vn.tutorial.cinemate.core.constant.api_endpoint.PlayMovieEndpoint
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.LocalNavController
@@ -66,6 +67,7 @@ fun VideoPlayer(
     movieId: String,
     viewModel: PlayVideoViewModel = hiltViewModel()
 ) {
+
     val context = LocalContext.current
     val activity = context.findActivity() ?: return
     val navController = LocalNavController.current
@@ -114,10 +116,12 @@ fun VideoPlayer(
     Box(
         modifier = Modifier
             .pointerInput(Unit) {
-                detectTapGestures {
+                detectTapGestures() {
                     viewModel.toggleControls()
                 }
-            }) {
+            }
+    )
+    {
         AndroidView(
             factory = { ctx ->
                 PlayerView(ctx).apply {
@@ -146,10 +150,12 @@ fun VideoPlayer(
                         .padding(end = 32.dp),
                     horizontalArrangement = Arrangement.End
                 ) {
+                    // todo close button
                     IconButton(
-                        {
-                            navController.popBackStack()
-                        }
+                        modifier = Modifier.semantics {
+                            contentDescription = "close_video_button"
+                        },
+                        onClick = { navController.popBackStack() }
                     ) {
                         Icon(
                             AppIcons.close(),
@@ -165,8 +171,13 @@ fun VideoPlayer(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // back 10s
-                    IconButton(onClick = { viewModel.seekBack() }) {
+                    // todo back 10s
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            contentDescription = "backward_10_button"
+                        },
+                        onClick = { viewModel.seekBack() }
+                    ) {
                         Icon(
                             AppIcons.backward10(),
                             null,
@@ -175,10 +186,13 @@ fun VideoPlayer(
                         )
                     }
 
-                    // play/pause
-                    IconButton(onClick = {
-                        viewModel.togglePlay()
-                    }) {
+                    // todo play/pause
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            contentDescription = "play_pause_button"
+                        },
+                        onClick = { viewModel.togglePlay() }
+                    ) {
                         Icon(
                             if (isPlaying) AppIcons.pause() else AppIcons.play(),
                             null,
@@ -187,8 +201,13 @@ fun VideoPlayer(
                         )
                     }
 
-                    // forward 10s
-                    IconButton(onClick = { viewModel.seekForward() }) {
+                    // todo forward 10s
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            contentDescription = "forward_10_button"
+                        },
+                        onClick = { viewModel.seekForward() }
+                    ) {
                         Icon(
                             AppIcons.forward10(),
                             null,
@@ -209,10 +228,13 @@ fun VideoPlayer(
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
 
-                    //quality
-                    TextButton(onClick = {
-                        showQualityMenu = true
-                    }) {
+                    // todo quality
+                    TextButton(
+                        modifier = Modifier.semantics {
+                            contentDescription = "quality_button"
+                        },
+                        onClick = { showQualityMenu = true }
+                    ) {
                         Text(quality, color = Color.White)
                     }
 
@@ -227,6 +249,9 @@ fun VideoPlayer(
                             "360p" to 360
                         ).forEach { (label, height) ->
                             DropdownMenuItem(
+                                modifier = Modifier.semantics {
+                                    contentDescription = "${label}_quality_option"
+                                },
                                 text = { Text(label) },
                                 onClick = {
                                     viewModel.selectQuality(height, label)
@@ -236,17 +261,22 @@ fun VideoPlayer(
                         }
                     }
 
-                    // playback speed
-                    TextButton(onClick = {
-                        viewModel.changeSpeed()
-                    }) {
+                    // todo playback speed
+                    TextButton(
+                        modifier = Modifier.semantics {
+                            contentDescription = "speed_button"
+                        },
+                        onClick = { viewModel.changeSpeed() }
+                    ) {
                         Text("${speed}x", color = Color.White)
                     }
 
-                    // lock controls
-                    IconButton(onClick = {
-                        viewModel.toggleSilent()
-                    }) {
+                    // todo lock controls
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            contentDescription = "silent_button"
+                        },
+                        onClick = { viewModel.toggleSilent() }) {
                         Icon(
                             if (silent) AppIcons.silent() else AppIcons.sound(),
                             null,
@@ -254,22 +284,31 @@ fun VideoPlayer(
                         )
                     }
 
-
                     IconButton(onClick = { }) {
                         Icon(AppIcons.sub(), null, tint = Color.White)
                     }
 
-                    IconButton(onClick = { viewModel.toggleLock() }) {
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            contentDescription = "lock_button"
+                        },
+                        onClick = { viewModel.toggleLock()
+                        }
+                    ) {
                         Icon(AppIcons.unlock(), null, tint = Color.White)
                     }
                 }
             }
         }
         if (locked && controlsVisible) {
-            // khi lock, chỉ hiện nút unlock ở giữa màn hình
+            // todo khi lock, chỉ hiện nút unlock ở giữa màn hình
             IconButton(
                 onClick = { viewModel.toggleLock() },
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .semantics {
+                        contentDescription = "unlock_button"
+                    }
             ) {
                 Icon(
                     AppIcons.lock(),
@@ -280,7 +319,6 @@ fun VideoPlayer(
             }
         }
     }
-
 
     LaunchedEffect(controlsVisible) {
         if (controlsVisible) {

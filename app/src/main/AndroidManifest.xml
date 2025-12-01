@@ -62,6 +62,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.player.PlayerActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Cinemate.Fullscreen"
+            android:exported="false" />
+
         <service
             android:name=".data.remote.firebase.MessagingService"
             android:exported="true"

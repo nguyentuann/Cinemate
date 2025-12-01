@@ -37,9 +37,6 @@ fun SearchScreen(
             Pair(state.movieResults, true)
     }
 
-
-
-
     DisposableEffect(Unit) {
         onDispose {
             searchViewModel.clearResults()
@@ -68,7 +65,7 @@ fun SearchScreen(
     ) {
 
         Column(
-            Modifier
+            modifier
                 .padding(horizontal = 16.dp)
                 .padding(it)
                 .fillMaxSize()

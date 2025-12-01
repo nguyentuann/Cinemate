@@ -18,7 +18,7 @@ data class SectionUIState(
 )
 
 enum class SectionType {
-    NEW, TRENDING, USA
+    NEW, TRENDING, RECOMMENDED
 }
 
 @HiltViewModel
@@ -29,16 +29,16 @@ class SectionViewModel @Inject constructor(
         mapOf(
             SectionType.NEW to SectionUIState(),
             SectionType.TRENDING to SectionUIState(),
-            SectionType.USA to SectionUIState()
+            SectionType.RECOMMENDED to SectionUIState()
         )
     )
 
     val sectionsState: StateFlow<Map<SectionType, SectionUIState>> = _sectionsState
 
     init {
-        getSectionMovies(SectionType.NEW, "year")
-        getSectionMovies(SectionType.TRENDING, "year")
-        getSectionMovies(SectionType.USA, "year")
+        getSectionMovies(SectionType.NEW, "releaseDate")
+        getSectionMovies(SectionType.TRENDING, "rank")
+        getSectionMovies(SectionType.RECOMMENDED, "year")
     }
 
     fun getSectionMovies(section: SectionType, sortBy: String) {
@@ -46,12 +46,14 @@ class SectionViewModel @Inject constructor(
         executeUseCase(
             state = MutableStateFlow(currentState),
             block = {
+                val sortDirection = if (section == SectionType.TRENDING) "asc" else "desc"
                 getSectionMoviesUseCase(
                     GetSectionMoviesUseCase.Params(
                         section = section.name.lowercase(),
                         page = currentState.page,
                         size = 5,
-                        sortBy = sortBy
+                        sortBy = sortBy,
+                        sortDirection = sortDirection
                     )
                 )
             },

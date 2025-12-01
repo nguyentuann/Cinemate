@@ -64,7 +64,7 @@ interface MovieService {
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 5,
         @Query("sortBy") sortBy: String = "year",
-        @Query("sortDirection") sortDirection: String = "asc"
+        @Query("sortDirection") sortDirection: String = "desc"
     ): Response<BaseResponse<List<MovieResponse>>>
 
     @GET(MovieEndpoint.GET_MOVIE_BY_ID)

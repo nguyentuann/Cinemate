@@ -84,6 +84,7 @@ fun UpdatePasswordScreen(
                     viewModel.updateConfirmPassword(it)
                     isMatch = it == state.password
                 },
+                placeHolder = stringResource(R.string.password_confirm_placeholder),
                 isValidPassword = isMatch,
                 errorMessage = if (isMatch == false) stringResource(R.string.not_match_password) else null
             )

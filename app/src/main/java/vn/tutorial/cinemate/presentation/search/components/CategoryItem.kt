@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.domain.model.CategoryModel
@@ -24,7 +26,9 @@ fun CategoryItem(
         contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
         shape = Styles.ShapeStyles.mediumCorner,
         modifier = Modifier
-            .clickable { onClick() }
+            .clickable { onClick() }.semantics {
+                contentDescription = "category_${category.name}"
+            }
     ) {
         Text(
             text = category.name,

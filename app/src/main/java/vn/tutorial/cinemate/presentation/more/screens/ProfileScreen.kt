@@ -23,7 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,11 +40,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.CommonButton
+import vn.tutorial.cinemate.common.components.CommonTextField
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.core.helper.getFullAvatarUrl
 import vn.tutorial.cinemate.presentation.more.components.AvatarPicker
@@ -101,48 +103,59 @@ fun ProfileScreen(
             Spacer(Modifier.height(24.dp))
 
             // First name
-            OutlinedTextField(
+            CommonTextField(
                 value = profile.firstName ?: "",
                 onValueChange = {
                     viewModel.updateFirstName(it)
                 },
-                label = { Text(text = "First Name", style = MaterialTheme.typography.bodyMedium) },
+                placeholder = "First Name",
                 leadingIcon = { Icon(Icons.Default.Person, null) },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = MaterialTheme.typography.bodyMedium
+                isError = profile.firstName.isNullOrBlank(),
+                errorMessage = "First name cannot be empty",
+                label = "First Name",
+                testTag = "first_name_text_field",
+                errorTestTag = "first_name_error_message"
             )
 
             Spacer(Modifier.height(12.dp))
 
             // Last name
-            OutlinedTextField(
+            CommonTextField(
                 value = profile.lastName ?: "",
                 onValueChange = {
                     viewModel.updateLastName(it)
                 },
-                label = { Text("Last Name", style = MaterialTheme.typography.bodyMedium) },
+                placeholder = "Last Name",
                 leadingIcon = { Icon(Icons.Default.Person, null) },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = MaterialTheme.typography.bodyMedium
+                isError = profile.lastName.isNullOrBlank(),
+                errorMessage = "Last name cannot be empty",
+                label = "Last Name",
+                testTag = "last_name_text_field",
+                errorTestTag = "last_name_error_message"
             )
 
             Spacer(Modifier.height(12.dp))
 
             // Birthday picker
-            OutlinedTextField(
+            CommonTextField(
                 value = profile.dateOfBirth ?: "",
                 onValueChange = {},
-                readOnly = true,
-                label = { Text("Date of birth", style = MaterialTheme.typography.bodyMedium) },
+                placeholder = "Date of birth",
                 trailingIcon = {
-                    IconButton(onClick = {
-                        showDialog = true
-                    }) {
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            contentDescription = "date_of_birth_icon_button"
+                        },
+                        onClick = {
+                            showDialog = true
+                        }
+                    ) {
                         Icon(Icons.Default.DateRange, contentDescription = null)
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = MaterialTheme.typography.bodyMedium
+                label = "Date of birth",
+                testTag = "date_of_birth_text_field",
+                errorTestTag = "date_of_birth_error_message"
             )
 
             Spacer(Modifier.height(12.dp))
@@ -170,7 +183,6 @@ fun ProfileScreen(
                 ) {
                     RadioButton(
                         selected = (profile.gender ?: "OTHER") == option,
-
                         onClick = {
                             viewModel.updateGender(option)
                         }
@@ -187,6 +199,7 @@ fun ProfileScreen(
             // Save button
             CommonButton(
                 title = "Save",
+                testTag = "save_profile_button",
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     viewModel.saveProfile()
@@ -196,6 +209,7 @@ fun ProfileScreen(
             )
         }
         LoadingAndError(
+            testTag = "profile_api_message",
             isLoading = state.isLoading,
             error = state.error,
             onErrorDismiss = {
@@ -214,6 +228,9 @@ fun ProfileScreen(
             onDismissRequest = { showDialog = false },
             confirmButton = {
                 TextButton(
+                    modifier = Modifier.semantics {
+                        contentDescription = "confirm_date_button"
+                    },
                     onClick = {
                         pickerState.selectedDateMillis?.let { millis ->
                             val date = Instant.ofEpochMilli(millis)
@@ -231,7 +248,12 @@ fun ProfileScreen(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showDialog = false }) {
+                TextButton(
+                    modifier = Modifier.semantics {
+                        contentDescription = "cancel_date_button"
+                    },
+                    onClick = { showDialog = false }
+                ) {
                     Text("Cancel")
                 }
             }

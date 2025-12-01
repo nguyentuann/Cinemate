@@ -21,7 +21,8 @@ class GetBannerMoviesUseCase @Inject constructor(
         return movieRepository.getMovies(
             page = param.page,
             size = param.size,
-            sortBy = param.sortBy
+            sortBy = param.sortBy,
+            sortDirection = "desc"
         )
     }
 }

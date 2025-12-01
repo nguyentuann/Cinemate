@@ -25,14 +25,14 @@ class MyApp : Application() {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val token = task.result
-                    LogUtil("FCM token: $token")
+//                    LogUtil("FCM token: $token")
                     localStorage.saveFirebaseToken(token)
                 } else {
-                    LogUtil("Token failed: ${task.exception?.message}")
+//                    LogUtil("Token failed: ${task.exception?.message}")
                 }
             }
         } else {
-            LogUtil("Use cached token: $firebaseToken")
+//            LogUtil("Use cached token: $firebaseToken")
         }
     }
 }
