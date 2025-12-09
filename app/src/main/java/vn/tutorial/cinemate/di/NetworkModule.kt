@@ -44,36 +44,6 @@ object NetworkModule {
             GsonConverterFactory.create()
         ).build()
 
-//    @Singleton
-//    @AuthRetrofit
-//    @Provides
-//    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-//        .baseUrl(BaseEndpoint.AUTH_BASE_URL)
-//        .client(okHttpClient)
-//        .addConverterFactory(
-//            GsonConverterFactory.create()
-//        ).build()
-//
-//    @Singleton
-//    @MovieRetrofit
-//    @Provides
-//    fun provideMovieRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-//        .baseUrl(BaseEndpoint.AVT_URL)
-//        .client(okHttpClient)
-//        .addConverterFactory(
-//            GsonConverterFactory.create()
-//        ).build()
-//
-//    @Singleton
-//    @FavoriteRetrofit
-//    @Provides
-//    fun provideFavoriteRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-//        .baseUrl(BaseEndpoint.FAVORITE_BASE_URL)
-//        .client(okHttpClient)
-//        .addConverterFactory(
-//            GsonConverterFactory.create()
-//        ).build()
-
     @Singleton
     @Provides
     fun provideAuthService(retrofit: Retrofit): AuthService {

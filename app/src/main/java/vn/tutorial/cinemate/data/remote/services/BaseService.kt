@@ -23,31 +23,6 @@ abstract class BaseService {
                     Resource.Error(body?.detail ?: body?.message ?: "Unexpected error")
                 }
             }
-//            else if (response.code() == 401) {
-//                // token hết hạn, thử refresh
-//                val refreshed = refreshToken()
-//                if (refreshed) {
-//
-//                    // retry lại apiCall
-//                    response = apiCall()
-//                    if (response.isSuccessful) {
-//                        val body = response.body()
-//                        if (body != null && body.status == "success") {
-//                            Resource.Success(body.data)
-//                        } else {
-//                            Resource.Error(body?.detail ?: body?.message ?: "Unexpected error")
-//                        }
-//                    } else {
-//                        val errorBody = response.errorBody()?.string()
-//                        val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-//                        Resource.Error(
-//                            errorResponse?.detail ?: errorResponse?.message ?: "Unexpected error"
-//                        )
-//                    }
-//                } else {
-//                    Resource.Error("Session expired. Please login again.")
-//                }
-//            }
             else {
                 val errorBody = response.errorBody()?.string()
                 LogUtil("vao error co body: $errorBody")
