@@ -3,7 +3,6 @@ package vn.tutorial.cinemate.navigation
 import FavoriteScreen
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -44,7 +43,6 @@ import vn.tutorial.cinemate.presentation.notification.NotificationScreen
 import vn.tutorial.cinemate.presentation.search.screens.SearchScreen
 import vn.tutorial.cinemate.presentation.splash.screens.SplashScreen
 import vn.tutorial.cinemate.presentation.splash.screens.StartedScreen
-import vn.tutorial.cinemate.presentation.streaming.ui.screens.StreamingPlayerScreen
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 fun NavGraphBuilder.authenticationNavGraph(navController: NavHostController) {
@@ -205,12 +203,9 @@ fun NavGraphBuilder.mainNavGraph(
         PlayVideoScreen(movieId = movieId)
     }
 
-    composable (
-        Route.StreamingPlayer.route,
-    ) {
-        StreamingPlayerScreen()
+    composable(Route.StreamingPlayer.route) {
+        PlayVideoScreen("")
     }
-
 
 }
 

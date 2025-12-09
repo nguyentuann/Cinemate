@@ -21,8 +21,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"http://192.168.1.7:8080/api/v1/\"")
-        buildConfigField("String", "AVT_URL", "\"http://192.168.1.7:9000/\"")
+        buildConfigField("String", "BASE_URL", "\"http://192.168.34.68:8080/api/v1/\"")
+        buildConfigField("String", "AVT_URL", "\"http://192.168.34.68:9000/\"")
 
     }
 
@@ -116,7 +116,4 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-
-
-
 }

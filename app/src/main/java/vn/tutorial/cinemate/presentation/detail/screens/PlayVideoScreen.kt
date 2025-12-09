@@ -1,13 +1,17 @@
 package vn.tutorial.cinemate.presentation.detail.screens
 
+import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import vn.tutorial.cinemate.presentation.detail.components.VideoPlayer
+import androidx.media3.common.util.UnstableApi
+import vn.tutorial.cinemate.presentation.streaming.ui.StreamingPlayerDemo
+import vn.tutorial.cinemate.presentation.streaming.ui.VideoPlayer2
 
+@OptIn(UnstableApi::class)
 @Composable
 fun PlayVideoScreen(movieId: String) {
 
@@ -20,7 +24,8 @@ fun PlayVideoScreen(movieId: String) {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            VideoPlayer(movieId)
+//            StreamingPlayerDemo("anonymous-client")
+            VideoPlayer2()
         }
     }
 }
