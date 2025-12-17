@@ -108,6 +108,12 @@
     <string name="deleted">Deleted successfully</string>
 
     <string name="more_like_this">More Like This</string>
-
+    
+    <string name="ad_free">Ad free</string>
+    <string name="hd_streaming">HD Streaming</string>
+    <string name="offline_download">Offline Download</string>
+    <string name="multiple_devices">Multiple Devices</string>
+    <string name="family_sharing">Family Sharing</string>\
+    <string name="days">days</string>
 
 </resources>

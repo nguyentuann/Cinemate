@@ -10,11 +10,15 @@ import vn.tutorial.cinemate.domain.usecase.favorite.AddFavoriteUseCase
 import vn.tutorial.cinemate.domain.usecase.favorite.DeleteFavoriteUseCase
 import vn.tutorial.cinemate.domain.usecase.favorite.GetFavoriteUseCase
 import javax.inject.Inject
+import kotlin.collections.orEmpty
+import kotlin.collections.plus
 
 data class FavoriteUIState(
     val movies: List<MovieDetailModel> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
+    val page: Int = 1,
+    val hasMore: Boolean = true,
 )
 
 @HiltViewModel
@@ -34,26 +38,35 @@ class FavoriteViewModel @Inject constructor(
         executeUseCase(
             state = _state,
             block = {
-                getFavoriteUseCase(Unit)
-            },
-            onSuccess = { movies ->
-                _state.value.copy(
-                    isLoading = false,
-                    error = null,
-                    movies = movies ?: emptyList()
+                getFavoriteUseCase(
+                    GetFavoriteUseCase.Params(
+                        page = _state.value.page,
+                        size = 5,
+                    )
                 )
             },
-            onError = {
+            onSuccess = {
+                val currentMovies = _state.value.movies.orEmpty()
+                val newMovies = it.orEmpty()
+                val updatedMovies = currentMovies + newMovies
+                val hasMore = (it?.size ?: 0) >= 5
+
+                _state.value.copy(
+                    movies = updatedMovies,
+                    isLoading = false,
+                    error = null,
+                    page = _state.value.page + 1,
+                    hasMore = hasMore
+                )
+            },
+            onError = { errorMsg ->
                 _state.value.copy(
                     isLoading = false,
-                    error = it
+                    error = errorMsg
                 )
             },
             onLoading = {
-                _state.value.copy(
-                    isLoading = true,
-                    error = null
-                )
+                _state.value.copy(isLoading = true, error = null)
             }
         )
     }

@@ -1,6 +1,5 @@
 package vn.tutorial.cinemate.navigation
 
-import android.net.Uri
 
 sealed class Route(val route: String) {
     //todo route splash
@@ -59,6 +58,11 @@ sealed class Route(val route: String) {
     object SettingNotification: Route("setting_notification")
     object ChangePassword: Route("change_password")
     object Subscription: Route("subscription")
-    object ChildrenMode: Route("children_mode")
+    object ChildrenMode: Route("children_mode/{kidId}") {
+        fun createRoute(kidId: String) = "children_mode/$kidId"
+    }
+    object CurrentPlan: Route("current_plan/{planId}") {
+        fun createRoute(planId: String) = "current_plan/$planId"
+    }
 
 }

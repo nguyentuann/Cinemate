@@ -26,9 +26,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import vn.tutorial.cinemate.common.components.ConfirmationDialog
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.App
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.more.viewModels.CurrentPlanViewModel
 import vn.tutorial.cinemate.presentation.more.viewModels.SettingsViewModel
 import vn.tutorial.cinemate.ui.theme.CinemateTheme
 
@@ -36,6 +38,8 @@ import vn.tutorial.cinemate.ui.theme.CinemateTheme
 class MainActivity : ComponentActivity() {
 
     private val latestDeepLink = mutableStateOf<Uri?>(null)
+    private val pendingJoinToken = mutableStateOf<String?>(null)
+    private val showJoinConfirmDialog = mutableStateOf(false)
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("LocalContextConfigurationRead", "RestrictedApi")
@@ -47,6 +51,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
+            val currentPlantViewModel: CurrentPlanViewModel = hiltViewModel()
             val theme by settingsViewModel.theme.collectAsState()
             val locale by settingsViewModel.locale.collectAsState()
             val navController = rememberNavController()
@@ -62,11 +67,14 @@ class MainActivity : ComponentActivity() {
             }
 
             LaunchedEffect(latestDeepLink.value) {
-                latestDeepLink.value?.getQueryParameter("token")?.let { token ->
-                    navController.navigate(Route.VerifyToken.createRoute(token)) {
-                        launchSingleTop = true
-                        restoreState = false
-                    }
+//                latestDeepLink.value?.getQueryParameter("token")?.let { token ->
+//                    navController.navigate(Route.VerifyToken.createRoute(token)) {
+//                        launchSingleTop = true
+//                        restoreState = false
+//                    }
+//                }
+                latestDeepLink.value?.let { uri ->
+                    handleDeepLink(uri, navController)
                 }
             }
 
@@ -82,6 +90,26 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+
+            if (showJoinConfirmDialog.value && pendingJoinToken.value != null) {
+                ConfirmationDialog(
+                    title = "Tham gia gia đình",
+                    message = "Bạn có chắc chắn muốn tham gia gia đình này không?",
+                    confirmText = "Tham gia",
+                    dismissText = "Hủy",
+                    onConfirm = {
+                        val token = pendingJoinToken.value!!
+
+                        showJoinConfirmDialog.value = false
+                        pendingJoinToken.value = null
+                        currentPlantViewModel.acceptInvitation(token)
+                    },
+                    onDismiss = {
+                        showJoinConfirmDialog.value = false
+                        pendingJoinToken.value = null
+                    }
+                )
+            }
         }
     }
 
@@ -89,5 +117,28 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         latestDeepLink.value = intent.data
+    }
+
+    private fun handleDeepLink(
+        uri: Uri,
+        navController: NavHostController
+    ) {
+        when (uri.path) {
+            "/family/join" -> {
+                val token = uri.getQueryParameter("token") ?: return
+                if (token.isNotBlank()) {
+                    pendingJoinToken.value = token
+                    showJoinConfirmDialog.value = true
+                }
+            }
+
+            "/register/confirm" -> {
+                val token = uri.getQueryParameter("token") ?: return
+                navController.navigate(Route.VerifyToken.createRoute(token)) {
+                    launchSingleTop = true
+                    restoreState = false
+                }
+            }
+        }
     }
 }

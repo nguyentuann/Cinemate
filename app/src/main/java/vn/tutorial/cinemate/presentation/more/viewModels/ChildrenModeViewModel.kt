@@ -1,19 +1,21 @@
 package vn.tutorial.cinemate.presentation.more.viewModels
 
+import android.adservices.adid.AdId
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.core.base_class.executeUseCase
-import vn.tutorial.cinemate.core.constant.enums.AgeLimit
 import vn.tutorial.cinemate.core.constant.enums.TimeLimit
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.usecase.subscription.GetChildrenModeUseCase
+import vn.tutorial.cinemate.domain.usecase.subscription.SetChildrenModeUseCase
 import javax.inject.Inject
 
 data class ChildrenModeUIState(
     val isEnable: Boolean = false,
-    val selectedAgeLimit: AgeLimit = AgeLimit.AGE_7,
+    val selectedCategoryIds: List<String> = emptyList(),
     val selectedWatchTime: TimeLimit = TimeLimit.TIME_30,
     val isLoading: Boolean = false,
     val error: String? = null,
@@ -21,23 +23,24 @@ data class ChildrenModeUIState(
 
 @HiltViewModel
 class ChildrenModeViewModel @Inject constructor(
-    private val getChildrenModeUseCase: GetChildrenModeUseCase
+    private val getChildrenModeUseCase: GetChildrenModeUseCase,
+    private val setChildrenModeViewModel: SetChildrenModeUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(ChildrenModeUIState())
     val state: StateFlow<ChildrenModeUIState> = _state
 
-    fun enable() {
-        _state.value = _state.value.copy(
-            isEnable = !_state.value.isEnable
-        )
-
-    }
-
-    fun selectAgeLimit(age: AgeLimit) {
-        _state.value = _state.value.copy(
-            selectedAgeLimit = age
-        )
-    }
+//    fun enable() {
+//        _state.value = _state.value.copy(
+//            isEnable = !_state.value.isEnable
+//        )
+//
+//    }
+//
+//    fun selectAgeLimit(age: AgeLimit) {
+//        _state.value = _state.value.copy(
+//            selectedAgeLimit = age
+//        )
+//    }
 
     fun selectWatchTime(minutes: TimeLimit) {
         _state.value = _state.value.copy(
@@ -49,20 +52,66 @@ class ChildrenModeViewModel @Inject constructor(
         _state.value = _state.value.copy(error = null)
     }
 
-    fun getChildrenMode(userId: String) {
+    fun updateCategory(categoryId: String) {
+        val current = _state.value.selectedCategoryIds.toMutableList()
+        if (current.contains(categoryId)) {
+            current.remove(categoryId)
+        } else {
+            current.add(categoryId)
+        }
+        _state.value = _state.value.copy(selectedCategoryIds = current)
+    }
+
+//    fun getChildrenMode(userId: String) {
+//        executeUseCase(
+//            state = _state,
+//            block = {
+//                getChildrenModeUseCase(userId)
+//            },
+//            onSuccess = { data ->
+//                _state.value.copy(
+//                    isLoading = false,
+//                    error = null,
+//                    isEnable = data?.isEnable == true,
+//                    selectedAgeLimit = data?.selectedAgeLimit ?: AgeLimit.AGE_18,
+//                    selectedWatchTime = data?.selectedWatchTime ?: TimeLimit.TIME_30
+//                )
+//            },
+//            onError = {
+//                _state.value.copy(
+//                    isLoading = false,
+//                    error = it
+//                )
+//            },
+//            onLoading = {
+//                _state.value.copy(
+//                    isLoading = true,
+//                    error = null
+//                )
+//            }
+//
+//        )
+//    }
+
+    fun setChildrenMode(kidId: String, onSuccess: () -> Unit = {}) {
         executeUseCase(
             state = _state,
             block = {
-                getChildrenModeUseCase(userId)
+                setChildrenModeViewModel(
+                    SetChildrenModeUseCase.Params(
+                        kidId = kidId,
+                        blockedCategoryIds = _state.value.selectedCategoryIds,
+                        watchTimeLimitMinutes = _state.value.selectedWatchTime
+                    )
+                )
             },
-            onSuccess = { data ->
+            onSuccess = {
                 _state.value.copy(
                     isLoading = false,
-                    error = null,
-                    isEnable = data?.isEnable == true,
-                    selectedAgeLimit = data?.selectedAgeLimit ?: AgeLimit.AGE_18,
-                    selectedWatchTime = data?.selectedWatchTime ?: TimeLimit.TIME_30
-                )
+                    error = null
+                ).also {
+                    onSuccess()
+                }
             },
             onError = {
                 _state.value.copy(
@@ -76,11 +125,6 @@ class ChildrenModeViewModel @Inject constructor(
                     error = null
                 )
             }
-
         )
-    }
-
-    fun setChildrenMode() {
-        LogUtil("Children mode enabled: ${_state.value.isEnable}, Age limit: ${_state.value.selectedAgeLimit}, Watch time: ${_state.value.selectedWatchTime} minutes")
     }
 }

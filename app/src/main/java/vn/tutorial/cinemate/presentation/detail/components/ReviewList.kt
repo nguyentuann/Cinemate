@@ -81,7 +81,7 @@ fun ReviewItem(
                 model = getFullAvatarUrl(review.userAvatar),
                 contentDescription = "Avatar",
                 contentScale = ContentScale.Crop,
-                imgReplace = R.drawable.avatar,
+                imgReplace = R.drawable.adult,
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)

@@ -10,22 +10,22 @@ import vn.tutorial.cinemate.data.remote.services.MovieService
 import vn.tutorial.cinemate.domain.model.CategoryModel
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.domain.repository.CategoryRepository
+import vn.tutorial.cinemate.mockdata.categoryData
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
     private val movieService: MovieService,
-    private val authRepositoryImpl: AuthRepositoryImpl
 ) : CategoryRepository, BaseService() {
 
     override suspend fun getCategories(): Resource<List<CategoryModel>?> {
-        LogUtil("call get categories from api")
-        return safeApiCall {
-            movieService.getCategory()
-        }.mapData { wrapper ->
-            wrapper?.map {
-                it.toCategoryModel()
-            }
-        }
+//        return safeApiCall {
+//            movieService.getCategory()
+//        }.mapData { wrapper ->
+//            wrapper?.map {
+//                it.toCategoryModel()
+//            }
+//        }
+        return Resource.Success(categoryData)
     }
 
     override suspend fun getMoviesByCategory(categoryId: String): Resource<List<MovieDetailModel>?> {

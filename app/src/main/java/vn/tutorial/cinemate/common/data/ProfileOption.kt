@@ -43,11 +43,11 @@ val listOptions = listOf(
         Icons.Default.List,
         route = Route.Favorite.route
     ),
-    ProfileOption(
-        R.string.children_mode,
-        Icons.Default.Face,
-        route =  Route.ChildrenMode.route
-    ),
+//    ProfileOption(
+//        R.string.children_mode,
+//        Icons.Default.Face,
+//        route =  Route.ChildrenMode.route
+//    ),
     ProfileOption(
         R.string.package_management,
         Icons.Default.ShoppingCart,

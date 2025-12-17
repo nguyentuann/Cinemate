@@ -1,22 +1,16 @@
 package vn.tutorial.cinemate.presentation.search.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import vn.tutorial.cinemate.common.styles.Styles
 import vn.tutorial.cinemate.domain.model.CategoryModel
 import vn.tutorial.cinemate.presentation.search.viewModels.CategoryViewModel
 
@@ -39,20 +32,27 @@ fun CategoryBar(
     val state = categoryViewModel.state.collectAsState()
 
     if (state.value.categories.isNotEmpty()) {
-        var selectedCategory by remember { mutableStateOf<CategoryModel?>(null) }
+        var selectedCategories by remember { mutableStateOf<List<CategoryModel>>(emptyList()) }
+
         LazyRow(
-            modifier = modifier.padding(vertical = 8.dp)
+            modifier = modifier
+                .padding(vertical = 8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(state.value.categories) { category ->
                 CategoryItem(
                     category = category,
-                    isSelected = selectedCategory == category,
+                    isSelected = selectedCategories.contains(category),
                     onClick = {
-                        selectedCategory = category
-                        onCategorySelected(category)
+                        selectedCategories = if (selectedCategories.contains(category)) {
+                            selectedCategories - category
+                        } else {
+                            selectedCategories + category
+                        }
+                        onCategorySelected(category) // hoặc truyền cả list nếu cần
                     }
+
                 )
             }
         }

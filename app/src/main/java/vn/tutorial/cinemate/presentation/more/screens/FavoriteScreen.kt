@@ -3,6 +3,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,8 +23,7 @@ import vn.tutorial.cinemate.presentation.more.viewModels.FavoriteViewModel
 
 @Composable
 fun FavoriteScreen(
-    modifier: Modifier = Modifier,
-    viewModel: FavoriteViewModel = hiltViewModel()
+    modifier: Modifier = Modifier, viewModel: FavoriteViewModel = hiltViewModel()
 
 ) {
     val state = viewModel.state.collectAsState().value
@@ -34,8 +35,7 @@ fun FavoriteScreen(
     Scaffold(
         topBar = {
             TopAppBarWithBack(stringResource(R.string.favorite))
-        }
-    ) {
+        }) {
         Column(
             modifier
                 .padding(it)
@@ -45,31 +45,32 @@ fun FavoriteScreen(
         ) {
             if (state.movies.isNotEmpty()) {
                 LazyColumn {
-                    items(state.movies) { movie ->
-                        CardMovieItem(
-                            movie = movie,
-                            onDelete = { movieId ->
-                                viewModel.deleteFavorite(movieId)
-                            },
-                        )
+                    itemsIndexed(
+                        items = state.movies, key = { _, movie -> movie.id }) { index, movie ->
+                        CardMovieItem(movie, onDelete = { movieId ->
+                            viewModel.deleteFavorite(movieId)
+                        })
+                        if (index ==  state.movies.lastIndex && state.hasMore) {
+                            LaunchedEffect(key1 = state.movies.lastIndex) {
+                                viewModel.getFavoriteMovies()
+                            }
+                        }
                     }
                 }
             } else {
                 Text(
                     modifier = Modifier.fillMaxSize(),
                     text = stringResource(R.string.no_movie),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
 
         }
 
         LoadingAndError(
-            isLoading = state.isLoading,
-            error = state.error,
-            onErrorDismiss = {
+            isLoading = state.isLoading, error = state.error, onErrorDismiss = {
                 viewModel.clearError()
-            }
-        )
+            })
     }
 }

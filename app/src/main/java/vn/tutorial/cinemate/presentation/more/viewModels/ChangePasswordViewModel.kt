@@ -71,5 +71,4 @@ class ChangePasswordViewModel @Inject constructor(
             }
         )
     }
-
 }

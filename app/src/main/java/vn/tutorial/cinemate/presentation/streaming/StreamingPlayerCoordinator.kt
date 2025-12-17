@@ -470,12 +470,12 @@ class StreamingPlayerCoordinator(
         
         bufferManager.destroy()
         mseManager.destroy()
+        mseManager.clear()
         peerManager.destroy()
         signalingClient.destroy()
         cacheManager.clear()
         integratedFetchClient.destroy()
         abrManager.destroy()
-        
         isInitialized = false
         scope.cancel()
     }

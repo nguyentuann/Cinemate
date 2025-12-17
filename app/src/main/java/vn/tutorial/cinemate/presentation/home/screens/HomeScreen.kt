@@ -42,6 +42,7 @@ fun HomeScreen(
     var isRefreshing by remember { mutableStateOf(false) }
     val homeState = homeViewModel.state.collectAsState().value
 
+    val top10State = sectionViewModel.top10State.collectAsState().value
     val sectionState = sectionViewModel.sectionsState.collectAsState().value
 
     Refreshable(
@@ -70,6 +71,15 @@ fun HomeScreen(
                     }
                 }
 
+                if (top10State.movies.isNotEmpty()) {
+                    item {
+                        MovieSection(
+                            sectionTitle = "TOP 10 TRENDING",
+                            movies = top10State.movies
+                        )
+                    }
+                }
+
                 sectionState.entries.forEach { (sectionType, sectionUIState) ->
                     if (sectionUIState.movies.isNotEmpty()) {
                         item {
@@ -80,7 +90,6 @@ fun HomeScreen(
                                     if (!sectionUIState.isLoading && sectionUIState.hasMore) {
                                         val sortBy = when (sectionType) {
                                             SectionType.NEW -> "year"
-                                            SectionType.TRENDING -> "year"
                                             SectionType.RECOMMENDED -> "year"
                                         }
                                         sectionViewModel.getSectionMovies(sectionType, sortBy)

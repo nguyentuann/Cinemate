@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,28 +21,23 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.LoadingAndError
-import vn.tutorial.cinemate.presentation.more.components.AgeLimitSelector
-import vn.tutorial.cinemate.presentation.more.components.SettingSwitchItem
+import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 import vn.tutorial.cinemate.presentation.more.components.WatchTimeSelector
 import vn.tutorial.cinemate.presentation.more.viewModels.ChildrenModeViewModel
+import vn.tutorial.cinemate.presentation.search.components.CategoryBar
 
 @Composable
 fun ChildrenModeScreen(
+    kidId: String,
     viewModel: ChildrenModeViewModel = hiltViewModel()
 ) {
-
-    LaunchedEffect(Unit) {
-        viewModel.getChildrenMode("")
-    }
     val state = viewModel.state.collectAsState().value
+    val navController = LocalNavController.current
 
     Scaffold(
-        topBar = {
-            TopAppBarWithBack("Children Mode")
-        }
+        topBar = { TopAppBarWithBack("Children Mode") }
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -51,46 +45,21 @@ fun ChildrenModeScreen(
                 .padding(it)
                 .padding(horizontal = 16.dp)
         ) {
-            Text(
-                text = "Ở Chế độ Trẻ em, bạn có thể giới hạn tối đa thời lượng xem, lựa chọn phim theo chủ đề phù hợp và kiểm soát nội dung theo độ tuổi.",
-                style = MaterialTheme.typography.bodyMedium
-            )
-
-            Spacer(Modifier.height(36.dp))
-
-            SettingSwitchItem(
-                title = "Kích hoạt",
-                isChecked = state.isEnable,
-                onCheckedChange = { viewModel.enable() }
-            )
-
-            Spacer(Modifier.height(36.dp))
 
             Text(
-                "Giới hạn độ tuổi",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.Bold
-                )
+                "Select blocked categories",
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
             )
-            Text(
-                "Chọn độ tuổi phù hợp để giới hạn nội dung cho con bạn",
-                style = MaterialTheme.typography.bodyMedium
-            )
-
-            Spacer(Modifier.height(36.dp))
-
-            AgeLimitSelector(
-                selected = state.selectedAgeLimit,
-                onSelect = { viewModel.selectAgeLimit(it) }
+            Spacer(Modifier.height(16.dp))
+            CategoryBar(
+                onCategorySelected = { viewModel.updateCategory(it.id) }
             )
 
             Spacer(Modifier.height(36.dp))
 
             Text(
                 "Thời gian xem tối đa",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.Bold
-                )
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
             )
             Text(
                 "Đặt thời gian xem tối đa hằng ngày cho con bạn.",
@@ -103,16 +72,19 @@ fun ChildrenModeScreen(
                 selected = state.selectedWatchTime,
                 onSelect = { viewModel.selectWatchTime(it) }
             )
+
             Spacer(modifier = Modifier.weight(1f))
+
             CommonButton(
                 title = stringResource(R.string.continue_text),
                 modifier = Modifier
                     .padding(vertical = 24.dp)
                     .fillMaxWidth(),
                 onClick = {
-                    viewModel.setChildrenMode()
+                    viewModel.setChildrenMode(kidId) {
+                        navController.popBackStack()
+                    }
                 }
-
             )
         }
 

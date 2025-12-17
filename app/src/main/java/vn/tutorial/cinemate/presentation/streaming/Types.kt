@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.presentation.streaming
 
 import org.webrtc.DataChannel
 import org.webrtc.PeerConnection
+import vn.tutorial.cinemate.core.constant.api_endpoint.BaseEndpoint
 
 // ============ Quality & Segment Types ============
 
@@ -373,7 +374,7 @@ data class StreamingConfig(
     val seekPrefetchBehind: Int = 2,
 
     // API endpoints
-    val baseUrl: String = "http://192.168.34.68:8080/api/v1"
+    val baseUrl: String = BaseEndpoint.BASE_URL
 )
 
 // ============ Utility Functions ============

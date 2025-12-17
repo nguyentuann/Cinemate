@@ -8,9 +8,14 @@ import javax.inject.Inject
 
 class GetFavoriteUseCase @Inject constructor(
     private val favoriteRepository: FavoriteRepository
-) : BaseUseCase<Unit, Resource<List<MovieDetailModel>?>>() {
+) : BaseUseCase<GetFavoriteUseCase.Params, Resource<List<MovieDetailModel>?>>() {
 
-    override suspend fun execute(param: Unit): Resource<List<MovieDetailModel>?> {
-        return favoriteRepository.getFavoriteMovies()
+    data class Params(
+        val page: Int,
+        val size: Int,
+    )
+
+    override suspend fun execute(param: Params): Resource<List<MovieDetailModel>?> {
+        return favoriteRepository.getFavoriteMovies(param.page, param.size)
     }
 }

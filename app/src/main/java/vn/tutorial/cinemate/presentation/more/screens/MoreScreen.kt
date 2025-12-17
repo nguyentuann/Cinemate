@@ -1,7 +1,6 @@
 package vn.tutorial.cinemate.presentation.more.screens
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.ConfirmationDialog
@@ -35,13 +35,14 @@ import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.more.components.MoreItem
 import vn.tutorial.cinemate.presentation.more.viewModels.SignOutViewModel
-import androidx.core.net.toUri
+import vn.tutorial.cinemate.presentation.more.viewModels.SubscriptionPlanViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreScreen(
     modifier: Modifier = Modifier,
-    viewModel: SignOutViewModel = hiltViewModel()
+    viewModel: SignOutViewModel = hiltViewModel(),
+    subscriptionPlanViewModel: SubscriptionPlanViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState().value
 
@@ -73,34 +74,38 @@ fun MoreScreen(
                 .padding(it)
                 .padding(horizontal = 16.dp)
         ) {
-//            LazyRow {
-//                items(5) {
-//                    Image(
-//                        modifier = Modifier
-//                            .padding(end = 8.dp, bottom = 16.dp)
-//                            .clip(Styles.ShapeStyles.mediumCorner),
-//                        painter = painterResource(id = R.drawable.avatar),
-//                        contentDescription = null,
-//                    )
-//                }
-//            }
-//            Text(
-//                modifier = Modifier.padding(bottom = 16.dp),
-//                text = stringResource(R.string.information),
-//                style = MaterialTheme.typography.titleSmall
-//            )
-
             LazyColumn(
                 modifier = Modifier.padding(bottom = 80.dp)
             ) {
                 items(listOptions) { option ->
-                    MoreItem(
-                        title = stringResource(option.titleRes),
-                        icon = option.icon,
-                        onClick = {
-                            navController.navigate(option.route)
-                        }
-                    )
+
+                    if (option.route == Route.Subscription.route) {
+                        MoreItem(
+                            title = stringResource(option.titleRes),
+                            icon = option.icon,
+                            onClick = {
+                                subscriptionPlanViewModel.getCurrentSubscription {
+                                    if (it == null) {
+                                        navController.navigate(option.route)
+                                    } else {
+                                        navController.navigate(
+                                            Route.CurrentPlan.createRoute(
+                                                planId = it.id
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        )
+                    } else {
+                        MoreItem(
+                            title = stringResource(option.titleRes),
+                            icon = option.icon,
+                            onClick = {
+                                navController.navigate(option.route)
+                            }
+                        )
+                    }
                 }
 
                 item {

@@ -1,5 +1,7 @@
 package vn.tutorial.cinemate.presentation.more.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -24,13 +27,14 @@ import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.presentation.more.components.SubscriptionCard
 import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 import vn.tutorial.cinemate.presentation.more.viewModels.SubscriptionPlanViewModel
+import androidx.core.net.toUri
 
 @Composable
 fun SubscriptionScreen(
     title: String = "Subscription",
     viewModel: SubscriptionPlanViewModel = hiltViewModel()
 ) {
-
+     val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.getSubscriptionPlans()
     }
@@ -78,9 +82,11 @@ fun SubscriptionScreen(
                     .padding(vertical = 24.dp)
                     .fillMaxWidth(),
                 onClick = {
-                    viewModel.paySubscription()
+                    viewModel.paySubscription{url ->
+                        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                        context.startActivity(intent)
+                    }
                 }
-
             )
         }
 

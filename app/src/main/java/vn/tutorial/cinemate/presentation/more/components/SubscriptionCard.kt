@@ -27,10 +27,10 @@ import vn.tutorial.cinemate.domain.model.SubscriptionPlanModel
 @Composable
 fun SubscriptionCard(
     plan: SubscriptionPlanModel,
-    onSelect: (String) -> Unit,
-    isSelected: Boolean,
+    onSelect: (String) -> Unit? = {},
+    isSelected: Boolean? = false,
 ) {
-    val backgroundColor = if (isSelected) {
+    val backgroundBrush = if (isSelected == true) {
         Brush.linearGradient(
             colors = listOf(
                 Color(0xFF004AFF),
@@ -40,8 +40,8 @@ fun SubscriptionCard(
     } else {
         Brush.linearGradient(
             colors = listOf(
-                Color(0xFF424242),  // xám đậm
-                Color(0xFF212121)   // xám tối
+                Color(0xFF424242),
+                Color(0xFF212121)
             )
         )
     }
@@ -54,47 +54,89 @@ fun SubscriptionCard(
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
-            modifier = Modifier
-                .background(brush = backgroundColor)
+            modifier = Modifier.background(backgroundBrush)
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
+
+                // 🔹 Plan name
                 Text(
-                    text = "${plan.name} ${plan.resolution}",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
+                    text = plan.name,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                )
+
+                // 🔹 Description
+                Text(
+                    text = plan.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.White.copy(alpha = 0.8f)
                 )
 
                 Spacer(Modifier.height(8.dp))
-                Text(
-                    stringResource(R.string.monthly_price) + ": " + plan.price + " ₫",
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-                Text(
-                    stringResource(R.string.image_quality) + ": " + plan.quality,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-                Text(
-                    stringResource(R.string.sound) + ": " + plan.sound,
 
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                // 🔹 Price
                 Text(
-                    stringResource(R.string.device_support) + ": " + plan.supportedDevices,
+                    text = stringResource(R.string.monthly_price) +
+                            ": ${plan.price} ₫ / ${plan.durationDays} " + stringResource(R.string.days),
                     style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White
                 )
+
+                // 🔹 Max devices
                 Text(
-                    stringResource(R.string.devices) + ": " + plan.simultaneousDevices,
+                    text = stringResource(R.string.device_support) +
+                            ": ${plan.maxDevice}",
                     style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White
                 )
-                Text(
-                    stringResource(R.string.download) + ": " + plan.downloadDevices,
-                    style = MaterialTheme.typography.bodyMedium,
+
+                Spacer(Modifier.height(8.dp))
+
+                // 🔹 Features
+                FeatureItem(
+                    text = stringResource(R.string.ad_free),
+                    enabled = plan.featured.addFree
                 )
+
+                FeatureItem(
+                    text = stringResource(R.string.hd_streaming),
+                    enabled = plan.featured.hdStreaming
+                )
+
+                FeatureItem(
+                    text = stringResource(R.string.offline_download),
+                    enabled = plan.featured.offlineDownload
+                )
+
+                FeatureItem(
+                    text = stringResource(R.string.multiple_devices),
+                    enabled = plan.featured.multipleDevices
+                )
+
+                if (plan.featured.familySharing) {
+                    FeatureItem(
+                        text = stringResource(R.string.family_sharing),
+                        enabled = true
+                    )
+                }
             }
         }
     }
+}
+
+@Composable
+fun FeatureItem(
+    text: String,
+    enabled: Boolean
+) {
+    Text(
+        text = if (enabled) "✓ $text" else "✗ $text",
+        style = MaterialTheme.typography.bodySmall,
+        color = if (enabled) Color.White else Color.White.copy(alpha = 0.4f)
+    )
 }

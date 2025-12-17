@@ -99,4 +99,10 @@
     <string name="added">Đã thêm thành công</string>
     <string name="deleted">Đã xóa thành công</string>
     <string name="more_like_this">Tương tụ</string>
+    <string name="ad_free">Không quảng cáo</string>
+    <string name="hd_streaming">Chất lượng HD</string>
+    <string name="offline_download">Tải xuống ngoại tuyến</string>
+    <string name="multiple_devices">Nhiều thiết bị</string>
+    <string name="family_sharing">Chia sẻ gia đình</string>
+    <string name="days">ngày</string>
 </resources>

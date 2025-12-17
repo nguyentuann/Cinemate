@@ -60,14 +60,24 @@
                     android:scheme="http"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
-        </activity>
 
-        <activity
-            android:name=".ui.player.PlayerActivity"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.Cinemate.Fullscreen"
-            android:exported="false" />
+            <!--handle accept link-->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="localhost"
+                    android:pathPrefix="/family/join"
+                    android:port="3000"
+                    android:scheme="http"
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+
+
+        </activity>
 
         <service
             android:name=".data.remote.firebase.MessagingService"
