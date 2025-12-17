@@ -74,6 +74,10 @@ class LocalStorage @Inject constructor(
         return prefs.getString(REFRESH_TOKEN, null)
     }
 
+    fun deleteRefreshToken() {
+        prefs.edit { remove(REFRESH_TOKEN) }
+    }
+
     fun saveTheme(theme: String) {
         prefs.edit { putString(THEME, theme) }
     }

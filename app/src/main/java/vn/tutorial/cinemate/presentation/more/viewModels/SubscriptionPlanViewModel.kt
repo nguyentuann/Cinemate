@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.SubscriptionPlanModel
+import vn.tutorial.cinemate.domain.usecase.subscription.GetCurrentSubscriptionUseCase
 import vn.tutorial.cinemate.domain.usecase.subscription.GetSubscriptionUseCase
+import vn.tutorial.cinemate.domain.usecase.subscription.PaySubscriptionUseCase
 import javax.inject.Inject
 
 data class SubscriptionPlanUIState(
@@ -19,7 +21,9 @@ data class SubscriptionPlanUIState(
 
 @HiltViewModel
 class SubscriptionPlanViewModel @Inject constructor(
-    private  val getSubscriptionUseCase: GetSubscriptionUseCase
+    private val getSubscriptionUseCase: GetSubscriptionUseCase,
+    private val paySubscriptionUseCase: PaySubscriptionUseCase,
+    private val getCurrentSubscriptionUseCase: GetCurrentSubscriptionUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(SubscriptionPlanUIState())
     val state: StateFlow<SubscriptionPlanUIState> = _state
@@ -61,9 +65,66 @@ class SubscriptionPlanViewModel @Inject constructor(
         LogUtil("Selecting plan: ${_state.value.selectedPlanId}")
     }
 
+    fun paySubscription(onSuccess: (String) -> Unit) {
+        _state.value.selectedPlanId?.let {
 
-    fun paySubscription() {
-        LogUtil("Payment for plan: ${_state.value.selectedPlanId}")
+            executeUseCase(
+                state = _state,
+                block = {
+                    paySubscriptionUseCase.invoke(it)
+                },
+                onSuccess = { paymentUrl ->
+                    paymentUrl?.let {
+                        onSuccess(paymentUrl)
+                    }
+                    _state.value.copy(
+                        isLoading = false,
+                        error = null
+                    )
+                },
+                onError = {
+                    _state.value.copy(
+                        isLoading = false,
+                        error = it
+                    )
+                },
+                onLoading = {
+                    _state.value.copy(
+                        isLoading = true,
+                        error = null
+                    )
+                }
+            )
+        }
     }
 
+    fun getCurrentSubscription(onResult: (SubscriptionPlanModel?) -> Unit) {
+        executeUseCase(
+            state = _state,
+            block = {
+                getCurrentSubscriptionUseCase(Unit)
+            },
+            onSuccess = { currentPlan ->
+                onResult(currentPlan)
+                _state.value.copy(
+                    isLoading = false,
+                    error = null
+                )
+            },
+            onError = {
+                onResult(null)
+                _state.value.copy(
+                    isLoading = false,
+                    error = null
+                )
+
+            },
+            onLoading = {
+                _state.value.copy(
+                    isLoading = true,
+                    error = null
+                )
+            }
+        )
+    }
 }

@@ -74,7 +74,6 @@ object AppConstants {
         const val PROTOCOL = "ws"
         const val PATH = "/ws/signaling"
         const val DEFAULT_PORT = 8080
-        const val DEFAULT_HOST = "192.168.34.68"
         const val URL_TEMPLATE = "{protocol}://{host}:{port}{path}?clientId={clientId}&movieId={movieId}"
     }
     

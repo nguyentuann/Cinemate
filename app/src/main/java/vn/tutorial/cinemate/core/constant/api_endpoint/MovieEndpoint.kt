@@ -9,6 +9,8 @@ object MovieEndpoint {
 
     const val GET_MOVIES = "movies"
 
+    const val GET_TOP_10_MOVIES = "${PREFIX}top-ten"
+
 
     const val GET_REVIEWS_OF_MOVIE = "${PREFIX}{movieId}/reviews"
 
@@ -24,6 +26,6 @@ object MovieEndpoint {
 
     const val GET_ACTORS_OF_MOVIE = "${PREFIX}{movieId}/actors"
 
-    const val SEARCH_FILMS = "${PREFIX}search"
+    const val SEARCH_FILMS = "movies"
 
 }

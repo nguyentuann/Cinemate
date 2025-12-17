@@ -35,22 +35,28 @@ class StartedViewModel @Inject constructor(
     private fun checkAuth() {
         viewModelScope.launch {
             val refreshToken = localStorage.getRefreshToken()
+
             if (!refreshToken.isNullOrEmpty() && isJwtValid(refreshToken)) {
+                // refresh token còn hạn → thử refresh
                 localStorage.deleteAccessToken()
-                LogUtil("call refresh token")
-                val rp = refreshTokenUseCase.invoke(refreshToken)
-                if (rp is Resource.Success) {
-                    LogUtil("refresh token success")
+
+                val result = refreshTokenUseCase(refreshToken)
+
+                if (result is Resource.Success) {
                     _state.value = SplashState.GoToHome
-                } else if (rp is Resource.Error) {
-                    LogUtil("refresh token failed: ${rp.message}")
+                } else {
+                    // refresh token còn hạn nhưng server reject
+                    localStorage.clearTokens()
                     _state.value = SplashState.GoToAuth
                 }
             } else {
+                // refresh token null hoặc hết hạn
+                localStorage.clearTokens()
                 _state.value = SplashState.GoToAuth
             }
         }
     }
+
 
     private fun isJwtValid(token: String): Boolean {
         return try {

@@ -16,7 +16,7 @@ abstract class BaseService {
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null && body.status == "success") {
-                    LogUtil("vao success co body: $body")
+                    LogUtil("vao success co body: ${body.data}")
                     Resource.Success(body.data)
                 } else {
                     LogUtil("vao success ko body: $body")

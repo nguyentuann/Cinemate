@@ -1,50 +1,37 @@
 package vn.tutorial.cinemate.mockdata
 
+import vn.tutorial.cinemate.domain.model.FeaturedSubscriptionPlanModel
 import vn.tutorial.cinemate.domain.model.SubscriptionPlanModel
 
 val samplePlans = listOf(
     SubscriptionPlanModel(
-        id = "1",
-        name = "Cao cấp",
-        resolution = "4K + HDR",
-        price = 273_000,
-        quality = "Tốt nhất",
-        sound = "Âm thanh không gian (âm thanh chân thực)",
-        supportedDevices = "TV, máy tính bảng, điện thoại di động, máy tính",
-        simultaneousDevices = 4,
-        downloadDevices = 6,
+        id = "007eb805-ca46-4a4b-a90c-f371211e31dd",
+        name = "Premium",
+        description = "Premium monthly subscription with unlimited access to all content",
+        price = 79000.0,
+        durationDays = 30,
+        maxDevice = 4,
+        featured = FeaturedSubscriptionPlanModel (
+            addFree = true,
+    offlineDownload = true,
+    hdStreaming = true,
+    multipleDevices = true,
+    familySharing = false
+        )
     ),
     SubscriptionPlanModel(
-        id = "2",
-        name = "Tiêu chuẩn",
-        resolution = "1080p",
-        price = 180_000,
-        quality = "Tốt",
-        sound = "Có",
-        supportedDevices = "TV, máy tính bảng, điện thoại di động, máy tính",
-        simultaneousDevices = 2,
-        downloadDevices = 2
-    ),
-    SubscriptionPlanModel(
-        id = "3",
-        name = "Cơ bản",
-        resolution = "720p",
-        price = 108_000,
-        quality = "Khá",
-        sound = "Có",
-        supportedDevices = "TV, máy tính bảng, điện thoại di động, máy tính",
-        simultaneousDevices = 1,
-        downloadDevices = 1
-    ),
-    SubscriptionPlanModel(
-        id = "4",
-        name = "Di động",
-        resolution = "480p",
-        price = 70_000,
-        quality = "Cơ bản",
-        sound = "Có",
-        supportedDevices = "Điện thoại di động, máy tính bảng",
-        simultaneousDevices = 1,
-        downloadDevices = 1
+        id = "ad518148-5b5f-4549-95b9-8df2a589d200",
+        name = "Family",
+        description = "Family plan with up to 6 members, perfect for families with parental controls",
+        price = 149000.0,
+        durationDays = 30,
+        maxDevice = 10,
+        featured = FeaturedSubscriptionPlanModel(
+            addFree = true,
+            offlineDownload = true,
+            hdStreaming = true,
+            multipleDevices = true,
+            familySharing = true
+        )
     )
 )

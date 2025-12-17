@@ -32,6 +32,7 @@ import vn.tutorial.cinemate.presentation.detail.screens.PlayVideoScreen
 import vn.tutorial.cinemate.presentation.home.screens.HomeScreen
 import vn.tutorial.cinemate.presentation.more.screens.ChangePasswordScreen
 import vn.tutorial.cinemate.presentation.more.screens.ChildrenModeScreen
+import vn.tutorial.cinemate.presentation.more.screens.CurrentScreen
 import vn.tutorial.cinemate.presentation.more.screens.HistoryScreen
 import vn.tutorial.cinemate.presentation.more.screens.MoreScreen
 import vn.tutorial.cinemate.presentation.more.screens.ProfileScreen
@@ -241,8 +242,22 @@ fun NavGraphBuilder.personalNavGraph(
         SubscriptionScreen()
     }
 
-    composable(Route.ChildrenMode.route) {
-        ChildrenModeScreen()
+    composable(
+        Route.ChildrenMode.route,
+        arguments = listOf(navArgument("kidId") { type = NavType.StringType })
+    ) {
+        val kidId = it.arguments?.getString("kidId") ?: return@composable
+        ChildrenModeScreen(kidId)
+    }
+
+    composable(
+        Route.CurrentPlan.route,
+        arguments = listOf(navArgument("planId") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val planId = backStackEntry.arguments?.getString("planId") ?: return@composable
+        CurrentScreen(
+            planId = planId
+        )
     }
 }
 

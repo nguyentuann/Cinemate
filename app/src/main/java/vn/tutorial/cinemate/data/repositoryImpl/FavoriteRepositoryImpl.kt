@@ -14,15 +14,14 @@ import javax.inject.Inject
 class FavoriteRepositoryImpl @Inject constructor(
     private val favoriteService: FavoriteService
 ) : FavoriteRepository, BaseService() {
-    override suspend fun getFavoriteMovies(): Resource<List<MovieDetailModel>?> {
-//        return safeApiCall {
-//            favoriteService.getFavoriteMovies()
-//        }.mapData { wrapper ->
-//            wrapper?.map { it ->
-//                it.toMovieDetailModel()
-//            }
-//        }
-        return Resource.Success(listFilm)
+    override suspend fun getFavoriteMovies(page: Int, size: Int): Resource<List<MovieDetailModel>?> {
+        return safeApiCall {
+            favoriteService.getFavoriteMovies(page = page, size = size)
+        }.mapData { wrapper ->
+            wrapper?.map { it ->
+                it.toMovieDetailModel()
+            }
+        }
     }
 
     override suspend fun addFavorite(movieId: String): Resource<Unit?> {

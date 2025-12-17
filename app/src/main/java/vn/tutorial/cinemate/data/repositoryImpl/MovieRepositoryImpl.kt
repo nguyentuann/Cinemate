@@ -47,4 +47,14 @@ class MovieRepositoryImpl @Inject constructor(
             it?.toMovieDetailModel()
         }
     }
+
+    override suspend fun getTop10Movies(): Resource<List<MovieDetailModel>?> {
+        return safeApiCall {
+            movieService.getTop10Movies()
+        }.mapData { wrapper ->
+            wrapper?.map { it ->
+                it.toMovieDetailModel()
+            }
+        }
+    }
 }

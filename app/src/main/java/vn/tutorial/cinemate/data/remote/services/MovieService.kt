@@ -71,4 +71,8 @@ interface MovieService {
     suspend fun getMovieById(
         @Path("movieId") movieId: String
     ): Response<BaseResponse<MovieResponse>>
+
+
+    @GET(MovieEndpoint.GET_TOP_10_MOVIES)
+    suspend fun getTop10Movies(): Response<BaseResponse<List<MovieResponse>>>
 }

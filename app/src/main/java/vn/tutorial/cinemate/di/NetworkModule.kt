@@ -12,8 +12,10 @@ import vn.tutorial.cinemate.data.remote.interceptor.AuthInterceptor
 import vn.tutorial.cinemate.data.remote.services.AuthService
 import vn.tutorial.cinemate.data.remote.services.FavoriteService
 import vn.tutorial.cinemate.data.remote.services.MovieService
+import vn.tutorial.cinemate.data.remote.services.PaymentService
 import vn.tutorial.cinemate.data.remote.services.ProfileService
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -44,6 +46,20 @@ object NetworkModule {
             GsonConverterFactory.create()
         ).build()
 
+
+    @Singleton
+    @Provides
+    @Named("paymentRetrofit")
+    fun provideRetrofitNoV1(
+        okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BaseEndpoint.PAYMENT_URL) // 👉 KHÔNG /v1/
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     @Singleton
     @Provides
     fun provideAuthService(retrofit: Retrofit): AuthService {
@@ -67,18 +83,10 @@ object NetworkModule {
     fun provideProfileService(retrofit: Retrofit): ProfileService {
         return retrofit.create(ProfileService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun providePaymentService(@Named("paymentRetrofit") retrofit: Retrofit): PaymentService {
+        return retrofit.create(PaymentService::class.java)
+    }
 }
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class AuthRetrofit
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class MovieRetrofit
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class FavoriteRetrofit
-
-

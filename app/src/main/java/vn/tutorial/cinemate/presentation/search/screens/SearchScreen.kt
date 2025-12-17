@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.common.components.SearchBar
-import vn.tutorial.cinemate.presentation.search.components.CategoryBar
 import vn.tutorial.cinemate.presentation.search.components.ResultMovieList
 import vn.tutorial.cinemate.presentation.search.viewModels.SearchViewModel
 
@@ -70,13 +69,13 @@ fun SearchScreen(
                 .padding(it)
                 .fillMaxSize()
         ) {
-            CategoryBar(
-                onCategorySelected = { category ->
-                    searchViewModel.updateCategory(category.id)
-                    searchViewModel.startNewSearch()
-                    searchViewModel.getMoviesByCategory()
-                }
-            )
+//            CategoryBar(
+//                onCategorySelected = { category ->
+//                    searchViewModel.updateCategory(category.id)
+//                    searchViewModel.startNewSearch()
+//                    searchViewModel.getMoviesByCategory()
+//                }
+//            )
 
             ResultMovieList(
                 movies = movies,
