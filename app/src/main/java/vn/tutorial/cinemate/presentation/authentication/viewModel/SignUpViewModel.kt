@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
 import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.domain.model.UserModel
 import vn.tutorial.cinemate.domain.usecase.authentication.SignUpUseCase
 import vn.tutorial.cinemate.domain.usecase.authentication.VerifyEmailUseCase
@@ -26,7 +27,8 @@ data class SignUpUiState(
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val verifyEmailUseCase: VerifyEmailUseCase,
-    private val verifyTokenUseCase: VerifyTokenUseCase
+    private val verifyTokenUseCase: VerifyTokenUseCase,
+    private val localStorage: LocalStorage,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SignUpUiState())
@@ -52,6 +54,7 @@ class SignUpViewModel @Inject constructor(
         executeUseCase(
             state = _state,
             block = {
+                localStorage.clearTokens()
                 verifyEmailUseCase(VerifyEmailUseCase.Params(_state.value.email))
             },
             onSuccess = {

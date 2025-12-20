@@ -86,7 +86,10 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providePaymentService(@Named("paymentRetrofit") retrofit: Retrofit): PaymentService {
+    fun providePaymentService(
+//        @Named("paymentRetrofit")
+        retrofit: Retrofit
+    ): PaymentService {
         return retrofit.create(PaymentService::class.java)
     }
 }

@@ -53,7 +53,7 @@ fun AvatarPicker(
             model = avatarUrl ?: "",
             contentDescription = "Avatar",
             contentScale = ContentScale.Crop,
-            imgReplace = R.drawable.adult
+            imgReplace = R.drawable.avatar,
         )
     }
 }
