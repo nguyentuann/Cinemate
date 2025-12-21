@@ -8,6 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import vn.tutorial.cinemate.core.constant.api_endpoint.FavoriteEndpoint
+import vn.tutorial.cinemate.core.constant.api_endpoint.HistoryEndpoint
 import vn.tutorial.cinemate.data.remote.requests.film.FavoriteRequest
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
 import vn.tutorial.cinemate.data.remote.responses.movie.MovieResponse
@@ -29,4 +30,21 @@ interface FavoriteService {
     suspend fun deleteFavoriteMovie(
         @Path("movieId") movieId: String
     ): Response<BaseResponse<Unit>>
+
+
+
+    @GET(HistoryEndpoint.GET_DATES)
+    suspend fun getDates(
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 10,
+    ): Response<BaseResponse<List<String>>>
+
+
+    @GET(HistoryEndpoint.GET_HISTORY_OF_DATE)
+    suspend fun getHistoryOfDate(
+        @Query("date") date: String,
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 10,
+    ): Response<BaseResponse<List<MovieResponse>>>
+
 }

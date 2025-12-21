@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import vn.tutorial.cinemate.data.repositoryImpl.AuthRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.CategoryRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.FavoriteRepositoryImpl
+import vn.tutorial.cinemate.data.repositoryImpl.HistoryRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.MovieRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.NotificationRepositoryImpl
 import vn.tutorial.cinemate.data.repositoryImpl.ProfileRepositoryImpl
@@ -15,6 +16,7 @@ import vn.tutorial.cinemate.data.repositoryImpl.SubscriptionRepositoryImpl
 import vn.tutorial.cinemate.domain.repository.AuthRepository
 import vn.tutorial.cinemate.domain.repository.CategoryRepository
 import vn.tutorial.cinemate.domain.repository.FavoriteRepository
+import vn.tutorial.cinemate.domain.repository.HistoryRepository
 import vn.tutorial.cinemate.domain.repository.MovieRepository
 import vn.tutorial.cinemate.domain.repository.NotificationRepository
 import vn.tutorial.cinemate.domain.repository.ProfileRepository
@@ -49,6 +51,11 @@ abstract class RepositoryModule {
     abstract fun bindFavoriteRepository(
         impl: FavoriteRepositoryImpl
     ): FavoriteRepository
+
+    @Binds
+    abstract fun bindHistoryRepository(
+        impl: HistoryRepositoryImpl
+    ): HistoryRepository
 
     @Binds
     abstract fun bindCategoryRepository(

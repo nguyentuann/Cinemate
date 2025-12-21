@@ -8,7 +8,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.media3.common.util.UnstableApi
-import vn.tutorial.cinemate.presentation.streaming.ui.StreamingPlayerDemo
 import vn.tutorial.cinemate.presentation.streaming.ui.VideoPlayer2
 
 @OptIn(UnstableApi::class)
@@ -24,7 +23,6 @@ fun PlayVideoScreen(movieId: String) {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-//            StreamingPlayerDemo("anonymous-client")
             VideoPlayer2()
         }
     }
