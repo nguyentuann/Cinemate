@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import vn.tutorial.cinemate.core.util.LogUtil
 import java.io.File
 import java.io.FileOutputStream
 import androidx.core.graphics.scale
@@ -35,7 +34,6 @@ fun uriToFile(uri: Uri, context: Context, maxWidth: Int = 800, maxHeight: Int = 
 
         file
     } catch (e: Exception) {
-        LogUtil("Convert Uri to File failed")
         e.printStackTrace()
         null
     }

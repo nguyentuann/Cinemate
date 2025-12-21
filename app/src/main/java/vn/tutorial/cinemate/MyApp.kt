@@ -3,7 +3,6 @@ package vn.tutorial.cinemate
 import android.app.Application
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
-import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
 import javax.inject.Inject
 
@@ -25,14 +24,9 @@ class MyApp : Application() {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val token = task.result
-//                    LogUtil("FCM token: $token")
                     localStorage.saveFirebaseToken(token)
-                } else {
-//                    LogUtil("Token failed: ${task.exception?.message}")
                 }
             }
-        } else {
-//            LogUtil("Use cached token: $firebaseToken")
         }
     }
 }

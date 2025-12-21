@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import vn.tutorial.cinemate.core.base_class.executeUseCase
-import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.usecase.movies.GetProgressUseCase
 import vn.tutorial.cinemate.domain.usecase.movies.ReportProgressUseCase
 import vn.tutorial.cinemate.presentation.streaming.StreamingPlayerCoordinator
@@ -38,7 +37,10 @@ data class StreamingUiState(
     val controlsVisible: Boolean = true,
     val locked: Boolean = false,
     val speed: Float = 1.0f,
-    val isSilent: Boolean = false
+    val isSilent: Boolean = false,
+    // Progress restoration
+    val initialProgress: Int? = null,
+    val hasRestoredProgress: Boolean = false
 )
 
 @HiltViewModel
@@ -254,10 +256,9 @@ class StreamingViewModel @Inject constructor(
             block = {
                 getProgressUseCase.invoke(movieId)
             },
-            onSuccess = {
-                LogUtil("đã xem tới : $it")
+            onSuccess = { progress ->
                 _uiState.value.copy(
-                    currentTime = (it?.toFloat() ?: 0f) / 1000f
+                    initialProgress = progress
                 )
             },
             onError = {
@@ -269,22 +270,48 @@ class StreamingViewModel @Inject constructor(
         )
     }
 
+    fun restoreProgress() {
+        val progressInSeconds = _uiState.value.initialProgress
+        if (progressInSeconds != null && progressInSeconds > 0 && !_uiState.value.hasRestoredProgress) {
+            val progressInMs = progressInSeconds * 1000L // Convert giây sang milliseconds
+            seekTo(progressInMs)
+            _uiState.update { it.copy(hasRestoredProgress = true) }
+        }
+    }
     fun reportProgress(movieId: String) {
+        val currentPos = getCurrentPosition()
+        val totalDur = getDuration()
+        
+        // Validate before sending
+        if (totalDur <= 0) {
+            return
+        }
+        
+        if (currentPos < 0) {
+            return
+        }
+        
+        val lastWatchedPosition = (currentPos / 1000).toInt()
+        val totalDuration = (totalDur / 1000).toInt()
+        
+        // Ensure lastWatchedPosition doesn't exceed totalDuration
+        val safeLastWatchedPosition = lastWatchedPosition.coerceAtMost(totalDuration)
+        
         executeUseCase(
             state = _uiState,
             block = {
                 reportProgressUseCase(
                     ReportProgressUseCase.Param(
                         movieId = movieId,
-                        lastWatchedPosition = getCurrentPosition().toInt(),
-                        totalDuration = getDuration().toInt()
+                        lastWatchedPosition = safeLastWatchedPosition,
+                        totalDuration = totalDuration
                     )
                 )
             },
             onSuccess = {
                 _uiState.value
             },
-            onError = {
+            onError = { error ->
                 _uiState.value
             },
             onLoading = {

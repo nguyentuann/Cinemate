@@ -64,14 +64,13 @@ class MovieRepositoryImpl @Inject constructor(
         lastWatchedPosition: Int,
         totalDuration: Int
     ): Resource<Unit?> {
+        val request = ReportProgressRequest(
+            lastWatchedPosition = lastWatchedPosition,
+            totalDuration = totalDuration
+        )
+
         return safeApiCall {
-            movieService.reportProgress(
-                movieId,
-                ReportProgressRequest(
-                    lastWatchedPosition = lastWatchedPosition,
-                    totalDuration = totalDuration
-                )
-            )
+            movieService.reportProgress(movieId, request)
         }
     }
 

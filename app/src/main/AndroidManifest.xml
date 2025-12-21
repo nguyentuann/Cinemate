@@ -56,9 +56,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="netflix-clone-next-js-black.vercel.app"
+                    android:host="localhost"
                     android:pathPrefix="/family/join"
-                    android:scheme="https"
+                    android:port="3000"
+                    android:scheme="http"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
 

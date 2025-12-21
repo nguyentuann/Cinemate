@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import vn.tutorial.cinemate.core.base_class.executeUseCase
-import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.domain.model.SubscriptionPlanModel
 import vn.tutorial.cinemate.domain.usecase.subscription.GetCurrentSubscriptionUseCase
 import vn.tutorial.cinemate.domain.usecase.subscription.GetSubscriptionUseCase
@@ -62,7 +61,6 @@ class SubscriptionPlanViewModel @Inject constructor(
 
     fun selectPlan(planId: String) {
         _state.value = _state.value.copy(selectedPlanId = planId)
-        LogUtil("Selecting plan: ${_state.value.selectedPlanId}")
     }
 
     fun paySubscription(onSuccess: (String) -> Unit) {

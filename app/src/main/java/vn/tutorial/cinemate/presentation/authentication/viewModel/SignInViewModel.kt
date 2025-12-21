@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import vn.tutorial.cinemate.core.base_class.executeUseCase
-import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.domain.model.UserModel
 import vn.tutorial.cinemate.domain.usecase.authentication.SignInUseCase
@@ -56,7 +55,6 @@ class SignInViewModel @Inject constructor(
                 )
             },
             onSuccess = { user ->
-                LogUtil("Vao thanh cong")
                 _state.value.copy(
                     isLoading = false,
                     user = user,
@@ -69,14 +67,12 @@ class SignInViewModel @Inject constructor(
                 }
             },
             onError = { error ->
-                LogUtil("Vao that bai")
                 _state.value.copy(
                     isLoading = false,
                     error = error
                 )
             },
             onLoading = {
-                LogUtil("Dang loading")
                 _state.value.copy(
                     isLoading = true,
                     error = null

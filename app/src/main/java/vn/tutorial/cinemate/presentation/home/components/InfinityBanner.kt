@@ -27,12 +27,14 @@ fun InfinityBanner(
     movies: List<MovieDetailModel>,
     modifier: Modifier = Modifier,
 ) {
-    var currentMovie by remember { mutableStateOf(movies[1]) }
     Column {
         val pagerState = rememberPagerState(
             initialPage = 1,
             pageCount = { movies.size },
         )
+        
+        // Track current movie based on pagerState
+        val currentMovie = movies[pagerState.currentPage]
 
 
         HorizontalPager(
@@ -42,7 +44,7 @@ fun InfinityBanner(
             modifier = modifier.fillMaxWidth()
         ) { pageIndex ->
 
-            currentMovie = movies[pageIndex]
+            val movie = movies[pageIndex]
 
             val pageOffset = (
                     (pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction
@@ -59,14 +61,14 @@ fun InfinityBanner(
                         scaleX = scale
                         scaleY = scale
                     },
-                    moviePoster = currentMovie.verticalPoster ?: "",
+                    moviePoster = movie.verticalPoster ?: "",
                 )
                 if (pageOffset < 0.5f) {
                     Text(
                         modifier = Modifier
                             .padding(top = 16.dp)
                             .align(Alignment.CenterHorizontally),
-                        text = currentMovie.title,
+                        text = movie.title,
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center
                     )

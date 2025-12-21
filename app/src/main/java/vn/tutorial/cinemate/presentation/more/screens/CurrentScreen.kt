@@ -12,6 +12,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -146,7 +148,13 @@ fun CurrentScreen(
                 LazyRow {
                     items(state.currentMembers) {
                         if (it.isOwner == false) {
-                            MemberInPlan(it, navController)
+                            MemberInPlan(
+                                member = it,
+                                navController = navController,
+                                onRemove = { memberUserId ->
+                                    viewModel.removeMember(memberUserId)
+                                }
+                            )
                             Spacer(modifier = Modifier.padding(horizontal = 8.dp))
                         }
                     }
@@ -180,7 +188,28 @@ fun CurrentScreen(
 }
 
 @Composable
-fun MemberInPlan(member: MemberModel, navController: NavHostController) {
+fun MemberInPlan(
+    member: MemberModel, 
+    navController: NavHostController,
+    onRemove: (String) -> Unit
+) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
+    if (showDeleteDialog) {
+        ConfirmationDialog(
+            title = "Delete Member",
+            message = "Are you sure you want to delete this member?",
+            onConfirm = {
+                showDeleteDialog = false
+                onRemove(member.userId)
+            },
+            onDismiss = {
+                showDeleteDialog = false
+            }
+        )
+    }
+
+
     Box(
         modifier = Modifier
             .size(80.dp)
@@ -202,6 +231,20 @@ fun MemberInPlan(member: MemberModel, navController: NavHostController) {
             ),
             contentDescription = null
         )
+
+        IconButton(
+            onClick = { showDeleteDialog = false },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .size(24.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_close),
+                contentDescription = "Remove member",
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
+        }
     }
 
 }

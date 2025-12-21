@@ -1,7 +1,6 @@
 package vn.tutorial.cinemate.data.repositoryImpl
 
 import vn.tutorial.cinemate.core.base_class.Resource
-import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.data.remote.requests.authentication.ChangePasswordRequest
 import vn.tutorial.cinemate.data.remote.requests.authentication.RefreshTokenRequest
@@ -74,7 +73,6 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun verifyOTP(email: String, otp: String): Resource<Boolean?> {
         return safeApiCall {
-            LogUtil("goi verify otp trong repo với data là: $email $otp")
             authService.verifyOTP(VerifyOTPRequest(email = email, otp = otp))
         }
     }
@@ -147,7 +145,6 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun refreshToken(refreshToken: String): Resource<Unit?> {
-        LogUtil("call refresh token in repo with refresh token: $refreshToken")
         return safeApiCall {
             authService.refreshToken(
                 RefreshTokenRequest(

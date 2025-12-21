@@ -85,6 +85,14 @@ fun VideoPlayer2(
 
     val uiState by viewModel.uiState.collectAsState()
     
+    // Restore progress when player is ready and progress is loaded
+    LaunchedEffect(uiState.isPlayerReady, uiState.initialProgress) {
+        if (uiState.isPlayerReady && uiState.initialProgress != null && !uiState.hasRestoredProgress) {
+            delay(500) // Small delay to ensure player is fully ready
+            viewModel.restoreProgress()
+        }
+    }
+    
     val controlsVisible = true
     val locked = uiState.locked
     val speed = uiState.speed

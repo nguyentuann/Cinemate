@@ -12,6 +12,7 @@ interface SubscriptionRepository {
     suspend fun getCurrentSubscription(): Resource<SubscriptionPlanModel?>
     suspend fun getSubscriptionById(planId: String): Resource<SubscriptionPlanModel?>
     suspend fun getMembers(): Resource<List<MemberModel>?>
+    suspend fun removeMember(memberUserId: String): Resource<Unit?>
     suspend fun inviteMember(email: String, mode: String): Resource<Unit?>
     suspend fun acceptInvitation(token: String): Resource<Unit?>
 

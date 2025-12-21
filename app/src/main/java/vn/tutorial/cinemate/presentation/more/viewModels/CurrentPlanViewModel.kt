@@ -14,6 +14,7 @@ import vn.tutorial.cinemate.domain.usecase.subscription.CancelPlanUseCase
 import vn.tutorial.cinemate.domain.usecase.subscription.GetMemberUseCase
 import vn.tutorial.cinemate.domain.usecase.subscription.GetSubscriptionByIdUseCase
 import vn.tutorial.cinemate.domain.usecase.subscription.InviteMemberUseCase
+import vn.tutorial.cinemate.domain.usecase.subscription.RemoveMemberUseCase
 import vn.tutorial.cinemate.domain.usecase.subscription.SearchEmailUseCase
 import javax.inject.Inject
 
@@ -30,6 +31,7 @@ class CurrentPlanViewModel @Inject constructor(
     private val getSubscriptionPlanByIdUseCase: GetSubscriptionByIdUseCase,
     private val getMemberUseCase: GetMemberUseCase,
     private val inviteMemberUseCase: InviteMemberUseCase,
+    private val removeMemberUseCase: RemoveMemberUseCase,
     private val acceptInvitationUseCase: AcceptInvitationUseCase,
     private val searchEmailUseCase: SearchEmailUseCase,
     private val cancelPlanUseCase: CancelPlanUseCase
@@ -118,6 +120,28 @@ class CurrentPlanViewModel @Inject constructor(
             },
             onSuccess = {
                 _state.value.copy(
+                    isLoading = false
+                )
+            },
+            onError = {
+                _state.value.copy(
+                    isLoading = false,
+                    error = it
+                )
+            },
+        )
+    }
+
+    fun removeMember(memberUserId: String) {
+        executeUseCase(
+            state = _state,
+            block = {
+                removeMemberUseCase.invoke(memberUserId)
+            },
+            onSuccess = {
+                val updatedMembers = _state.value.currentMembers.filter { it.userId != memberUserId }
+                _state.value.copy(
+                    currentMembers = updatedMembers,
                     isLoading = false
                 )
             },

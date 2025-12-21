@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.data.remote.services
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -39,6 +40,11 @@ interface PaymentService {
 
     @GET(PaymentEndpoint.GET_MEMBERS)
     suspend fun getMembers(): Response<BaseResponse<List<MemberResponse>>>
+
+    @DELETE(PaymentEndpoint.REMOVE_MEMBER)
+    suspend fun removeMember(
+        @Path("memberUserId") memberUserId: String
+    ): Response<BaseResponse<Unit>>
 
     @POST(PaymentEndpoint.INVITE_MEMBER)
     suspend fun inviteMember(

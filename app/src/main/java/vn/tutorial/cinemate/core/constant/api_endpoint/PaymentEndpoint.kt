@@ -13,6 +13,8 @@ object PaymentEndpoint {
 
     const val GET_MEMBERS = "family-plans/members"
 
+    const val REMOVE_MEMBER = "family-plans/members/{memberUserId}"
+
     const val INVITE_MEMBER = "family-plans/invitations"
 
     const val ACCEPT_INVITATION = "family-plans/invitations/accept"
