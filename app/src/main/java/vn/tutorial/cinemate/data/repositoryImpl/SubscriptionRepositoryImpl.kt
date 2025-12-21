@@ -47,10 +47,8 @@ class SubscriptionRepositoryImpl @Inject constructor(
         return safeApiCall {
             paymentService.getCurrentSubscription()
         }.mapData {
-            LogUtil("nhan current plan response: $it")
             var planModel = it?.plan?.toSubscriptionPlanModel()
             planModel?.subscriptionId = it?.id
-            LogUtil("plan model: $planModel")
             planModel
         }
     }
@@ -139,7 +137,6 @@ class SubscriptionRepositoryImpl @Inject constructor(
         return safeApiCall {
             paymentService.getChildrenMode(kidId)
         }.mapData {
-            LogUtil("nhan children mode response: $it")
             it?.let {
                 ChildrenModeModel(
                     blockedCategoryIds = it.blockedCategories.map { category -> category.id },

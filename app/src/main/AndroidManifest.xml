@@ -48,6 +48,20 @@
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
 
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="localhost"
+                    android:pathPrefix="/register/confirm"
+                    android:scheme="http"
+                    android:port="3000"
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+
             <!--handle accept link-->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -73,6 +87,20 @@
                     android:host="netflix-clone-next-js-black.vercel.app"
                     android:pathPrefix=""
                     android:scheme="https"
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="localhost"
+                    android:pathPrefix=""
+                    android:port="3000"
+                    android:scheme="http"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
 
