@@ -24,3 +24,4 @@ val GreyLight1 = Color(0xFFB2B2B2)
 val SystemRed = Color(0xFFFE0202)
 val SystemBlue = Color(0xFF486AEA)
 
+val yellow = Color(0xFFF3B600)

@@ -2,4 +2,11 @@
 <resources>
 
     <style name="Theme.Cinemate" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Cinemate.Fullscreen" parent="Theme.Cinemate">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
 </resources>
