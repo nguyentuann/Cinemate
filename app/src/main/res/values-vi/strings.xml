@@ -36,7 +36,7 @@
     <string name="watching_history">Lịch sử xem</string>
     <string name="my_list">Yêu thích</string>
     <string name="children_mode">Chế độ trẻ em</string>
-    <string name="package_management">Quản lý gói dịch vụ</string>
+    <string name="package_management">Dịch vụ</string>
     <string name="notification_management">Quản lý thông báo</string>
     <string name="help_reply">Trợ giúp và phàn hồi</string>
     <string name="sign_out">Đăng xuất</string>
@@ -76,6 +76,7 @@
     <string name="cancel">Hủy</string>
     <string name="result">Kết quả</string>
 
+    <string name="trending">Thịnh hành</string>
     <string name="receive_notifications">Nhận thông báo</string>
     <string name="deny_notifications">Từ chối thông báo</string>
     <string name="deny_notifications_desc">Bạn đã từ chối quyền nhận thông báo. Vui lòng bật lại quyền này trong cài đặt hệ thống để nhận thông báo mới</string>
@@ -105,4 +106,8 @@
     <string name="multiple_devices">Nhiều thiết bị</string>
     <string name="family_sharing">Chia sẻ gia đình</string>
     <string name="days">ngày</string>
+    <string name="home">Trang chủ</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="more">Khác</string>
+    <string name="_package">Dịch vụ</string>
 </resources>

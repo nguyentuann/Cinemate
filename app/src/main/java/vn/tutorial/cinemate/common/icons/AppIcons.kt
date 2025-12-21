@@ -97,7 +97,7 @@ object AppIcons {
     fun history(): Painter = painterResource(R.drawable.ic_history)
 
     @Composable
-    fun services(): Painter = painterResource(R.drawable.ic_service)
+    fun services(): Painter = painterResource(R.drawable.ic_card)
 
     @Composable
     fun signOut(): Painter = painterResource(R.drawable.ic_signout)

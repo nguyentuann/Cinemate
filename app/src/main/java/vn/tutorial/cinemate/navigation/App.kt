@@ -31,7 +31,7 @@ fun App(
     val routeHasBottomBar = listOf(
         Route.Home.route,
         Route.ComingSoon.route,
-        Route.Notification.route,
+        Route.Subscription.route,
         Route.Search.route,
         Route.More.route,
     )
