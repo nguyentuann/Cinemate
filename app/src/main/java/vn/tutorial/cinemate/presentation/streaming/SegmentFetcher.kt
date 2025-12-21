@@ -5,7 +5,9 @@ import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import org.json.JSONObject
 import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.data.local.LocalStorage
 import java.util.concurrent.TimeUnit
 
 /**
@@ -14,7 +16,8 @@ import java.util.concurrent.TimeUnit
 class SegmentFetcher(
     private val movieId: String,
     private val cacheManager: CacheManager,
-    private val configManager: ConfigManager
+    private val configManager: ConfigManager,
+    private val localStorage: LocalStorage
 ) {
     
     private val TAG = "Logging SegmentFetcher"
@@ -38,7 +41,23 @@ class SegmentFetcher(
         
         try {
             val response = fetchWithTimeout(url, config.fetchTimeout)
+
+            LogUtil("response master playlist: $response")
             val text = response.body?.string() ?: throw Exception("Empty response")
+            
+            // Check if response is an error JSON
+            if (text.trim().startsWith("{")) {
+                try {
+                    val json = JSONObject(text)
+                    if (json.has("status") && json.getString("status") == "error") {
+                        val errorMessage = json.optString("message", "Unknown error")
+                        throw Exception(errorMessage)
+                    }
+                } catch (e: org.json.JSONException) {
+
+                }
+            }
+            
             val playlist = parseMasterPlaylist(text)
             
             // Cache it
@@ -46,7 +65,7 @@ class SegmentFetcher(
             
             playlist
         } catch (e: Exception) {
-            throw Exception("Failed to fetch master playlist: ${e.message}")
+            throw Exception(e.message)
         }
     }
     
@@ -288,13 +307,40 @@ class SegmentFetcher(
      * Fetch with timeout using OkHttp
      */
     private suspend fun fetchWithTimeout(url: String, timeout: Long): Response = withContext(Dispatchers.IO) {
-        val request = Request.Builder()
-            .url(url)
-            .build()
+        val token = localStorage.getAccessToken()
+
+        LogUtil("token fetch segment: $token")
         
+        val requestBuilder = Request.Builder()
+            .url(url)
+        
+        // Add Authorization header if token exists
+        if (!token.isNullOrEmpty()) {
+            requestBuilder.addHeader("Authorization", "Bearer $token")
+        }
+        
+        val request = requestBuilder.build()
         val response = client.newCall(request).execute()
+
+        LogUtil("response code fetch segment: ${response.code}")
         
         if (!response.isSuccessful) {
+            // Try to read error message from response body
+            val errorBody = response.body?.string()
+            LogUtil("error response body: $errorBody")
+            
+            if (!errorBody.isNullOrEmpty() && errorBody.trim().startsWith("{")) {
+                try {
+                    val json = JSONObject(errorBody)
+                    if (json.has("message")) {
+                        val errorMessage = json.getString("message")
+                        throw Exception(errorMessage)
+                    }
+                } catch (e: org.json.JSONException) {
+                    // Not a JSON, fall through
+                }
+            }
+            
             throw Exception("HTTP ${response.code}")
         }
         

@@ -49,12 +49,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import vn.tutorial.cinemate.common.components.ConfirmationDialog
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.presentation.detail.components.CustomSlider
@@ -84,7 +84,7 @@ fun VideoPlayer2(
     }
 
     val uiState by viewModel.uiState.collectAsState()
-    
+
     // Restore progress when player is ready and progress is loaded
     LaunchedEffect(uiState.isPlayerReady, uiState.initialProgress) {
         if (uiState.isPlayerReady && uiState.initialProgress != null && !uiState.hasRestoredProgress) {
@@ -92,8 +92,8 @@ fun VideoPlayer2(
             viewModel.restoreProgress()
         }
     }
-    
-    val controlsVisible = true
+
+    val controlsVisible = uiState.controlsVisible
     val locked = uiState.locked
     val speed = uiState.speed
     val silent = uiState.isSilent
@@ -104,9 +104,7 @@ fun VideoPlayer2(
     val availableQualities = uiState.availableQualities
     val currentQuality = uiState.currentQuality
 
-
     var showQualityMenu by remember { mutableStateOf(false) }
-
 
     // update progress
     LaunchedEffect(Unit) {
@@ -152,227 +150,239 @@ fun VideoPlayer2(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures() {
-                    viewModel.toggleControls()
+    if (uiState.error != null) {
+        ConfirmationDialog(
+            title = "Error",
+            message = uiState.error ?: "Unknown error",
+            onConfirm = {
+                navController.popBackStack()
+            },
+            confirmText = "OK"
+        )
+    } else
+        Box(
+            modifier = Modifier
+                .pointerInput(Unit) {
+                    detectTapGestures() {
+                        viewModel.toggleControls()
+                    }
+                }
+        )
+        {
+            if (uiState.isPlayerReady) {
+                val exoPlayer = viewModel.getExoPlayer()
+
+                // Only show PlayerView if ExoPlayer is available
+                if (exoPlayer != null) {
+                    AndroidView(
+                        factory = { ctx ->
+                            PlayerView(ctx).apply {
+                                player = exoPlayer
+                                useController = false
+                            }
+                        },
+                        update = { playerView ->
+                            // Update player reference if it changes
+                            if (playerView.player != exoPlayer) {
+                                playerView.player = exoPlayer
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                    )
                 }
             }
-    )
-    {
-        if (uiState.isPlayerReady) {
-            val exoPlayer = viewModel.getExoPlayer()
-
-            // Only show PlayerView if ExoPlayer is available
-            if (exoPlayer != null) {
-                AndroidView(
-                    factory = { ctx ->
-                        PlayerView(ctx).apply {
-                            player = exoPlayer
-                            useController = false
-                        }
-                    },
-                    update = { playerView ->
-                        // Update player reference if it changes
-                        if (playerView.player != exoPlayer) {
-                            playerView.player = exoPlayer
-                        }
-                    },
+            if (controlsVisible && !locked) {
+                Column(
                     modifier = Modifier
+                        .align(Alignment.Center)
+                        .background(Color.Black.copy(alpha = 0.3f))
                         .fillMaxWidth()
-                        .fillMaxHeight()
-                )
-            }
-        }
-        if (controlsVisible && !locked) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .background(Color.Black.copy(alpha = 0.3f))
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 32.dp),
-                    horizontalArrangement = Arrangement.End
+                        .padding(8.dp)
                 ) {
-                    // todo close button
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            contentDescription = "close_video_button"
-                        },
-                        onClick = {
-                            viewModel.reportProgress(movieId)
-                            navController.popBackStack()
-                        }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 32.dp),
+                        horizontalArrangement = Arrangement.End
                     ) {
-                        Icon(
-                            AppIcons.close(),
-                            null,
-                            tint = Color.White,
-                        )
-                    }
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // todo back 10s
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            contentDescription = "backward_10_button"
-                        },
-                        onClick = { viewModel.seekBack() }
-                    ) {
-                        Icon(
-                            AppIcons.backward10(),
-                            null,
-                            tint = Color.White,
-                            modifier = Modifier.size(36.dp)
-                        )
-                    }
-
-                    // todo play/pause
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            contentDescription = "play_pause_button"
-                        },
-                        onClick = {
-                            if (isPlaying) viewModel.pause()
-                            else viewModel.play()
-                        }
-                    ) {
-                        Icon(
-                            if (isPlaying) AppIcons.pause() else AppIcons.play(),
-                            null,
-                            tint = Color.White,
-                            modifier = Modifier.size(36.dp)
-                        )
-                    }
-
-                    // todo forward 10s
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            contentDescription = "forward_10_button"
-                        },
-                        onClick = { viewModel.seekForward() }
-                    ) {
-                        Icon(
-                            AppIcons.forward10(),
-                            null,
-                            tint = Color.White,
-                            modifier = Modifier.size(36.dp)
-                        )
-                    }
-                }
-                val safeDuration = if (duration > 0) duration.toFloat() else 1f
-                val safePosition = currentPosition.coerceIn(0L, duration.coerceAtLeast(0L)).toFloat()
-
-                CustomSlider(
-                    position = safePosition,
-                    duration = safeDuration,
-                    onValueChange = { viewModel.seekTo(it.toLong()) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-
-                    // todo quality
-                    TextButton(
-                        modifier = Modifier.semantics {
-                            contentDescription = "quality_button"
-                        },
-                        onClick = { showQualityMenu = true }
-                    ) {
-                        Text(currentQuality, color = Color.White)
-                    }
-
-                    DropdownMenu(
-                        expanded = showQualityMenu,
-                        onDismissRequest = { showQualityMenu = false },
-                    ) {
-                        availableQualities.forEach { quality ->
-                            DropdownMenuItem(
-                                modifier = Modifier.semantics {
-                                    contentDescription = "${quality}_quality_option"
-                                },
-                                text = { Text(quality) },
-                                onClick = {
-                                    viewModel.switchQuality(quality)
-                                    showQualityMenu = false
-                                }
+                        // todo close button
+                        IconButton(
+                            modifier = Modifier.semantics {
+                                contentDescription = "close_video_button"
+                            },
+                            onClick = {
+                                viewModel.reportProgress(movieId)
+                                navController.popBackStack()
+                            }
+                        ) {
+                            Icon(
+                                AppIcons.close(),
+                                null,
+                                tint = Color.White,
                             )
                         }
                     }
-
-                    // todo playback speed
-                    TextButton(
-                        modifier = Modifier.semantics {
-                            contentDescription = "speed_button"
-                        },
-                        onClick = { viewModel.changeSpeed() }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("${speed}x", color = Color.White)
-                    }
-
-                    // todo lock controls
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            contentDescription = "silent_button"
-                        },
-                        onClick = { viewModel.toggleSilent() }) {
-                        Icon(
-                            if (silent) AppIcons.silent() else AppIcons.sound(),
-                            null,
-                            tint = Color.White
-                        )
-                    }
-
-                    IconButton(onClick = { }) {
-                        Icon(AppIcons.sub(), null, tint = Color.White)
-                    }
-
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            contentDescription = "lock_button"
-                        },
-                        onClick = { viewModel.toggleLock()
+                        // todo back 10s
+                        IconButton(
+                            modifier = Modifier.semantics {
+                                contentDescription = "backward_10_button"
+                            },
+                            onClick = { viewModel.seekBack() }
+                        ) {
+                            Icon(
+                                AppIcons.backward10(),
+                                null,
+                                tint = Color.White,
+                                modifier = Modifier.size(36.dp)
+                            )
                         }
+
+                        // todo play/pause
+                        IconButton(
+                            modifier = Modifier.semantics {
+                                contentDescription = "play_pause_button"
+                            },
+                            onClick = {
+                                if (isPlaying) viewModel.pause()
+                                else viewModel.play()
+                            }
+                        ) {
+                            Icon(
+                                if (isPlaying) AppIcons.pause() else AppIcons.play(),
+                                null,
+                                tint = Color.White,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+
+                        // todo forward 10s
+                        IconButton(
+                            modifier = Modifier.semantics {
+                                contentDescription = "forward_10_button"
+                            },
+                            onClick = { viewModel.seekForward() }
+                        ) {
+                            Icon(
+                                AppIcons.forward10(),
+                                null,
+                                tint = Color.White,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+                    }
+                    val safeDuration = if (duration > 0) duration.toFloat() else 1f
+                    val safePosition =
+                        currentPosition.coerceIn(0L, duration.coerceAtLeast(0L)).toFloat()
+
+                    CustomSlider(
+                        position = safePosition,
+                        duration = safeDuration,
+                        onValueChange = { viewModel.seekTo(it.toLong()) },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Icon(AppIcons.unlock(), null, tint = Color.White)
+
+                        // todo quality
+                        TextButton(
+                            modifier = Modifier.semantics {
+                                contentDescription = "quality_button"
+                            },
+                            onClick = { showQualityMenu = true }
+                        ) {
+                            Text(currentQuality, color = Color.White)
+                        }
+
+                        DropdownMenu(
+                            expanded = showQualityMenu,
+                            onDismissRequest = { showQualityMenu = false },
+                        ) {
+                            availableQualities.forEach { quality ->
+                                DropdownMenuItem(
+                                    modifier = Modifier.semantics {
+                                        contentDescription = "${quality}_quality_option"
+                                    },
+                                    text = { Text(quality) },
+                                    onClick = {
+                                        viewModel.switchQuality(quality)
+                                        showQualityMenu = false
+                                    }
+                                )
+                            }
+                        }
+
+                        // todo playback speed
+                        TextButton(
+                            modifier = Modifier.semantics {
+                                contentDescription = "speed_button"
+                            },
+                            onClick = { viewModel.changeSpeed() }
+                        ) {
+                            Text("${speed}x", color = Color.White)
+                        }
+
+                        // todo lock controls
+                        IconButton(
+                            modifier = Modifier.semantics {
+                                contentDescription = "silent_button"
+                            },
+                            onClick = { viewModel.toggleSilent() }) {
+                            Icon(
+                                if (silent) AppIcons.silent() else AppIcons.sound(),
+                                null,
+                                tint = Color.White
+                            )
+                        }
+
+                        IconButton(onClick = { }) {
+                            Icon(AppIcons.sub(), null, tint = Color.White)
+                        }
+
+                        IconButton(
+                            modifier = Modifier.semantics {
+                                contentDescription = "lock_button"
+                            },
+                            onClick = {
+                                viewModel.toggleLock()
+                            }
+                        ) {
+                            Icon(AppIcons.unlock(), null, tint = Color.White)
+                        }
                     }
                 }
             }
-        }
-        if (locked && controlsVisible) {
-            // todo khi lock, chỉ hiện nút unlock ở giữa màn hình
-            IconButton(
-                onClick = { viewModel.toggleLock() },
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .semantics {
-                        contentDescription = "unlock_button"
-                    }
-            ) {
-                Icon(
-                    AppIcons.lock(),
-                    null,
-                    tint = Color.White,
-                    modifier = Modifier.size(48.dp)
-                )
+            if (locked && controlsVisible) {
+                // todo khi lock, chỉ hiện nút unlock ở giữa màn hình
+                IconButton(
+                    onClick = { viewModel.toggleLock() },
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .semantics {
+                            contentDescription = "unlock_button"
+                        }
+                ) {
+                    Icon(
+                        AppIcons.lock(),
+                        null,
+                        tint = Color.White,
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
             }
         }
-    }
 
     LaunchedEffect(controlsVisible) {
         if (controlsVisible) {

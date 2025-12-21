@@ -4,10 +4,12 @@ import android.content.Context
 import android.util.Log
 import androidx.media3.common.Player
 import kotlinx.coroutines.*
+import vn.tutorial.cinemate.data.local.LocalStorage
 
 class StreamingPlayerCoordinator(
     private val context: Context,
-    private val options: StreamingPlayerOptions
+    private val options: StreamingPlayerOptions,
+    private val localStorage: LocalStorage
 ) : EventEmitter<Any>() {
     
     private val TAG = "Logging StreamingPlayerCoordinator"
@@ -60,7 +62,7 @@ class StreamingPlayerCoordinator(
         mseManager = SimpleMseManager(context, movieId, cacheManager, signalingClient)
         
         // Initialize segment fetcher
-        segmentFetcher = SegmentFetcher(movieId, cacheManager, configManager)
+        segmentFetcher = SegmentFetcher(movieId, cacheManager, configManager, localStorage)
         
         // Initialize buffer manager
         bufferManager = BufferManager(mseManager, configManager)

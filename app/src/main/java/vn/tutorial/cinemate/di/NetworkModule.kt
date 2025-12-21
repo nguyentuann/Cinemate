@@ -15,7 +15,6 @@ import vn.tutorial.cinemate.data.remote.services.MovieService
 import vn.tutorial.cinemate.data.remote.services.PaymentService
 import vn.tutorial.cinemate.data.remote.services.ProfileService
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module

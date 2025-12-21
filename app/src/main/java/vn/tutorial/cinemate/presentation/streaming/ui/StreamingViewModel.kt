@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import vn.tutorial.cinemate.core.base_class.executeUseCase
+import vn.tutorial.cinemate.data.local.LocalStorage
 import vn.tutorial.cinemate.domain.usecase.movies.GetProgressUseCase
 import vn.tutorial.cinemate.domain.usecase.movies.ReportProgressUseCase
 import vn.tutorial.cinemate.presentation.streaming.StreamingPlayerCoordinator
@@ -46,7 +47,8 @@ data class StreamingUiState(
 @HiltViewModel
 class StreamingViewModel @Inject constructor(
     private val reportProgressUseCase: ReportProgressUseCase,
-    private val getProgressUseCase: GetProgressUseCase
+    private val getProgressUseCase: GetProgressUseCase,
+    private val localStorage: LocalStorage
 ) : ViewModel() {
 
     private val TAG = "StreamingViewModel"
@@ -67,7 +69,8 @@ class StreamingViewModel @Inject constructor(
                     options = StreamingPlayerCoordinator.StreamingPlayerOptions(
                         movieId = movieId,
                         clientId = clientId
-                    )
+                    ),
+                    localStorage = localStorage
                 )
 
                 player?.initialize()
@@ -90,7 +93,7 @@ class StreamingViewModel @Inject constructor(
                 Log.e(TAG, "Failed to initialize player", e)
                 _uiState.update {
                     it.copy(
-                        error = "Failed to initialize player: ${e.message}"
+                        error = e.message
                     )
                 }
             }

@@ -1,6 +1,7 @@
 package vn.tutorial.cinemate.presentation.more.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -189,7 +191,7 @@ fun CurrentScreen(
 
 @Composable
 fun MemberInPlan(
-    member: MemberModel, 
+    member: MemberModel,
     navController: NavHostController,
     onRemove: (String) -> Unit
 ) {
@@ -208,43 +210,54 @@ fun MemberInPlan(
             }
         )
     }
-
-
     Box(
         modifier = Modifier
-            .size(80.dp)
+            .size(120.dp)
             .clip(Styles.ShapeStyles.mediumCorner)
     ) {
-
-        Image(
+        Column(
             modifier = Modifier
-                .matchParentSize()
-                .clickable {
-                    if (member.isKid) {
-                        navController.navigate(
-                            Route.ChildrenMode.createRoute(member.userId)
-                        )
+                .matchParentSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .clickable {
+                        if (member.isKid) {
+                            navController.navigate(
+                                Route.ChildrenMode.createRoute(member.userId)
+                            )
+                        }
                     }
-                },
-            painter = painterResource(
-                id = if (member.isKid) R.drawable.kid else R.drawable.adult
-            ),
-            contentDescription = null
-        )
+                    .size(90.dp), // bạn có thể chỉnh size ảnh
+                painter = painterResource(
+                    id = if (member.isKid) R.drawable.kid else R.drawable.adult
+                ),
+                contentDescription = null
+            )
 
+            Text(
+                text = member.email.substringBefore("@")
+                    .ifBlank { "User" },
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+                    .padding(top = 4.dp)
+            )
+        }
+
+        // Nút close trên trái
         IconButton(
-            onClick = { showDeleteDialog = false },
+            onClick = { showDeleteDialog = true },
             modifier = Modifier
-                .align(Alignment.TopEnd)
+                .align(Alignment.TopEnd).padding(end = 10.dp)
                 .size(24.dp)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_close),
                 contentDescription = "Remove member",
-                tint = Color.White,
-                modifier = Modifier.size(24.dp)
+                tint = Color.Black,
+                modifier = Modifier.size(24.dp).clip(CircleShape).background(Color.White)
             )
         }
     }
-
 }
