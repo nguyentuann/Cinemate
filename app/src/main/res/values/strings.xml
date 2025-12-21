@@ -37,7 +37,7 @@
     <string name="watching_history">Watching history</string>
     <string name="my_list">My list</string>
     <string name="children_mode">Children Mode</string>
-    <string name="package_management">"Service package management "</string>
+    <string name="package_management">"Package"</string>
     <string name="notification_management">Notification management</string>
     <string name="help_reply">Help and reply</string>
     <string name="sign_out">Sign out</string>
@@ -76,7 +76,7 @@
     <string name="sign_out_confirm">Are you sure you want to sign out?</string>
     <string name="cancel">Cancel</string>
     <string name="result">Results</string>
-    <string name="trending" translatable="false">Trending</string>
+    <string name="trending">Trending</string>
 
     <string name="receive_notifications">Receive Notifications</string>
     <string name="deny_notifications">Notifications denied</string>
@@ -115,5 +115,9 @@
     <string name="multiple_devices">Multiple Devices</string>
     <string name="family_sharing">Family Sharing</string>\
     <string name="days">days</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="more">More</string>
+    <string name="_package">Package</string>
 
 </resources>

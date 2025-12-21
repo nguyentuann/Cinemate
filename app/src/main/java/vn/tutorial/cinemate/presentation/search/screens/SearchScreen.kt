@@ -46,6 +46,7 @@ fun SearchScreen(
             TopAppBar(
                 title = {
                     SearchBar(
+                        modifier = Modifier.fillMaxSize().padding(top = 16.dp),
                         value = state.query,
                         onChange = { searchViewModel.updateQuery(it) },
                         onSearch = {

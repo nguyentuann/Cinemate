@@ -48,16 +48,16 @@ val listOptions = listOf(
 //        Icons.Default.Face,
 //        route =  Route.ChildrenMode.route
 //    ),
-    ProfileOption(
-        R.string.package_management,
-        Icons.Default.ShoppingCart,
-        route =  Route.Subscription.route
-    ),
-    ProfileOption(
-        R.string.notification_management,
-        Icons.Default.Notifications,
-        route = Route.SettingNotification.route
-    ),
+//    ProfileOption(
+//        R.string.package_management,
+//        Icons.Default.ShoppingCart,
+//        route =  Route.Subscription.route
+//    ),
+//    ProfileOption(
+//        R.string.notification_management,
+//        Icons.Default.Notifications,
+//        route = Route.SettingNotification.route
+//    ),
     ProfileOption(
         R.string.theme_language,
         Icons.Default.Settings,
