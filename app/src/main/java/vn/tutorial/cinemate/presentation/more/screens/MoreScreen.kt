@@ -90,7 +90,8 @@ fun MoreScreen(
                                     } else {
                                         navController.navigate(
                                             Route.CurrentPlan.createRoute(
-                                                planId = it.id
+                                                planId = it.id,
+                                                subscriptionId = it.subscriptionId ?: ""
                                             )
                                         )
                                     }

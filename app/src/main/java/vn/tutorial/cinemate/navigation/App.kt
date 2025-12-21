@@ -32,6 +32,7 @@ fun App(
         Route.Home.route,
         Route.ComingSoon.route,
         Route.Subscription.route,
+        Route.CurrentPlan.route,
         Route.Search.route,
         Route.More.route,
     )

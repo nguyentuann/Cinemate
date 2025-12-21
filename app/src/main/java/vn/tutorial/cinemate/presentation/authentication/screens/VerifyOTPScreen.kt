@@ -116,7 +116,6 @@ fun VerifyOTPScreen(
                                 }
                             }
                         )
-                        navController.navigate(Route.UpdatePassword.route,)
                     }
                 }
             )

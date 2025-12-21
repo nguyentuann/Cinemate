@@ -27,7 +27,7 @@ fun StreamingPlayerDemo(
     
     // Initialize player when movieId changes
     DisposableEffect(inputMovieId) {
-        viewModel.initializePlayer(context, clientId, inputMovieId)
+        viewModel.initializePlayer(context,inputMovieId)
         onDispose { }
     }
     

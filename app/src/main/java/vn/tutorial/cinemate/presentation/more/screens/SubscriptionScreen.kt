@@ -1,8 +1,8 @@
 package vn.tutorial.cinemate.presentation.more.screens
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,28 +18,27 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.common.components.CommonButton
 import vn.tutorial.cinemate.common.components.LoadingAndError
 import vn.tutorial.cinemate.presentation.more.components.SubscriptionCard
-import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 import vn.tutorial.cinemate.presentation.more.viewModels.SubscriptionPlanViewModel
-import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubscriptionScreen(
-    title: String = "Subscription",
     viewModel: SubscriptionPlanViewModel = hiltViewModel()
 ) {
-     val context = LocalContext.current
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.getSubscriptionPlans()
     }
@@ -47,6 +46,10 @@ fun SubscriptionScreen(
 
     Scaffold(
         topBar = {
+//            TopAppBarWithBack(
+//                title  = stringResource(R.string.package_management),
+//            )
+
             CenterAlignedTopAppBar(
                 title = {
                     Text(
@@ -69,39 +72,44 @@ fun SubscriptionScreen(
                 .padding(it)
                 .padding(horizontal = 16.dp)
         ) {
-//            Text(
-//                text = stringResource(R.string.choose_your_plan),
-//                color = MaterialTheme.colorScheme.onBackground,
-//                style = MaterialTheme.typography.titleSmall,
-//                textAlign = TextAlign.Center,
-//                modifier = Modifier
-//                    .padding(bottom = 16.dp)
-//                    .fillMaxWidth()
-//            )
-
-            LazyColumn(
-                modifier = Modifier.weight(1f).padding(bottom = 80.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(state.plans) { plan ->
-                    SubscriptionCard(
-                        plan,
-                        isSelected = (plan.id == state.selectedPlanId),
-                        onSelect = viewModel::selectPlan
+            if (state.plans.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(it),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No subscription plans available.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center
                     )
                 }
-                item {
-                    CommonButton(
-                        title = stringResource(R.string.continue_text),
-                        modifier = Modifier
-                            .fillMaxWidth().padding(vertical = 16.dp),
-                        onClick = {
-                            viewModel.paySubscription{url ->
-                                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                                context.startActivity(intent)
+            } else {
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(state.plans) { plan ->
+                        SubscriptionCard(
+                            plan,
+                            isSelected = (plan.id == state.selectedPlanId),
+                            onSelect = viewModel::selectPlan
+                        )
+                    }
+                    item {
+                        CommonButton(
+                            title = stringResource(R.string.continue_text),
+                            modifier = Modifier
+                                .fillMaxWidth().padding(bottom = 90.dp),
+                            onClick = {
+                                viewModel.paySubscription { url ->
+                                    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                                    context.startActivity(intent)
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

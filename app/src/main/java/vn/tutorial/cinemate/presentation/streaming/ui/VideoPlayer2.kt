@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.ActivityInfo
+import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -30,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +45,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.PlayerView
@@ -63,9 +69,8 @@ fun Context.findActivity2(): Activity? = when (this) {
 @OptIn(UnstableApi::class, ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun VideoPlayer2(
-    movieId: String = "9d4309fd-1196-47d7-b891-6419ca195ca8",
-    clientId: String = "anonymous-client",
-    viewModel: StreamingViewModel = viewModel()
+    movieId: String,
+    viewModel: StreamingViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
@@ -74,12 +79,12 @@ fun VideoPlayer2(
 
     // Initialize player
     LaunchedEffect(movieId) {
-        viewModel.initializePlayer(context, clientId, movieId)
+        viewModel.initializePlayer(context, movieId)
     }
 
     val uiState by viewModel.uiState.collectAsState()
     
-    val controlsVisible = uiState.controlsVisible
+    val controlsVisible = true
     val locked = uiState.locked
     val speed = uiState.speed
     val silent = uiState.isSilent
@@ -115,6 +120,29 @@ fun VideoPlayer2(
         }
     }
 
+    // todo handle back press
+    BackHandler {
+        viewModel.reportProgress(movieId)
+        navController.popBackStack()
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val currentViewModel by rememberUpdatedState(viewModel)
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) {
+                currentViewModel.reportProgress(movieId)
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     Box(
         modifier = Modifier
             .pointerInput(Unit) {
@@ -126,19 +154,27 @@ fun VideoPlayer2(
     {
         if (uiState.isPlayerReady) {
             val exoPlayer = viewModel.getExoPlayer()
-            AndroidView(
-                factory = { ctx ->
-                    PlayerView(ctx).apply {
-                        player = exoPlayer
-                        useController = false
-                    }
-                },
 
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-
-            )
+            // Only show PlayerView if ExoPlayer is available
+            if (exoPlayer != null) {
+                AndroidView(
+                    factory = { ctx ->
+                        PlayerView(ctx).apply {
+                            player = exoPlayer
+                            useController = false
+                        }
+                    },
+                    update = { playerView ->
+                        // Update player reference if it changes
+                        if (playerView.player != exoPlayer) {
+                            playerView.player = exoPlayer
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                )
+            }
         }
         if (controlsVisible && !locked) {
             Column(
@@ -159,7 +195,10 @@ fun VideoPlayer2(
                         modifier = Modifier.semantics {
                             contentDescription = "close_video_button"
                         },
-                        onClick = { navController.popBackStack() }
+                        onClick = {
+                            viewModel.reportProgress(movieId)
+                            navController.popBackStack()
+                        }
                     ) {
                         Icon(
                             AppIcons.close(),

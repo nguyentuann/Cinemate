@@ -252,11 +252,16 @@ fun NavGraphBuilder.personalNavGraph(
 
     composable(
         Route.CurrentPlan.route,
-        arguments = listOf(navArgument("planId") { type = NavType.StringType })
+        arguments = listOf(
+            navArgument("planId") { type = NavType.StringType },
+            navArgument("subscriptionId") { type = NavType.StringType }
+        )
     ) { backStackEntry ->
         val planId = backStackEntry.arguments?.getString("planId") ?: return@composable
+        val subscriptionId = backStackEntry.arguments?.getString("subscriptionId") ?: return@composable
         CurrentScreen(
-            planId = planId
+            planId = planId,
+            subscriptionId = subscriptionId
         )
     }
 }

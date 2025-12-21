@@ -10,7 +10,6 @@ import vn.tutorial.cinemate.data.remote.services.MovieService
 import vn.tutorial.cinemate.domain.model.CategoryModel
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 import vn.tutorial.cinemate.domain.repository.CategoryRepository
-import vn.tutorial.cinemate.mockdata.categoryData
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
@@ -18,14 +17,13 @@ class CategoryRepositoryImpl @Inject constructor(
 ) : CategoryRepository, BaseService() {
 
     override suspend fun getCategories(): Resource<List<CategoryModel>?> {
-//        return safeApiCall {
-//            movieService.getCategory()
-//        }.mapData { wrapper ->
-//            wrapper?.map {
-//                it.toCategoryModel()
-//            }
-//        }
-        return Resource.Success(categoryData)
+        return safeApiCall {
+            movieService.getCategory()
+        }.mapData { wrapper ->
+            wrapper?.map {
+                it.toCategoryModel()
+            }
+        }
     }
 
     override suspend fun getMoviesByCategory(categoryId: String): Resource<List<MovieDetailModel>?> {

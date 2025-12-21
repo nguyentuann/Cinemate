@@ -3,48 +3,58 @@ package vn.tutorial.cinemate.presentation.more.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import vn.tutorial.cinemate.R
-import vn.tutorial.cinemate.common.components.LoadingAndError
+import vn.tutorial.cinemate.common.components.CommonButton
+import vn.tutorial.cinemate.common.components.ConfirmationDialog
 import vn.tutorial.cinemate.common.styles.Styles
+import vn.tutorial.cinemate.domain.model.MemberModel
 import vn.tutorial.cinemate.navigation.LocalNavController
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.more.components.InviteMemberBottomSheet
 import vn.tutorial.cinemate.presentation.more.components.SubscriptionCard
-import vn.tutorial.cinemate.presentation.more.components.TopAppBarWithBack
 import vn.tutorial.cinemate.presentation.more.viewModels.CurrentPlanViewModel
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrentScreen(
     title: String = "Current Plan",
+    subscriptionId: String,
     planId: String,
     viewModel: CurrentPlanViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.collectAsState().value
     var showSheet by remember { mutableStateOf(false) }
+    var showCancelDialog by remember { mutableStateOf(false) }
     val navController = LocalNavController.current
 
 
@@ -52,8 +62,19 @@ fun CurrentScreen(
 
     Scaffold(
         topBar = {
-            TopAppBarWithBack(
-                title = title
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                },
+
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                    actionIconContentColor = MaterialTheme.colorScheme.onBackground
+                )
             )
         }
     ) {
@@ -64,9 +85,30 @@ fun CurrentScreen(
                 onSend = { email, type ->
                     showSheet = false
                     viewModel.inviteMember(email, type.name)
+                },
+                viewModel = viewModel
+            )
+        }
+
+        if (showCancelDialog) {
+            ConfirmationDialog(
+                title = "Cancel Subscription",
+                message = "Are you sure you want to cancel your subscription?",
+                onConfirm = {
+                    showCancelDialog = false
+                    viewModel.cancelPlan(
+                        subscriptionId = subscriptionId,
+                        onSuccess = {
+                            navController.popBackStack()
+                        }
+                    )
+                },
+                onDismiss = {
+                    showCancelDialog = false
                 }
             )
         }
+
 
 
         Column(
@@ -79,59 +121,87 @@ fun CurrentScreen(
                     plan = it,
                     isSelected = true
                 )
+
+                CommonButton(
+                    title = "Cancel Plan",
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .align(Alignment.CenterHorizontally),
+                    onClick = {
+                        showCancelDialog = true
+                    }
+                )
+
             }
 
-            Text(
-                text = "Current Members",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontSize = 18.sp
-                ),
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
-            )
+            if (state.currentPlan?.name == "Family") {
+                Text(
+                    text = "Current Members",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 18.sp
+                    ),
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                )
 
-            LazyRow {
-                items(state.currentMembers) {
-                    if (it.isOwner == false) {
+                LazyRow {
+                    items(state.currentMembers) {
+                        if (it.isOwner == false) {
+                            MemberInPlan(it, navController)
+                            Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+                        }
+                    }
+
+                    item {
                         Image(
-                            modifier = Modifier
-                                .padding(end = 8.dp, bottom = 16.dp).clickable {
-                                    if (it.isKid) {
-                                        navController.navigate(Route.ChildrenMode.createRoute(it.id))
-                                    }
-                                }
-                                .size(80.dp)
-                                .clip(Styles.ShapeStyles.mediumCorner),
-                            painter = painterResource(
-                                id = if (it.isKid) R.drawable.kid else R.drawable.adult
-                            ),
+                            painter = painterResource(id = R.drawable.ic_add),
                             contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 8.dp, bottom = 16.dp)
+                                .size(80.dp)
+                                .clip(Styles.ShapeStyles.mediumCorner)
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    shape = Styles.ShapeStyles.mediumCorner
+                                )
+                                .padding(8.dp)
+                                .clickable {
+                                    showSheet = true
+                                },
+                            colorFilter = ColorFilter.tint(
+                                MaterialTheme.colorScheme.primary
+                            )
                         )
                     }
-                }
-
-                item {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_add),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(end = 8.dp, bottom = 16.dp)
-                            .size(80.dp)
-                            .clip(Styles.ShapeStyles.mediumCorner)
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.primary,
-                                shape = Styles.ShapeStyles.mediumCorner
-                            )
-                            .padding(8.dp)
-                            .clickable {
-                                showSheet = true
-                            },
-                        colorFilter = ColorFilter.tint(
-                            MaterialTheme.colorScheme.primary
-                        )
-                    )
                 }
             }
         }
     }
+}
+
+@Composable
+fun MemberInPlan(member: MemberModel, navController: NavHostController) {
+    Box(
+        modifier = Modifier
+            .size(80.dp)
+            .clip(Styles.ShapeStyles.mediumCorner)
+    ) {
+
+        Image(
+            modifier = Modifier
+                .matchParentSize()
+                .clickable {
+                    if (member.isKid) {
+                        navController.navigate(
+                            Route.ChildrenMode.createRoute(member.userId)
+                        )
+                    }
+                },
+            painter = painterResource(
+                id = if (member.isKid) R.drawable.kid else R.drawable.adult
+            ),
+            contentDescription = null
+        )
+    }
+
 }

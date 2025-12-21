@@ -20,4 +20,8 @@ object PaymentEndpoint {
 
     const val SET_CHILDREN_MODE = "family-plans/parent-control"
 
+
+    const val  SEARCH_EMAIL = "users/search"
+
+    const val CANCEL_PLAN = "subscriptions/{subscriptionId}/cancel"
 }

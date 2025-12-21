@@ -1,6 +1,7 @@
 package vn.tutorial.cinemate.presentation.streaming
 
 import android.util.Log
+import vn.tutorial.cinemate.core.util.LogUtil
 
 class ConfigManager(
     private val configOverrides: StreamingConfig? = null
@@ -97,23 +98,29 @@ class ConfigManager(
         val template = config.signalingUrlTemplate ?: AppConstants.WebSocket.URL_TEMPLATE
         
         // Parse baseUrl to extract components
-        val url = config.baseUrl
+        val url = config.baseUrl.removeSuffix("/api/v1/")
+
+        LogUtil("url receive: $url")
         val protocol = if (url.startsWith("https")) "wss" else "ws"
+
+        Log.d(TAG, "protocol: $protocol")
         
         // Extract host and port from baseUrl
         val urlWithoutProtocol = url.removePrefix("http://").removePrefix("https://")
         val parts = urlWithoutProtocol.split(":")
-        val host = parts[0]
+        val host = parts[0].trimEnd('/')
         val port = if (parts.size > 1) {
             parts[1].split("/")[0]
         } else {
             AppConstants.WebSocket.DEFAULT_PORT.toString()
         }
-        
+
+
+
         return template
             .replace("{protocol}", protocol)
             .replace("{host}", host)
-            .replace("{port}", port)
+//            .replace("{port}", port)
             .replace("{path}", AppConstants.WebSocket.PATH)
             .replace("{clientId}", clientId)
             .replace("{movieId}", movieId)

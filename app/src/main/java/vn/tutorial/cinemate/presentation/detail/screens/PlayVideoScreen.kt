@@ -23,7 +23,7 @@ fun PlayVideoScreen(movieId: String) {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            VideoPlayer2()
+            VideoPlayer2(movieId)
         }
     }
 }

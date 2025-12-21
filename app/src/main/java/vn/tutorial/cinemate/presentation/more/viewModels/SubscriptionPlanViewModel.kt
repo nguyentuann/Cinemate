@@ -99,6 +99,7 @@ class SubscriptionPlanViewModel @Inject constructor(
     }
 
     fun getCurrentSubscription(onResult: (SubscriptionPlanModel?) -> Unit) {
+
         executeUseCase(
             state = _state,
             block = {

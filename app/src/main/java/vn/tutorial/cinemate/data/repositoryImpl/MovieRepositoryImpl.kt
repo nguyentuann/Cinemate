@@ -2,6 +2,7 @@ package vn.tutorial.cinemate.data.repositoryImpl
 
 import vn.tutorial.cinemate.core.base_class.Resource
 import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.data.remote.requests.film.ReportProgressRequest
 import vn.tutorial.cinemate.data.remote.responses.movie.toMovieDetailModel
 import vn.tutorial.cinemate.data.remote.services.BaseService
 import vn.tutorial.cinemate.data.remote.services.MovieService
@@ -55,6 +56,22 @@ class MovieRepositoryImpl @Inject constructor(
             wrapper?.map { it ->
                 it.toMovieDetailModel()
             }
+        }
+    }
+
+    override suspend fun reportProgress(
+        movieId: String,
+        lastWatchedPosition: Long,
+        totalDuration: Long
+    ): Resource<Unit?> {
+        return safeApiCall {
+            movieService.reportProgress(
+                movieId,
+                ReportProgressRequest(
+                    lastWatchedPosition = lastWatchedPosition,
+                    totalDuration = totalDuration
+                )
+            )
         }
     }
 }

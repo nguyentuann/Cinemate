@@ -42,7 +42,9 @@ fun MovieSection(
         modifier = modifier.padding(vertical = 4.dp, horizontal = 16.dp)
     ) {
         Text(
-            text = sectionTitle,
+            text = sectionTitle
+                .lowercase()
+                .replaceFirstChar { it.uppercase() },
             style = MaterialTheme.typography.titleSmall.copy(
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
@@ -54,7 +56,7 @@ fun MovieSection(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             itemsIndexed(movies) { index, movie ->
-                MoviePosterItem(movie = movie)
+                MoviePosterItem(movie = movie, rank = index + 1)
                 // Khi scroll tới cuối, gọi load more
                 if (movies.isNotEmpty() && index == movies.lastIndex) {
                     onLoadMore?.invoke()
@@ -66,6 +68,7 @@ fun MovieSection(
 
 @Composable
 private fun MoviePosterItem(
+    rank: Int,
     modifier: Modifier = Modifier,
     movie: MovieDetailModel,
 ) {
@@ -82,7 +85,7 @@ private fun MoviePosterItem(
     ) {
         AsyncImageWithReplace(
             modifier = Modifier.fillMaxSize(),
-            model = movie.horizontalPoster?:"",
+            model = movie.horizontalPoster ?: "",
             contentDescription = null,
             contentScale = ContentScale.Crop,
             imgReplace = R.drawable.poster_error
@@ -96,10 +99,11 @@ private fun MoviePosterItem(
                 fontSize = 14.sp,
                 modifier = Modifier
                     .align(Alignment.TopStart)
-                    .background(Color.Red.copy(alpha = 0.6f), Styles.ShapeStyles.smallCorner)
+                    .background(Color.Red, Styles.ShapeStyles.smallCorner)
                     .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }
+
 
 
         if (movie.year != null) {
@@ -110,7 +114,7 @@ private fun MoviePosterItem(
                 fontSize = 12.sp,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .background(Color.Red.copy(alpha = 0.6f), Styles.ShapeStyles.smallCorner)
+                    .background(Color.Red, Styles.ShapeStyles.smallCorner)
                     .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }

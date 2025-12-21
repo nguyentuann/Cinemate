@@ -17,8 +17,8 @@ interface FavoriteService {
     // todo about favorites
     @GET(FavoriteEndpoint.GET_FAVORITES_OF_USER)
     suspend fun getFavoriteMovies(
-        @Query("page") page: Int = 1,
-        @Query("limit") size: Int = 10,
+//        @Query("page") page: Int = 1,
+//        @Query("limit") size: Int = 10,
     ): Response<BaseResponse<List<MovieResponse>>>
 
     @POST(FavoriteEndpoint.ADD_FAVORITE)

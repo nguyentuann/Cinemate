@@ -91,13 +91,12 @@ fun ReviewItem(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+
                     Text(
-                        review.userName,
+                        review.userName
+                            ?.substringBefore("@")
+                            ?.ifBlank { "User" }
+                            ?: "User",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
@@ -108,7 +107,6 @@ fun ReviewItem(
                         formatIsoDate(review.updateAt ?: LocalDate.now().toString()),
                         style = MaterialTheme.typography.bodySmall,
                     )
-                }
                 Row {
                     repeat(5) {
                         val tint = if (it < review.stars) yellow else Color.Gray

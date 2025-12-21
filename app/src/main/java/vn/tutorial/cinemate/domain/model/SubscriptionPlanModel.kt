@@ -1,6 +1,7 @@
 package vn.tutorial.cinemate.domain.model
 
 data class SubscriptionPlanModel(
+    var subscriptionId: String? = null,
     val id: String,
     val name: String,
     val description: String,

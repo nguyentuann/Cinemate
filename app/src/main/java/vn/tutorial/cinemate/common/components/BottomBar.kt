@@ -20,11 +20,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import vn.tutorial.cinemate.common.icons.AppIcons
 import vn.tutorial.cinemate.R
 import vn.tutorial.cinemate.navigation.Route
+import vn.tutorial.cinemate.presentation.more.viewModels.SubscriptionPlanViewModel
 
 data class BottomNavItem(
     val label: String,
@@ -33,7 +36,10 @@ data class BottomNavItem(
 )
 
 @Composable
-fun BottomBar(navController: NavHostController) {
+fun BottomBar(
+    navController: NavHostController,
+    subscriptionPlanViewModel: SubscriptionPlanViewModel = hiltViewModel()
+) {
     val items = listOf(
         BottomNavItem(stringResource(R.string.home), AppIcons.home(), "home"),
         BottomNavItem(stringResource(R.string.search), AppIcons.search(), "search"),
@@ -47,7 +53,15 @@ fun BottomBar(navController: NavHostController) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
         items.forEach { item ->
-            val selected = currentRoute == item.route
+            val selected = when (item.route) {
+                Route.Subscription.route -> {
+                    currentRoute == Route.Subscription.route ||
+                            currentRoute?.startsWith(
+                                Route.CurrentPlan.route.substringBefore("/{")
+                            ) == true
+                }
+                else -> currentRoute == item.route
+            }
 
             // Animation scale khi chọn icon
             val scale by animateFloatAsState(
@@ -59,9 +73,23 @@ fun BottomBar(navController: NavHostController) {
                 modifier = Modifier.semantics {
                     contentDescription = item.label
                 },
-                selected = currentRoute == item.route,
+                selected = selected,
                 onClick = {
-                    if (currentRoute != item.route) {
+                    if (item.route == Route.Subscription.route) {
+                        subscriptionPlanViewModel.getCurrentSubscription {
+                            if (it == null) {
+                                navController.navigate(Route.Subscription.route)
+                            } else {
+                                navController.navigate(
+                                    Route.CurrentPlan.createRoute(
+                                        planId = it.id,
+                                        subscriptionId = it.subscriptionId ?: ""
+                                    )
+                                )
+                            }
+                        }
+                    }
+                     else if (currentRoute != item.route) {
                         navController.navigate(item.route) {
                             popUpTo(navController.graph.startDestinationId) { saveState = true }
                             launchSingleTop = true

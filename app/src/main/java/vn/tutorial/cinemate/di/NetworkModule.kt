@@ -16,7 +16,6 @@ import vn.tutorial.cinemate.data.remote.services.PaymentService
 import vn.tutorial.cinemate.data.remote.services.ProfileService
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -49,19 +48,6 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("paymentRetrofit")
-    fun provideRetrofitNoV1(
-        okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BaseEndpoint.PAYMENT_URL) // 👉 KHÔNG /v1/
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-    @Singleton
-    @Provides
     fun provideAuthService(retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
@@ -87,7 +73,6 @@ object NetworkModule {
     @Singleton
     @Provides
     fun providePaymentService(
-//        @Named("paymentRetrofit")
         retrofit: Retrofit
     ): PaymentService {
         return retrofit.create(PaymentService::class.java)

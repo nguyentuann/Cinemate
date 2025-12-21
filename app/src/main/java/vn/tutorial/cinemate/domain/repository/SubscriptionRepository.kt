@@ -17,4 +17,9 @@ interface SubscriptionRepository {
 
     suspend fun getChildrenModeStatus(userId: String): Resource<ChildrenModeModel?>
     suspend fun setChildrenMode(kidId: String, data: ChildrenModeModel): Resource<Unit?>
+
+
+    suspend fun searchEmail(query: String): Resource<List<String>?>
+
+    suspend fun cancelPlan(subscriptionId: String): Resource<Unit?>
 }

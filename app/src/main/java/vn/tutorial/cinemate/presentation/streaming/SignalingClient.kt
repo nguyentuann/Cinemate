@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import okhttp3.*
 import org.webrtc.IceCandidate
 import org.webrtc.SessionDescription
+import vn.tutorial.cinemate.core.util.LogUtil
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import kotlin.collections.get
@@ -45,6 +46,7 @@ class SignalingClient(
     
     init {
         signalingUrl = configManager.buildSignalingUrl(clientId, movieId)
+        LogUtil("signalingUrl  $signalingUrl")
     }
     
     suspend fun connect(url: String? = null): Unit = suspendCancellableCoroutine  { continuation ->

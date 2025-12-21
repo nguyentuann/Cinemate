@@ -1,6 +1,7 @@
 package vn.tutorial.cinemate.data.repositoryImpl
 
 import vn.tutorial.cinemate.core.base_class.Resource
+import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.remote.requests.payment.AcceptInvitationRequest
 import vn.tutorial.cinemate.data.remote.requests.payment.ChildrenModeRequest
 import vn.tutorial.cinemate.data.remote.requests.payment.InviteMemberRequest
@@ -46,7 +47,11 @@ class SubscriptionRepositoryImpl @Inject constructor(
         return safeApiCall {
             paymentService.getCurrentSubscription()
         }.mapData {
-            it?.plan?.toSubscriptionPlanModel()
+            LogUtil("nhan current plan response: $it")
+            var planModel = it?.plan?.toSubscriptionPlanModel()
+            planModel?.subscriptionId = it?.id
+            LogUtil("plan model: $planModel")
+            planModel
         }
     }
 
@@ -58,6 +63,7 @@ class SubscriptionRepositoryImpl @Inject constructor(
         kidId: String,
         data: ChildrenModeModel
     ): Resource<Unit?> {
+        LogUtil("set children mode called with kidId: $kidId and data: ${data.watchTimeLimitMinutes.time}")
 
         return safeApiCall {
             paymentService.setChildrenMode(
@@ -110,6 +116,22 @@ class SubscriptionRepositoryImpl @Inject constructor(
                     invitationToken = token
                 )
             )
+        }
+    }
+
+    override suspend fun searchEmail(query: String): Resource<List<String>?> {
+        return safeApiCall {
+            paymentService.searchEmail(query)
+        }.mapData {
+            it?.map {
+                it -> it.email
+            }
+        }
+    }
+
+    override suspend fun cancelPlan(subscriptionId: String): Resource<Unit?> {
+        return safeApiCall {
+            paymentService.cancelPlan(subscriptionId)
         }
     }
 }

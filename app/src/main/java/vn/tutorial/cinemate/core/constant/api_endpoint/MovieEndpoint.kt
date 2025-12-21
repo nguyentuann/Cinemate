@@ -28,4 +28,6 @@ object MovieEndpoint {
 
     const val SEARCH_FILMS = "movies"
 
+    const val REPORT_PROGRESS = "${PREFIX}{movieId}/watch-progress"
+
 }

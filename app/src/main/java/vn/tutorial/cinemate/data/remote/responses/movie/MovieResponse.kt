@@ -1,6 +1,10 @@
 package vn.tutorial.cinemate.data.remote.responses.movie
 
 import com.google.gson.annotations.SerializedName
+import vn.tutorial.cinemate.core.constant.api_endpoint.BaseEndpoint
+import vn.tutorial.cinemate.core.helper.getFullAvatarUrl
+import vn.tutorial.cinemate.domain.model.ActorDirectorModel
+import vn.tutorial.cinemate.domain.model.CategoryModel
 import vn.tutorial.cinemate.domain.model.MovieDetailModel
 
 data class MovieResponse(
@@ -38,11 +42,11 @@ data class MovieResponse(
     @SerializedName("durationMinutes")
     val durationMinutes: Int? = null,
     @SerializedName("actors")
-    val actors: List<String>? = null,
+    val actors: List<ActorDirector>? = null,
     @SerializedName("directors")
-    val directors: List<String>? = null,
-    @SerializedName("category")
-    val category: String? = null,
+    val directors: List<ActorDirector>? = null,
+    @SerializedName("categories")
+    val category: List<CategoryResponse>? = null,
     @SerializedName("commentsCount")
     val commentsCount: Int? = null,
     @SerializedName("filmUrl")
@@ -60,6 +64,21 @@ data class MovieResponse(
 )
 
 
+data class ActorDirector(
+    @SerializedName("id")
+    val id: String?,
+    @SerializedName("fullName")
+    val fullName: String?,
+)
+
+fun ActorDirector.toActorDirectorModel(): ActorDirectorModel {
+    return ActorDirectorModel(
+        id = id,
+        fullName = fullName
+    )
+}
+
+
 
 // Extension to map response -> domain model
 fun MovieResponse.toMovieDetailModel(): MovieDetailModel {
@@ -68,8 +87,8 @@ fun MovieResponse.toMovieDetailModel(): MovieDetailModel {
         title = title,
         releaseDate = releaseDate,
         description = description,
-        verticalPoster = verticalPoster,
-        horizontalPoster = horizontalPoster,
+        verticalPoster = getFullAvatarUrl(verticalPoster),
+        horizontalPoster = getFullAvatarUrl(horizontalPoster),
         genres = genres,
         trailerUrl = trailerUrl,
         age = age,
@@ -79,9 +98,9 @@ fun MovieResponse.toMovieDetailModel(): MovieDetailModel {
         country = country,
         qualities = qualities,
         durationMinutes = durationMinutes,
-        actors = actors,
-        directors = directors,
-        category = category,
+        actors = actors?.map { it.toActorDirectorModel() },
+        directors = directors?.map { it.toActorDirectorModel() },
+        category = category?.map { it.toCategoryModel() },
         commentsCount = commentsCount,
         filmUrl = filmUrl,
         watchDurationMinutes = watchDurationMinutes,

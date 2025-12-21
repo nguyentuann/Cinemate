@@ -16,9 +16,9 @@ data class MovieDetailModel(
     val country: String? = null,
     val qualities: List<String>? = null,
     val durationMinutes: Int? = null,
-    val actors: List<String>? = null,
-    val directors: List<String>? = null,
-    val category: String? = null,
+    val actors: List<ActorDirectorModel>? = null,
+    val directors: List<ActorDirectorModel>? = null,
+    val category: List<CategoryModel>? = null,
     val commentsCount: Int? = null,
     val filmUrl: String? = null,
     val watchDurationMinutes: Int? = null,
@@ -26,4 +26,9 @@ data class MovieDetailModel(
     val tags: List<String>? = null,
     val createdAt: String? = null,
     val updatedAt: String? = null
+)
+
+data class ActorDirectorModel(
+    val id: String?,
+    val fullName: String?
 )

@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
     private val pendingJoinToken = mutableStateOf<String?>(null)
     private val showJoinConfirmDialog = mutableStateOf(false)
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("LocalContextConfigurationRead", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

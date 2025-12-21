@@ -61,8 +61,8 @@ sealed class Route(val route: String) {
     object ChildrenMode: Route("children_mode/{kidId}") {
         fun createRoute(kidId: String) = "children_mode/$kidId"
     }
-    object CurrentPlan: Route("current_plan/{planId}") {
-        fun createRoute(planId: String) = "current_plan/$planId"
+    object CurrentPlan: Route("current_plan/{planId}/{subscriptionId}") {
+        fun createRoute(planId: String, subscriptionId: String) = "current_plan/$planId/$subscriptionId"
     }
 
 }

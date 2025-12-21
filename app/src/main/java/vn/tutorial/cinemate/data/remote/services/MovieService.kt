@@ -1,5 +1,6 @@
 package vn.tutorial.cinemate.data.remote.services
 
+import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -9,6 +10,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import vn.tutorial.cinemate.core.constant.api_endpoint.CategoryEndpoint
 import vn.tutorial.cinemate.core.constant.api_endpoint.MovieEndpoint
+import vn.tutorial.cinemate.data.remote.requests.film.ReportProgressRequest
 import vn.tutorial.cinemate.data.remote.requests.film.ReviewRequest
 import vn.tutorial.cinemate.data.remote.requests.film.SearchRequest
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
@@ -75,4 +77,12 @@ interface MovieService {
 
     @GET(MovieEndpoint.GET_TOP_10_MOVIES)
     suspend fun getTop10Movies(): Response<BaseResponse<List<MovieResponse>>>
+
+
+
+    @POST(MovieEndpoint.REPORT_PROGRESS)
+    suspend fun reportProgress(
+        @Path("movieId") movieId: String,
+        @Body progress: ReportProgressRequest
+    ): Response<BaseResponse<Unit>>
 }

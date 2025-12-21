@@ -110,8 +110,6 @@ fun ProfileScreen(
                 },
                 placeholder = "First Name",
                 leadingIcon = { Icon(Icons.Default.Person, null) },
-                isError = profile.firstName.isNullOrBlank(),
-                errorMessage = "First name cannot be empty",
                 label = "First Name",
                 testTag = "first_name_text_field",
                 errorTestTag = "first_name_error_message"
@@ -127,8 +125,6 @@ fun ProfileScreen(
                 },
                 placeholder = "Last Name",
                 leadingIcon = { Icon(Icons.Default.Person, null) },
-                isError = profile.lastName.isNullOrBlank(),
-                errorMessage = "Last name cannot be empty",
                 label = "Last Name",
                 testTag = "last_name_text_field",
                 errorTestTag = "last_name_error_message"

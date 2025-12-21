@@ -11,7 +11,6 @@ class GetCategoriesUseCase @Inject constructor(
     private val categoryRepository: CategoryRepository
 ) : BaseUseCase<Unit, Resource<List<CategoryModel>?>>() {
     override suspend fun execute(param: Unit): Resource<List<CategoryModel>?> {
-        LogUtil("call get categories use case")
         return categoryRepository.getCategories()
     }
 }

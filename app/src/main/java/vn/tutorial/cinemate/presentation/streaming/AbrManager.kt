@@ -13,7 +13,7 @@ class AbrManager(
     private val configManager: ConfigManager
 ) : EventEmitter<AbrManagerEvents>() {
     
-    private val TAG = "Loggin AbrManager"
+    private val TAG = "Logging AbrManager"
     
     private var masterPlaylist: MasterPlaylist? = null
     private val variantPlaylists = mutableMapOf<String, VariantPlaylist>()

@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,6 +27,8 @@ import vn.tutorial.cinemate.presentation.home.components.MovieSection
 import vn.tutorial.cinemate.presentation.home.viewModels.HomeViewModel
 import vn.tutorial.cinemate.presentation.home.viewModels.SectionType
 import vn.tutorial.cinemate.presentation.home.viewModels.SectionViewModel
+import vn.tutorial.cinemate.R
+import vn.tutorial.cinemate.core.util.LogUtil
 
 val headerItems = mapOf(
     "Movies" to Route.Home.route,
@@ -74,7 +77,7 @@ fun HomeScreen(
                 if (top10State.movies.isNotEmpty()) {
                     item {
                         MovieSection(
-                            sectionTitle = "TOP 10 TRENDING",
+                            sectionTitle = stringResource(R.string.trending),
                             movies = top10State.movies
                         )
                     }

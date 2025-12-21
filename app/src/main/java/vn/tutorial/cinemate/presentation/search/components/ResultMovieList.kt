@@ -25,7 +25,6 @@ fun ResultMovieList(
     condition: Boolean,
     onLoadMore: () -> Unit,
 ) {
-    LogUtil("dieu kien load more $condition")
     if (movies?.isNotEmpty() == true) {
         Text(
             stringResource(R.string.result),

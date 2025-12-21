@@ -11,4 +11,10 @@ interface MovieRepository {
     suspend fun getDetailMovie(movieId: String): Resource<MovieDetailModel?>
 
     suspend fun getTop10Movies(): Resource<List<MovieDetailModel>?>
+
+    suspend fun reportProgress(
+        movieId: String,
+        lastWatchedPosition: Long,
+        totalDuration: Long
+    ): Resource<Unit?>
 }

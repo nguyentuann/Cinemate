@@ -40,14 +40,16 @@ fun MovieInformation(
                 text = movie.title, style = MaterialTheme.typography.titleSmall
             )
 
-            if (movie.genres != null) {
+            if (movie.category != null) {
                 Box(
                     Modifier
                         .background(Color.Gray, Styles.ShapeStyles.smallCorner) // có shape
                         .padding(4.dp)
                 ) {
                     Text(
-                        movie.genres.joinToString(", "), style = MaterialTheme.typography.bodySmall
+                        movie.category.joinToString(", ") {
+                            it.name
+                        }, style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
@@ -111,16 +113,25 @@ fun MovieInformation(
         if (!movie.actors.isNullOrEmpty()) {
             Row {
                 Text(
-                    "Actors: ${movie.actors.joinToString(", ")}",
+                    text = "Actors: ${
+                        movie.actors.joinToString(", ") {
+                            it.fullName.orEmpty()
+                        }
+                    }",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
+
         // todo directors
         if (!movie.directors.isNullOrEmpty()) {
             Row {
                 Text(
-                    "Directors: ${movie.directors.joinToString(", ")}",
+                    text = "Directors: ${
+                        movie.directors.joinToString(", ") {
+                            it.fullName.orEmpty()
+                        }
+                    }",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

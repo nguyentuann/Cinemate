@@ -15,6 +15,7 @@ import vn.tutorial.cinemate.data.remote.requests.payment.PlanRequest
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
 import vn.tutorial.cinemate.data.remote.responses.payment.CreatePlanResponse
 import vn.tutorial.cinemate.data.remote.responses.payment.CurrentPlanResponse
+import vn.tutorial.cinemate.data.remote.responses.payment.EmailResponse
 import vn.tutorial.cinemate.data.remote.responses.payment.MemberResponse
 import vn.tutorial.cinemate.data.remote.responses.payment.PlanResponse
 
@@ -35,7 +36,6 @@ interface PaymentService {
         @Path("planId") planId: String
     ): Response<BaseResponse<PlanResponse>>
 
-
     @GET(PaymentEndpoint.GET_MEMBERS)
     suspend fun getMembers(): Response<BaseResponse<List<MemberResponse>>>
 
@@ -49,12 +49,21 @@ interface PaymentService {
         @Body acceptInvitationRequest: AcceptInvitationRequest
     ): Response<BaseResponse<Unit>>
 
-
-
     @PUT(PaymentEndpoint.SET_CHILDREN_MODE)
     suspend fun setChildrenMode(
         @Query("kidId") kidId: String,
         @Body childrenModeRequest: ChildrenModeRequest
+    ): Response<BaseResponse<Unit>>
+
+    @GET(PaymentEndpoint.SEARCH_EMAIL)
+    suspend fun searchEmail(
+        @Query("email") query: String
+    ): Response<BaseResponse<List<EmailResponse>>>
+
+
+    @PUT(PaymentEndpoint.CANCEL_PLAN)
+    suspend fun cancelPlan(
+        @Path("subscriptionId") subscriptionId: String
     ): Response<BaseResponse<Unit>>
 
 }
