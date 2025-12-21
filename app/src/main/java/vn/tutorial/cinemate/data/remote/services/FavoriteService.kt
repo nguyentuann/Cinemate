@@ -11,6 +11,7 @@ import vn.tutorial.cinemate.core.constant.api_endpoint.FavoriteEndpoint
 import vn.tutorial.cinemate.core.constant.api_endpoint.HistoryEndpoint
 import vn.tutorial.cinemate.data.remote.requests.film.FavoriteRequest
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
+import vn.tutorial.cinemate.data.remote.responses.movie.DateResponse
 import vn.tutorial.cinemate.data.remote.responses.movie.MovieResponse
 
 interface FavoriteService {
@@ -37,7 +38,7 @@ interface FavoriteService {
     suspend fun getDates(
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 10,
-    ): Response<BaseResponse<List<String>>>
+    ): Response<BaseResponse<List<DateResponse>?>>
 
 
     @GET(HistoryEndpoint.GET_HISTORY_OF_DATE)

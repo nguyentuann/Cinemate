@@ -12,9 +12,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import vn.tutorial.cinemate.core.base_class.executeUseCase
-import vn.tutorial.cinemate.data.local.LocalStorage
+import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.domain.usecase.movies.GetProgressUseCase
 import vn.tutorial.cinemate.domain.usecase.movies.ReportProgressUseCase
 import vn.tutorial.cinemate.presentation.streaming.StreamingPlayerCoordinator
+import java.util.UUID
 import javax.inject.Inject
 
 data class StreamingUiState(
@@ -42,11 +44,11 @@ data class StreamingUiState(
 @HiltViewModel
 class StreamingViewModel @Inject constructor(
     private val reportProgressUseCase: ReportProgressUseCase,
-    private val localStorage: LocalStorage
+    private val getProgressUseCase: GetProgressUseCase
 ) : ViewModel() {
 
     private val TAG = "StreamingViewModel"
-    private val userId = localStorage.getUserId() ?: ""
+    private val clientId = UUID.randomUUID().toString()
 
     private val _uiState = MutableStateFlow(StreamingUiState())
     val uiState: StateFlow<StreamingUiState> = _uiState.asStateFlow()
@@ -62,7 +64,7 @@ class StreamingViewModel @Inject constructor(
                     context = context,
                     options = StreamingPlayerCoordinator.StreamingPlayerOptions(
                         movieId = movieId,
-                        clientId = userId
+                        clientId = clientId
                     )
                 )
 
@@ -246,6 +248,27 @@ class StreamingViewModel @Inject constructor(
         Log.d(TAG, "Playback speed changed to ${nextSpeed}x")
     }
 
+    fun getProgress(movieId: String) {
+        executeUseCase(
+            state = _uiState,
+            block = {
+                getProgressUseCase.invoke(movieId)
+            },
+            onSuccess = {
+                LogUtil("đã xem tới : $it")
+                _uiState.value.copy(
+                    currentTime = (it?.toFloat() ?: 0f) / 1000f
+                )
+            },
+            onError = {
+                _uiState.value
+            },
+            onLoading = {
+                _uiState.value
+            }
+        )
+    }
+
     fun reportProgress(movieId: String) {
         executeUseCase(
             state = _uiState,
@@ -253,8 +276,8 @@ class StreamingViewModel @Inject constructor(
                 reportProgressUseCase(
                     ReportProgressUseCase.Param(
                         movieId = movieId,
-                        lastWatchedPosition = getCurrentPosition(),
-                        totalDuration = getDuration()
+                        lastWatchedPosition = getCurrentPosition().toInt(),
+                        totalDuration = getDuration().toInt()
                     )
                 )
             },

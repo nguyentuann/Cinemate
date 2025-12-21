@@ -61,14 +61,17 @@ class HistoryViewModel @Inject constructor(
                 val dailyHistories = updatedDates.map { date ->
                     _state.value.dailyHistories.find { it.date == date } ?: DailyHistory(date)
                 }
+                // Tự động load movies cho các dates mới
+                newDates?.forEach { date ->
+                    getHistoryMoviesByDate(date)
+                }
+
                 _state.value.copy(
                     dates = updatedDates,
                     dailyHistories = dailyHistories,
                     isLoading = false,
                     error = null
                 )
-
-                // Khởi tạo DailyHistory cho mỗi ngày
 
 
             },

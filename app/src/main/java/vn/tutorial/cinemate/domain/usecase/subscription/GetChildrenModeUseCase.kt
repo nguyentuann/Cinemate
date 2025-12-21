@@ -10,6 +10,6 @@ class GetChildrenModeUseCase @Inject constructor(
     private val subscriptionRepository: SubscriptionRepository
 ) : BaseUseCase<String, Resource<ChildrenModeModel?>>() {
     override suspend fun execute(param: String): Resource<ChildrenModeModel?> {
-        return subscriptionRepository.getChildrenModeStatus(param)
+        return subscriptionRepository.getChildrenMode(param)
     }
 }

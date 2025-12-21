@@ -34,18 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="cinemate.com"
-                    android:path="/create_password"
-                    android:scheme="https" />
-            </intent-filter>
-
             <!--deep linking from email-->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -54,10 +42,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="localhost"
+                    android:host="netflix-clone-next-js-black.vercel.app"
                     android:pathPrefix="/register/confirm"
-                    android:port="3000"
-                    android:scheme="http"
+                    android:scheme="https"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
 
@@ -69,10 +56,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="localhost"
+                    android:host="netflix-clone-next-js-black.vercel.app"
                     android:pathPrefix="/family/join"
-                    android:port="3000"
-                    android:scheme="http"
+                    android:scheme="https"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
 
@@ -83,10 +69,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="localhost"
+                    android:host="netflix-clone-next-js-black.vercel.app"
                     android:pathPrefix=""
-                    android:port="3000"
-                    android:scheme="http"
+                    android:scheme="https"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
 

@@ -27,12 +27,19 @@ import vn.tutorial.cinemate.presentation.search.viewModels.CategoryViewModel
 fun CategoryBar(
     modifier: Modifier = Modifier,
     categoryViewModel: CategoryViewModel = hiltViewModel(),
+    selectedCategoryIds: List<String> = emptyList(),
     onCategorySelected: (CategoryModel) -> Unit
 ) {
     val state = categoryViewModel.state.collectAsState()
 
     if (state.value.categories.isNotEmpty()) {
-        var selectedCategories by remember { mutableStateOf<List<CategoryModel>>(emptyList()) }
+        var selectedCategories by remember(selectedCategoryIds) {
+            mutableStateOf(
+                state.value.categories.filter { category ->
+                    selectedCategoryIds.contains(category.id)
+                }
+            )
+        }
 
         LazyRow(
             modifier = modifier

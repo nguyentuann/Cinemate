@@ -95,9 +95,9 @@ fun CardMovieItem(
                     contentScale = ContentScale.Crop,
                     error = painterResource(R.drawable.poster_error)
                 )
-                if (movie.durationMinutes != null) {
+                if (movie.totalDuration != null) {
                     Text(
-                        text = timeFormatter(movie.durationMinutes * 60 * 1000L),
+                        text = timeFormatter(movie.totalDuration * 1000L),
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
@@ -109,7 +109,7 @@ fun CardMovieItem(
                     )
                 }
                 // Thanh progress (đặt dưới cùng)
-                if (movie.watchDurationMinutes != null && movie.durationMinutes != null) {
+                if (movie.lastWatchedPosition != null && movie.totalDuration != null) {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomStart)
@@ -118,7 +118,7 @@ fun CardMovieItem(
                             .background(Color.White.copy(alpha = 0.7f))
                     ) {
                         val progress =
-                            movie.watchDurationMinutes.toFloat() / movie.durationMinutes.toFloat()
+                            movie.lastWatchedPosition.toFloat() / movie.totalDuration.toFloat()
                         Box(
                             modifier = Modifier
                                 .fillMaxHeight()

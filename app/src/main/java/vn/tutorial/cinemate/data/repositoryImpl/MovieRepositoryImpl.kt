@@ -61,8 +61,8 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun reportProgress(
         movieId: String,
-        lastWatchedPosition: Long,
-        totalDuration: Long
+        lastWatchedPosition: Int,
+        totalDuration: Int
     ): Resource<Unit?> {
         return safeApiCall {
             movieService.reportProgress(
@@ -72,6 +72,14 @@ class MovieRepositoryImpl @Inject constructor(
                     totalDuration = totalDuration
                 )
             )
+        }
+    }
+
+    override suspend fun getProgress(movieId: String): Resource<Int?> {
+        return safeApiCall {
+            movieService.getProgress(movieId)
+        }.mapData { it ->
+            it?.lastWatchedPosition ?: 0
         }
     }
 }

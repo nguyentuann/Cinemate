@@ -39,8 +39,6 @@ data class MovieResponse(
     val viewsCount: Int? = null,
     @SerializedName("rating")
     val rating: Double? = null,
-    @SerializedName("durationMinutes")
-    val durationMinutes: Int? = null,
     @SerializedName("actors")
     val actors: List<ActorDirector>? = null,
     @SerializedName("directors")
@@ -51,8 +49,10 @@ data class MovieResponse(
     val commentsCount: Int? = null,
     @SerializedName("filmUrl")
     val filmUrl: String? = null,
-    @SerializedName("watchDurationMinutes")
-    val watchDurationMinutes: Int? = null,
+    @SerializedName("totalDuration")
+    val totalDuration: Int? = null,
+    @SerializedName("lastWatchedPosition")
+    val lastWatchedPosition: Int? = null,
     @SerializedName("rank")
     val rank: Int? = null,
     @SerializedName("tags")
@@ -97,13 +97,13 @@ fun MovieResponse.toMovieDetailModel(): MovieDetailModel {
         year = year,
         country = country,
         qualities = qualities,
-        durationMinutes = durationMinutes,
+        totalDuration = totalDuration,
         actors = actors?.map { it.toActorDirectorModel() },
         directors = directors?.map { it.toActorDirectorModel() },
         category = category?.map { it.toCategoryModel() },
         commentsCount = commentsCount,
         filmUrl = filmUrl,
-        watchDurationMinutes = watchDurationMinutes,
+        lastWatchedPosition = lastWatchedPosition,
         rank = rank,
         tags = tags,
         createdAt = createdAt,

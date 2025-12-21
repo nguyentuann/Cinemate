@@ -75,9 +75,9 @@ fun MovieInformation(
                     )
                 }
 
-                if (movie.durationMinutes != null) {
+                if (movie.totalDuration != null) {
                     Text(
-                        "${movie.durationMinutes} min",
+                        "${movie.totalDuration} s",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }

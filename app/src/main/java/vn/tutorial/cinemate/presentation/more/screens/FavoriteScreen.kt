@@ -33,7 +33,9 @@ fun FavoriteScreen(
     val state = viewModel.state.collectAsState().value
 
     LaunchedEffect(Unit) {
-        viewModel.getFavoriteMovies()
+        if (state.movies.isEmpty() && !state.isLoading) {
+            viewModel.getFavoriteMovies()
+        }
     }
 
     Scaffold(

@@ -16,6 +16,7 @@ import vn.tutorial.cinemate.data.remote.requests.film.SearchRequest
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
 import vn.tutorial.cinemate.data.remote.responses.movie.CategoryResponse
 import vn.tutorial.cinemate.data.remote.responses.movie.MovieResponse
+import vn.tutorial.cinemate.data.remote.responses.movie.ProgressResponse
 import vn.tutorial.cinemate.data.remote.responses.movie.ReviewResponse
 
 interface MovieService {
@@ -85,4 +86,10 @@ interface MovieService {
         @Path("movieId") movieId: String,
         @Body progress: ReportProgressRequest
     ): Response<BaseResponse<Unit>>
+
+
+    @GET(MovieEndpoint.GET_PROGRESS)
+    suspend fun getProgress(
+        @Path("movieId") movieId: String,
+    ): Response<BaseResponse<ProgressResponse>>
 }

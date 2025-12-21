@@ -1,6 +1,7 @@
 package vn.tutorial.cinemate.data.repositoryImpl
 
 import vn.tutorial.cinemate.core.base_class.Resource
+import vn.tutorial.cinemate.core.constant.enums.TimeLimit
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.remote.requests.payment.AcceptInvitationRequest
 import vn.tutorial.cinemate.data.remote.requests.payment.ChildrenModeRequest
@@ -55,22 +56,16 @@ class SubscriptionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getChildrenModeStatus(userId: String): Resource<ChildrenModeModel?> {
-        return Resource.Success(null)
-    }
-
     override suspend fun setChildrenMode(
         kidId: String,
         data: ChildrenModeModel
     ): Resource<Unit?> {
-        LogUtil("set children mode called with kidId: $kidId and data: ${data.watchTimeLimitMinutes.time}")
-
         return safeApiCall {
             paymentService.setChildrenMode(
                 kidId = kidId,
                 childrenModeRequest = ChildrenModeRequest(
                     blockedCategoryIds = data.blockedCategoryIds,
-                    watchTimeLimitMinutes = data.watchTimeLimitMinutes.time
+                    watchTimeLimitMinutes = data.watchTimeLimitMinutes?.time ?: 60
                 )
             )
         }
@@ -123,8 +118,8 @@ class SubscriptionRepositoryImpl @Inject constructor(
         return safeApiCall {
             paymentService.searchEmail(query)
         }.mapData {
-            it?.map {
-                it -> it.email
+            it?.map { it ->
+                it.email
             }
         }
     }
@@ -132,6 +127,20 @@ class SubscriptionRepositoryImpl @Inject constructor(
     override suspend fun cancelPlan(subscriptionId: String): Resource<Unit?> {
         return safeApiCall {
             paymentService.cancelPlan(subscriptionId)
+        }
+    }
+
+    override suspend fun getChildrenMode(kidId: String): Resource<ChildrenModeModel?> {
+        return safeApiCall {
+            paymentService.getChildrenMode(kidId)
+        }.mapData {
+            LogUtil("nhan children mode response: $it")
+            it?.let {
+                ChildrenModeModel(
+                    blockedCategoryIds = it.blockedCategories.map { category -> category.id },
+                    watchTimeLimitMinutes = TimeLimit.entries.firstOrNull { enum -> enum.time == it.watchTimeLimitMinutes }
+                )
+            }
         }
     }
 }

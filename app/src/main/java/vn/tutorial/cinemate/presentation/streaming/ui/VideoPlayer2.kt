@@ -80,6 +80,7 @@ fun VideoPlayer2(
     // Initialize player
     LaunchedEffect(movieId) {
         viewModel.initializePlayer(context, movieId)
+        viewModel.getProgress(movieId)
     }
 
     val uiState by viewModel.uiState.collectAsState()

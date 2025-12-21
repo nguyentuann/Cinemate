@@ -13,6 +13,7 @@ import vn.tutorial.cinemate.data.remote.requests.payment.ChildrenModeRequest
 import vn.tutorial.cinemate.data.remote.requests.payment.InviteMemberRequest
 import vn.tutorial.cinemate.data.remote.requests.payment.PlanRequest
 import vn.tutorial.cinemate.data.remote.responses.BaseResponse
+import vn.tutorial.cinemate.data.remote.responses.payment.ChildrenModeResponse
 import vn.tutorial.cinemate.data.remote.responses.payment.CreatePlanResponse
 import vn.tutorial.cinemate.data.remote.responses.payment.CurrentPlanResponse
 import vn.tutorial.cinemate.data.remote.responses.payment.EmailResponse
@@ -66,4 +67,8 @@ interface PaymentService {
         @Path("subscriptionId") subscriptionId: String
     ): Response<BaseResponse<Unit>>
 
+    @GET(PaymentEndpoint.GET_CHILDREN_MODE)
+    suspend fun getChildrenMode(
+        @Query("kidId") kidId: String
+    ): Response<BaseResponse<ChildrenModeResponse>>
 }

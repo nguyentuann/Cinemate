@@ -22,9 +22,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", "\"https://cinemate.japaneast.cloudapp.azure.com/api/v1/\"")
-//        buildConfigField("String", "BASE_URL", "\"http://192.168.34.157:8080/api/v1/\"")
         buildConfigField("String", "AVT_URL", "\"https://cinemate.japaneast.cloudapp.azure.com/minio/\"")
-//        buildConfigField("String", "AVT_URL", "\"https://cinemate.japaneast.cloudapp.azure.com/minio/\"")
 
     }
 

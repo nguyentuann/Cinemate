@@ -30,4 +30,7 @@ object MovieEndpoint {
 
     const val REPORT_PROGRESS = "${PREFIX}{movieId}/watch-progress"
 
+
+    const val GET_PROGRESS = "${PREFIX}{movieId}/watch-progress"
+
 }

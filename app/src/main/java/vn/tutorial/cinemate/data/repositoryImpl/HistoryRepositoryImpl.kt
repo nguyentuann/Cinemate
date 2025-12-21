@@ -18,7 +18,9 @@ class HistoryRepositoryImpl @Inject constructor(
         return safeApiCall {
             historyService.getDates(page = page, size = size)
         }.mapData {
-            it
+            it?.map {
+                it -> it.date
+            }
         }
     }
 

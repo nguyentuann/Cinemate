@@ -107,7 +107,9 @@ class FavoriteViewModel @Inject constructor(
                 deleteFavoriteUseCase(movieId)
             },
             onSuccess = {
+                val updatedMovies = _state.value.movies.filter { it.id != movieId }
                 _state.value.copy(
+                    movies = updatedMovies,
                     isLoading = false,
                     error = null,
                 )

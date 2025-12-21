@@ -10,8 +10,8 @@ class ReportProgressUseCase @Inject constructor(
 ): BaseUseCase<ReportProgressUseCase.Param, Resource<Unit?>>() {
     data class Param(
         val movieId: String,
-        val lastWatchedPosition: Long,
-        val totalDuration: Long
+        val lastWatchedPosition: Int,
+        val totalDuration: Int
     )
 
     override suspend fun execute(param: Param): Resource<Unit?> {

@@ -14,7 +14,12 @@ interface MovieRepository {
 
     suspend fun reportProgress(
         movieId: String,
-        lastWatchedPosition: Long,
-        totalDuration: Long
+        lastWatchedPosition: Int,
+        totalDuration: Int
     ): Resource<Unit?>
+
+
+    suspend fun getProgress(
+        movieId: String,
+    ): Resource<Int?>
 }

@@ -27,7 +27,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import vn.tutorial.cinemate.common.components.ConfirmationDialog
-import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.navigation.App
 import vn.tutorial.cinemate.navigation.Route
 import vn.tutorial.cinemate.presentation.more.viewModels.CurrentPlanViewModel
@@ -41,6 +40,7 @@ class MainActivity : ComponentActivity() {
     private val pendingJoinToken = mutableStateOf<String?>(null)
     private val showJoinConfirmDialog = mutableStateOf(false)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("LocalContextConfigurationRead", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,10 +92,10 @@ class MainActivity : ComponentActivity() {
 
             if (showJoinConfirmDialog.value && pendingJoinToken.value != null) {
                 ConfirmationDialog(
-                    title = "Tham gia gia đình",
-                    message = "Bạn có chắc chắn muốn tham gia gia đình này không?",
-                    confirmText = "Tham gia",
-                    dismissText = "Hủy",
+                    title = "Join Family",
+                    message = "Are you sure you want to join this family?",
+                    confirmText = "Accept",
+                    dismissText = "Cancel",
                     onConfirm = {
                         val token = pendingJoinToken.value!!
 

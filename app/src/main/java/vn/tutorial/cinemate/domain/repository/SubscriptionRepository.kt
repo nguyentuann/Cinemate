@@ -15,11 +15,12 @@ interface SubscriptionRepository {
     suspend fun inviteMember(email: String, mode: String): Resource<Unit?>
     suspend fun acceptInvitation(token: String): Resource<Unit?>
 
-    suspend fun getChildrenModeStatus(userId: String): Resource<ChildrenModeModel?>
     suspend fun setChildrenMode(kidId: String, data: ChildrenModeModel): Resource<Unit?>
 
 
     suspend fun searchEmail(query: String): Resource<List<String>?>
 
     suspend fun cancelPlan(subscriptionId: String): Resource<Unit?>
+
+    suspend fun getChildrenMode(kidId: String): Resource<ChildrenModeModel?>
 }

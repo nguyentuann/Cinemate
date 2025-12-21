@@ -14,7 +14,6 @@ import vn.tutorial.cinemate.domain.usecase.subscription.SetChildrenModeUseCase
 import javax.inject.Inject
 
 data class ChildrenModeUIState(
-    val isEnable: Boolean = false,
     val selectedCategoryIds: List<String> = emptyList(),
     val selectedWatchTime: TimeLimit = TimeLimit.TIME_30,
     val isLoading: Boolean = false,
@@ -29,18 +28,6 @@ class ChildrenModeViewModel @Inject constructor(
     private val _state = MutableStateFlow(ChildrenModeUIState())
     val state: StateFlow<ChildrenModeUIState> = _state
 
-//    fun enable() {
-//        _state.value = _state.value.copy(
-//            isEnable = !_state.value.isEnable
-//        )
-//
-//    }
-//
-//    fun selectAgeLimit(age: AgeLimit) {
-//        _state.value = _state.value.copy(
-//            selectedAgeLimit = age
-//        )
-//    }
 
     fun selectWatchTime(minutes: TimeLimit) {
         _state.value = _state.value.copy(
@@ -62,36 +49,35 @@ class ChildrenModeViewModel @Inject constructor(
         _state.value = _state.value.copy(selectedCategoryIds = current)
     }
 
-//    fun getChildrenMode(userId: String) {
-//        executeUseCase(
-//            state = _state,
-//            block = {
-//                getChildrenModeUseCase(userId)
-//            },
-//            onSuccess = { data ->
-//                _state.value.copy(
-//                    isLoading = false,
-//                    error = null,
-//                    isEnable = data?.isEnable == true,
-//                    selectedAgeLimit = data?.selectedAgeLimit ?: AgeLimit.AGE_18,
-//                    selectedWatchTime = data?.selectedWatchTime ?: TimeLimit.TIME_30
-//                )
-//            },
-//            onError = {
-//                _state.value.copy(
-//                    isLoading = false,
-//                    error = it
-//                )
-//            },
-//            onLoading = {
-//                _state.value.copy(
-//                    isLoading = true,
-//                    error = null
-//                )
-//            }
-//
-//        )
-//    }
+    fun getChildrenMode(userId: String) {
+        executeUseCase(
+            state = _state,
+            block = {
+                getChildrenModeUseCase(userId)
+            },
+            onSuccess = {
+                _state.value.copy(
+                    selectedCategoryIds = it?.blockedCategoryIds ?: emptyList(),
+                    selectedWatchTime = it?.watchTimeLimitMinutes ?: TimeLimit.TIME_30,
+                    isLoading = false,
+                    error = null,
+                )
+            },
+            onError = {
+                _state.value.copy(
+                    isLoading = false,
+                    error = it
+                )
+            },
+            onLoading = {
+                _state.value.copy(
+                    isLoading = true,
+                    error = null
+                )
+            }
+
+        )
+    }
 
     fun setChildrenMode(kidId: String, onSuccess: () -> Unit = {}) {
         executeUseCase(

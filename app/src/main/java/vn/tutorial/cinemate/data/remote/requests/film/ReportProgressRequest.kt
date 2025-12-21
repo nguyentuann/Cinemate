@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ReportProgressRequest(
     @SerializedName("lastWatchedPosition")
-    val lastWatchedPosition: Long,
+    val lastWatchedPosition: Int,
     @SerializedName("totalDuration")
-    val totalDuration: Long
+    val totalDuration: Int
 )

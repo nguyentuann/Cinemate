@@ -120,9 +120,9 @@ private fun MoviePosterItem(
         }
 
 
-        if (movie.durationMinutes != null) {
+        if (movie.totalDuration != null) {
             Text(
-                text = timeFormatter(movie.durationMinutes * 60_000L),
+                text = timeFormatter(movie.totalDuration*1000L),
                 color = Color.White,
                 fontSize = 12.sp,
                 modifier = Modifier

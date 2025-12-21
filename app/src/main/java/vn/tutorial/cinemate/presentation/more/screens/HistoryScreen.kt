@@ -9,13 +9,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -63,10 +61,10 @@ fun HistoryScreen(
                 .fillMaxSize()
         ) {
             // Search bar
-            SearchBar(
-                value = query,
-                onChange = { newValue -> query = newValue }
-            )
+//            SearchBar(
+//                value = query,
+//                onChange = { newValue -> query = newValue }
+//            )
 
             Spacer(modifier = Modifier.height(8.dp))
 

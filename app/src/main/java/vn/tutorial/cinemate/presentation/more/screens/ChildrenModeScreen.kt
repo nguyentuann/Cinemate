@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,10 @@ fun ChildrenModeScreen(
     val state = viewModel.state.collectAsState().value
     val navController = LocalNavController.current
 
+    LaunchedEffect(Unit) {
+        viewModel.getChildrenMode(kidId)
+    }
+
     Scaffold(
         topBar = { TopAppBarWithBack("Children Mode") }
     ) {
@@ -52,17 +57,18 @@ fun ChildrenModeScreen(
             )
             Spacer(Modifier.height(16.dp))
             CategoryBar(
+                selectedCategoryIds = state.selectedCategoryIds,
                 onCategorySelected = { viewModel.updateCategory(it.id) }
             )
 
             Spacer(Modifier.height(36.dp))
 
             Text(
-                "Thời gian xem tối đa",
+                "Max watch time",
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
             )
             Text(
-                "Đặt thời gian xem tối đa hằng ngày cho con bạn.",
+                "Set a daily watch time limit",
                 style = MaterialTheme.typography.bodyMedium
             )
 
