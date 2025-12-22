@@ -101,11 +101,13 @@ class MainActivity : ComponentActivity() {
 
                         showJoinConfirmDialog.value = false
                         pendingJoinToken.value = null
+                        latestDeepLink.value = null
                         currentPlantViewModel.acceptInvitation(token)
                     },
                     onDismiss = {
                         showJoinConfirmDialog.value = false
                         pendingJoinToken.value = null
+                        latestDeepLink.value = null
                     }
                 )
             }

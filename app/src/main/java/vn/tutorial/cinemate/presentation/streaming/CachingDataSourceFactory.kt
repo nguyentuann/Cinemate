@@ -8,6 +8,7 @@ import androidx.media3.datasource.DataSpec
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.TransferListener
 import kotlinx.coroutines.runBlocking
+import vn.tutorial.cinemate.data.local.LocalStorage
 
 /**
  * Custom DataSource that caches segments for P2P sharing
@@ -15,19 +16,31 @@ import kotlinx.coroutines.runBlocking
 class CachingDataSourceFactory(
     private val movieId: String,
     private val cacheManager: CacheManager,
-    private val signalingClient: SignalingClient
+    private val signalingClient: SignalingClient,
+    private val localStorage: LocalStorage
 ) : DataSource.Factory {
     
-    private val httpDataSourceFactory = DefaultHttpDataSource.Factory()
-        .setAllowCrossProtocolRedirects(true)
-        .setConnectTimeoutMs(30000)
-        .setReadTimeoutMs(30000)
+    private val httpDataSourceFactory: DefaultHttpDataSource.Factory
+        get() {
+            val factory = DefaultHttpDataSource.Factory()
+                .setAllowCrossProtocolRedirects(true)
+                .setConnectTimeoutMs(30000)
+                .setReadTimeoutMs(30000)
+            
+            // Add Authorization header if token exists
+            localStorage.getAccessToken()?.let { token ->
+                factory.setDefaultRequestProperties(mapOf("Authorization" to "Bearer $token"))
+            }
+            
+            return factory
+        }
     
     override fun createDataSource(): DataSource {
         return CachingDataSource(
             movieId,
             cacheManager,
             signalingClient,
+            localStorage,
             httpDataSourceFactory.createDataSource()
         )
     }
@@ -37,6 +50,7 @@ class CachingDataSource(
     private val movieId: String,
     private val cacheManager: CacheManager,
     private val signalingClient: SignalingClient,
+    private val localStorage: LocalStorage,
     private val upstreamDataSource: DataSource
 ) : DataSource {
     

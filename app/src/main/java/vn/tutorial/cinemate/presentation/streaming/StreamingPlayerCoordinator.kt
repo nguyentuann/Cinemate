@@ -48,7 +48,7 @@ class StreamingPlayerCoordinator(
         configManager = ConfigManager(options.configOverrides)
         
         // Initialize signaling first
-        signalingClient = SignalingClient(clientId, movieId, configManager)
+        signalingClient = SignalingClient(clientId, movieId, configManager, localStorage)
         
         // Initialize cache with segment removal callback
         cacheManager = CacheManager(
@@ -59,7 +59,7 @@ class StreamingPlayerCoordinator(
         )
         
         // Initialize MSE (using SimpleMseManager for HLS support with P2P caching)
-        mseManager = SimpleMseManager(context, movieId, cacheManager, signalingClient)
+        mseManager = SimpleMseManager(context, movieId, cacheManager, signalingClient, localStorage)
         
         // Initialize segment fetcher
         segmentFetcher = SegmentFetcher(movieId, cacheManager, configManager, localStorage)
@@ -88,7 +88,8 @@ class StreamingPlayerCoordinator(
             peerManager,
             signalingClient,
             cacheManager,
-            configManager
+            configManager,
+            localStorage
         )
         
         setupEventListeners()

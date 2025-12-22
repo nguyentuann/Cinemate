@@ -7,6 +7,7 @@ import okhttp3.*
 import org.webrtc.IceCandidate
 import org.webrtc.SessionDescription
 import vn.tutorial.cinemate.core.util.LogUtil
+import vn.tutorial.cinemate.data.local.LocalStorage
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import kotlin.collections.get
@@ -17,7 +18,8 @@ import kotlin.coroutines.suspendCoroutine
 class SignalingClient(
     private val clientId: String,
     private val movieId: String,
-    private val configManager: ConfigManager
+    private val configManager: ConfigManager,
+    private val localStorage: LocalStorage
 ) : EventEmitter<SignalingClientEvents>() {
     
     private val TAG = "Logging SignalingClient"
@@ -58,9 +60,15 @@ class SignalingClient(
             .connectTimeout(AppConstants.Timing.CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS)
             .build()
         
-        val request = Request.Builder()
+        val requestBuilder = Request.Builder()
             .url(signalingUrl)
-            .build()
+        
+        // Add Authorization header if token exists
+        localStorage.getAccessToken()?.let { token ->
+            requestBuilder.addHeader("Authorization", "Bearer $token")
+        }
+        
+        val request = requestBuilder.build()
         
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {

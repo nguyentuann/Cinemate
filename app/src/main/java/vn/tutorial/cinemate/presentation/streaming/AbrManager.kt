@@ -4,13 +4,15 @@ import android.util.Log
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import vn.tutorial.cinemate.data.local.LocalStorage
 
 class AbrManager(
     private val movieId: String,
     private val peerManager: PeerManager,
     private val signalingClient: SignalingClient,
     private val cacheManager: CacheManager,
-    private val configManager: ConfigManager
+    private val configManager: ConfigManager,
+    private val localStorage: LocalStorage
 ) : EventEmitter<AbrManagerEvents>() {
     
     private val TAG = "Logging AbrManager"
@@ -263,8 +265,16 @@ class AbrManager(
         // This would use OkHttp or similar to fetch the content
         // For now, return empty string as placeholder
         return withContext(Dispatchers.IO) {
+            val token = localStorage.getAccessToken()
             val client = OkHttpClient()
-            val request = Request.Builder().url(url).build()
+            val requestBuilder = Request.Builder().url(url)
+            
+            // Add Authorization header if token exists
+            if (!token.isNullOrEmpty()) {
+                requestBuilder.addHeader("Authorization", "Bearer $token")
+            }
+            
+            val request = requestBuilder.build()
             val response = client.newCall(request).execute()
             response.body?.string() ?: ""
         }
@@ -272,8 +282,16 @@ class AbrManager(
     
     private suspend fun fetchInitSegmentData(url: String): ByteArray {
         return withContext(Dispatchers.IO) {
+            val token = localStorage.getAccessToken()
             val client = OkHttpClient()
-            val request = Request.Builder().url(url).build()
+            val requestBuilder = Request.Builder().url(url)
+            
+            // Add Authorization header if token exists
+            if (!token.isNullOrEmpty()) {
+                requestBuilder.addHeader("Authorization", "Bearer $token")
+            }
+            
+            val request = requestBuilder.build()
             val response = client.newCall(request).execute()
             response.body?.bytes() ?: ByteArray(0)
         }

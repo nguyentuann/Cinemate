@@ -85,13 +85,12 @@ fun VideoPlayer(
 
     var showQualityMenu by remember { mutableStateOf(false) }
 
-    val videoId = "9d4309fd-1196-47d7-b891-6419ca195ca8"
     LogUtil("VideoPlayer MovieId: $movieId")
 
     LaunchedEffect(exoPlayer) {
-        LogUtil("${PlayMovieEndpoint.PLAY_MOVIE}${videoId}/master.m3u8")
+        LogUtil("${PlayMovieEndpoint.PLAY_MOVIE}${movieId}/master.m3u8")
         viewModel.setMedia(
-            "${PlayMovieEndpoint.PLAY_MOVIE}${videoId}/master.m3u8"
+            "${PlayMovieEndpoint.PLAY_MOVIE}${movieId}/master.m3u8"
         )
     }
 

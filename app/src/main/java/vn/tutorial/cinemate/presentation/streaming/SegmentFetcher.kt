@@ -5,7 +5,6 @@ import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import org.json.JSONObject
 import vn.tutorial.cinemate.core.util.LogUtil
 import vn.tutorial.cinemate.data.local.LocalStorage
 import java.util.concurrent.TimeUnit
@@ -19,117 +18,101 @@ class SegmentFetcher(
     private val configManager: ConfigManager,
     private val localStorage: LocalStorage
 ) {
-    
+
     private val TAG = "Logging SegmentFetcher"
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .build()
-    
+
     /**
      * Fetch master playlist
      */
     suspend fun fetchMasterPlaylist(): MasterPlaylist = withContext(Dispatchers.IO) {
         // Check cache first
         cacheManager.getMasterPlaylist(movieId)?.let { return@withContext it }
-        
+
         // Fetch from seeder
         val config = configManager.getConfig()
         val url = configManager.getSeederUrl(movieId, "", "master")
 
         LogUtil("url master playlist: $url")
-        
+
         try {
             val response = fetchWithTimeout(url, config.fetchTimeout)
-
-            LogUtil("response master playlist: $response")
             val text = response.body?.string() ?: throw Exception("Empty response")
-            
-            // Check if response is an error JSON
-            if (text.trim().startsWith("{")) {
-                try {
-                    val json = JSONObject(text)
-                    if (json.has("status") && json.getString("status") == "error") {
-                        val errorMessage = json.optString("message", "Unknown error")
-                        throw Exception(errorMessage)
-                    }
-                } catch (e: org.json.JSONException) {
-
-                }
-            }
-            
             val playlist = parseMasterPlaylist(text)
-            
+
             // Cache it
             cacheManager.setMasterPlaylist(movieId, playlist)
-            
+
             playlist
         } catch (e: Exception) {
-            throw Exception(e.message)
+            throw Exception("Failed to fetch master playlist: ${e.message}")
         }
     }
-    
+
     /**
      * Fetch variant playlist for specific quality
      */
     suspend fun fetchVariantPlaylist(qualityId: String): VariantPlaylist = withContext(Dispatchers.IO) {
         // Check cache first
         cacheManager.getVariantPlaylist(movieId, qualityId)?.let { return@withContext it }
-        
+
         // Fetch from seeder
         val config = configManager.getConfig()
         val url = configManager.getSeederUrl(movieId, qualityId, "playlist")
-        
+
         try {
             val response = fetchWithTimeout(url, config.fetchTimeout)
             val text = response.body?.string() ?: throw Exception("Empty response")
             val playlist = parseVariantPlaylist(text, qualityId)
-            
+
             // Cache it
             cacheManager.setVariantPlaylist(movieId, qualityId, playlist)
-            
+
             playlist
         } catch (e: Exception) {
             throw Exception("Failed to fetch variant playlist for $qualityId: ${e.message}")
         }
     }
-    
+
     /**
      * Fetch init segment
      */
     suspend fun fetchInitSegment(qualityId: String, ext: String = "mp4"): InitSegment = withContext(Dispatchers.IO) {
         // Check cache first
         cacheManager.getInitSegment(movieId, qualityId)?.let { return@withContext it }
-        
+
         // Fetch from seeder
         val config = configManager.getConfig()
         val url = configManager.getSeederUrl(movieId, qualityId, "init.$ext")
-        
+
         try {
             val response = fetchWithTimeout(url, config.fetchTimeout)
             val data = response.body?.bytes() ?: throw Exception("Empty response")
-            
+
             val initSegment = InitSegment(
                 qualityId = qualityId,
                 data = data,
                 url = url
             )
-            
+
             // Cache it
             cacheManager.setInitSegment(movieId, qualityId, initSegment)
-            
+
             initSegment
         } catch (e: Exception) {
             throw Exception("Failed to fetch init segment for $qualityId: ${e.message}")
         }
     }
-    
+
     /**
      * Fetch media segment from seeder via HTTP
      */
     suspend fun fetchMediaSegment(segment: SegmentMetadata): FetchResult = withContext(Dispatchers.IO) {
         val startTime = System.currentTimeMillis()
-        
+
         // Check cache first
         cacheManager.getSegment(movieId, segment.qualityId, segment.id)?.let { cached ->
             return@withContext FetchResult(
@@ -139,11 +122,11 @@ class SegmentFetcher(
                 latency = System.currentTimeMillis() - startTime
             )
         }
-        
+
         // Fetch from seeder
         fetchFromSeeder(segment)
     }
-    
+
     /**
      * Fetch segment from seeder via HTTP with retries
      */
@@ -151,17 +134,17 @@ class SegmentFetcher(
         val startTime = System.currentTimeMillis()
         val config = configManager.getConfig()
         val url = configManager.getSeederUrl(movieId, segment.qualityId, segment.id)
-        
+
         var lastError: Exception? = null
-        
+
         for (attempt in 0..config.maxRetries) {
             try {
                 val response = fetchWithTimeout(url, config.fetchTimeout)
                 val data = response.body?.bytes() ?: throw Exception("Empty response")
-                
+
                 // Cache the segment
                 cacheManager.setSegment(movieId, segment.qualityId, segment.id, data)
-                
+
                 return@withContext FetchResult(
                     success = true,
                     data = data,
@@ -171,14 +154,14 @@ class SegmentFetcher(
             } catch (e: Exception) {
                 lastError = e
                 Log.w(TAG, "Attempt ${attempt + 1}/${config.maxRetries + 1} failed for segment ${segment.id}: ${e.message}")
-                
+
                 // Exponential backoff
                 if (attempt < config.maxRetries) {
                     delay(config.retryDelayBase * (1L shl attempt))
                 }
             }
         }
-        
+
         // All retries failed
         FetchResult(
             success = false,
@@ -187,30 +170,30 @@ class SegmentFetcher(
             error = lastError ?: Exception("Unknown error")
         )
     }
-    
+
     /**
      * Parse master playlist (simplified m3u8 parser)
      */
     private fun parseMasterPlaylist(content: String): MasterPlaylist {
         val lines = content.split("\n").map { it.trim() }
         val qualities = mutableListOf<Quality>()
-        
+
         var i = 0
         while (i < lines.size) {
             val line = lines[i]
-            
+
             if (line.startsWith("#EXT-X-STREAM-INF:")) {
                 val attrs = parseAttributes(line)
                 if (i + 1 < lines.size) {
                     val urlLine = lines[i + 1]
-                    
+
                     if (!urlLine.startsWith("#")) {
                         // Extract quality ID from URL
                         val match = Regex("""(\w+)/playlist\.m3u8""").find(urlLine)
                         val qualityId = match?.groupValues?.get(1) ?: "quality_${qualities.size}"
-                        
+
                         val resolution = attrs["RESOLUTION"]?.split("x") ?: listOf("1920", "1080")
-                        
+
                         qualities.add(
                             Quality(
                                 id = qualityId,
@@ -227,10 +210,10 @@ class SegmentFetcher(
             }
             i++
         }
-        
+
         return MasterPlaylist(qualities)
     }
-    
+
     /**
      * Parse variant playlist
      */
@@ -239,25 +222,25 @@ class SegmentFetcher(
         val segments = mutableListOf<SegmentMetadata>()
         var targetDuration = 0f
         var currentTimestamp = 0f
-        
+
         var i = 0
         while (i < lines.size) {
             val line = lines[i].trim()
-            
+
             if (line.startsWith("#EXT-X-TARGETDURATION:")) {
                 targetDuration = line.split(":")[1].toFloatOrNull() ?: 0f
             }
-            
+
             if (line.startsWith("#EXTINF:")) {
                 val duration = line.split(":")[1].split(",")[0].toFloatOrNull() ?: 0f
                 if (i + 1 < lines.size) {
                     val nextLine = lines[i + 1]
-                    
+
                     if (!nextLine.startsWith("#")) {
                         // Extract segment ID
                         val formatMatch = AppConstants.SegmentPatterns.REGEX.find(nextLine)
                         val segmentId = formatMatch?.value ?: throw Exception("Failed to extract segment ID from: $nextLine")
-                        
+
                         segments.add(
                             SegmentMetadata(
                                 id = segmentId,
@@ -267,7 +250,7 @@ class SegmentFetcher(
                                 timestamp = currentTimestamp
                             )
                         )
-                        
+
                         currentTimestamp += duration
                         i++ // Skip next line
                     }
@@ -275,9 +258,9 @@ class SegmentFetcher(
             }
             i++
         }
-        
+
         val totalDuration = segments.sumOf { it.duration.toDouble() }.toFloat()
-        
+
         return VariantPlaylist(
             qualityId = qualityId,
             segments = segments,
@@ -285,24 +268,24 @@ class SegmentFetcher(
             totalDuration = totalDuration
         )
     }
-    
+
     /**
      * Parse M3U8 attributes
      */
     private fun parseAttributes(line: String): Map<String, String> {
         val attrs = mutableMapOf<String, String>()
         val attrString = line.substringAfter(":")
-        
+
         val regex = Regex("""(\w+(?:-\w+)*)=(".*?"|[^,]+)""")
         regex.findAll(attrString).forEach { match ->
             val key = match.groupValues[1]
             val value = match.groupValues[2].trim('"')
             attrs[key] = value
         }
-        
+
         return attrs
     }
-    
+
     /**
      * Fetch with timeout using OkHttp
      */
@@ -310,40 +293,22 @@ class SegmentFetcher(
         val token = localStorage.getAccessToken()
 
         LogUtil("token fetch segment: $token")
-        
+
         val requestBuilder = Request.Builder()
             .url(url)
-        
+
         // Add Authorization header if token exists
         if (!token.isNullOrEmpty()) {
             requestBuilder.addHeader("Authorization", "Bearer $token")
         }
-        
+
         val request = requestBuilder.build()
         val response = client.newCall(request).execute()
 
-        LogUtil("response code fetch segment: ${response.code}")
-        
         if (!response.isSuccessful) {
-            // Try to read error message from response body
-            val errorBody = response.body?.string()
-            LogUtil("error response body: $errorBody")
-            
-            if (!errorBody.isNullOrEmpty() && errorBody.trim().startsWith("{")) {
-                try {
-                    val json = JSONObject(errorBody)
-                    if (json.has("message")) {
-                        val errorMessage = json.getString("message")
-                        throw Exception(errorMessage)
-                    }
-                } catch (e: org.json.JSONException) {
-                    // Not a JSON, fall through
-                }
-            }
-            
             throw Exception("HTTP ${response.code}")
         }
-        
+
         response
     }
 }

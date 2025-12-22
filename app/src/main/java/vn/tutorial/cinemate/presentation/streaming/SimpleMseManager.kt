@@ -11,6 +11,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import kotlinx.coroutines.*
+import vn.tutorial.cinemate.data.local.LocalStorage
 
 /**
  * Simplified MseManager that uses HLS playback directly
@@ -20,7 +21,8 @@ class SimpleMseManager(
     private val context: Context,
     private val movieId: String,
     private val cacheManager: CacheManager,
-    private val signalingClient: SignalingClient
+    private val signalingClient: SignalingClient,
+    private val localStorage: LocalStorage
 ) : EventEmitter<MseManagerEvents>(), MsePlayer {
     
     private val TAG = "Logging SimpleMseManager"
@@ -151,7 +153,8 @@ class SimpleMseManager(
                 val dataSourceFactory = CachingDataSourceFactory(
                     movieId,
                     cacheManager,
-                    signalingClient
+                    signalingClient,
+                    localStorage
                 )
                 
                 val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory)

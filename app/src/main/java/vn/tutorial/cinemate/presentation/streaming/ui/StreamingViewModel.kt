@@ -260,9 +260,10 @@ class StreamingViewModel @Inject constructor(
                 getProgressUseCase.invoke(movieId)
             },
             onSuccess = { progress ->
-                _uiState.value.copy(
+                _uiState.update { it.copy(
                     initialProgress = progress
-                )
+                ) }
+                _uiState.value
             },
             onError = {
                 _uiState.value
