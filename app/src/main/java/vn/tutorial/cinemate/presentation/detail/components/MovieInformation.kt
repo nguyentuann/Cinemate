@@ -31,15 +31,12 @@ fun MovieInformation(
         modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         // todo title & genres
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = movie.title, style = MaterialTheme.typography.titleSmall
             )
-
             if (movie.category != null) {
                 Box(
                     Modifier
